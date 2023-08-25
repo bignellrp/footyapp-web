@@ -7,6 +7,7 @@ from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 from dotenv import load_dotenv
 import os
+from flask_discord import requires_authorization
 
 ##Load the .env file
 load_dotenv()
@@ -17,14 +18,15 @@ index_blueprint = Blueprint('index',
                             static_folder='static')
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
+@requires_authorization
 def index():
     '''A function for building the index page.
     Takes in available players from a flask form 
     and returns an even set of two 5 a side teams'''
 
-    all_players = all_players()
-    player_names = player_names()
-    player_count = player_count()
+    get_all_players = all_players()
+    get_player_names = player_names()
+    get_player_count = player_count()
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -37,8 +39,8 @@ def index():
                 print("Not enough players!")
                 error = "*ERROR*: Please select 10 players!"
                 return render_template('index.html', 
-                                        player_names = player_names, 
-                                        player_count = player_count, 
+                                        player_names = get_player_names, 
+                                        player_count = get_player_count, 
                                         error = error)
             else:
                 ##Build list of game_players if 
@@ -46,7 +48,7 @@ def index():
                 ##Also build a tally of available players 
                 ##to use as a running session
                 game_players = []
-                for player in all_players:
+                for player in get_all_players:
                     '''Takes in row of all_players 
                     and returns tuple of game_players 
                     if name in available_players'''
@@ -118,5 +120,5 @@ def index():
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         return render_template('index.html', 
-                                player_names = player_names, 
-                                player_count = player_count)
+                                player_names = get_player_names, 
+                                player_count = get_player_count)

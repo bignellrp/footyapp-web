@@ -16,8 +16,7 @@ def score():
 
     teama = teama()
     teamb = teamb()
-    date = game_data()
-    date = date[0]["date"]
+    date = date()
     scorea = scorea()
     scoreb = scoreb()
     coloura = coloura()

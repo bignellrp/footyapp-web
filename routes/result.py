@@ -37,8 +37,7 @@ def result():
             scorea_passback = session['team_a_total']
             scoreb_passback = session['team_b_total']
 
-            game_json = [
-                {
+            game_json = {
                 "date": next_wednesday,
                 "teamA": [teama_passback],
                 "teamB": [teamb_passback],
@@ -49,7 +48,6 @@ def result():
                 "colourTeamA": teama_colour,
                 "colourTeamB": teamb_colour
                 }
-            ]
 
             ##Now vars are safely in the google output remove 
             ##them from the session so they are not carried 
