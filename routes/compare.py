@@ -21,7 +21,7 @@ def compare():
         ##from the index template into the array
         available_players_a = request.form.getlist('available_players_a')
         available_players_b = request.form.getlist('available_players_b')
-        check = any(item in available_players_a for item 
+        check = any(player in available_players_a for player 
                                             in available_players_b)
 
         if len(available_players_a) < 5 or len(available_players_b) < 5:
@@ -40,14 +40,27 @@ def compare():
                                    error = error)
         else:
             ##Build teams out of available players 
-            ##from all_players using an if 
+            ##from all_players using an if statement
+
+            ##Example input:
+            # get_all_players = [
+            #     {'name': 'Amy', 'total': 77},
+            #     {'name': 'Cal', 'total': 77},
+            #     {'name': 'Joe', 'total': 77},
+            #     {'name': 'Rik', 'total': 77}
+            # ]
+            # available_players = ["Amy", "Joe"]
+
+            ##Example ouptput:
+            #[('Amy', 77), ('Joe', 77)]
+
             team_a = []
             team_b = []
-            for row in get_all_players: 
-                if row[0] in available_players_a:
-                    team_a.append((row[0] , int(row[1])))
-                elif row[0] in available_players_b:
-                    team_b.append((row[0] , int(row[1])))
+            for player in get_all_players:
+                if player['name'] in available_players_a:
+                    team_a.append((player['name'], player['total']))
+                elif player['name'] in available_players_b:
+                    team_b.append((player['name'], player['total']))
 
             ##Take the first column and put names into team_a and team_b
             team_a_names = sorted([row[0] for row in team_a])

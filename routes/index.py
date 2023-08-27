@@ -27,6 +27,8 @@ def index():
     get_all_players = all_players()
     get_player_names = player_names()
     get_player_count = player_count()
+    get_player_count = 10 - int(get_player_count)
+    print(get_player_count)
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -102,9 +104,10 @@ def index():
                                         inline=True)
                         embed.set_thumbnail(url="attachment://football.png")
                         webhook.send(file = file, embed = embed)
-                except:
-                    print("Discord Webhook not set")
-                    pass
+                except discord.DiscordException as e:
+                   print("Discord Webhook Error!", e)
+                   print("Check .env DISCORD_WEBHOOK is set correctly!")
+                   pass
                     
                 # Return Team A and Team B to the results template
                 return render_template('result.html', 

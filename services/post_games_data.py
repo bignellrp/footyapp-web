@@ -3,6 +3,7 @@ from services.get_date import gameday
 import json
 from dotenv import load_dotenv
 import os
+from services.post_player_data import *
 
 ##Load the .env file
 load_dotenv()
@@ -54,6 +55,7 @@ def update_result(game_data):
 
     if response.status_code == 200:
         print("Game updated successfully")
+        wipe_tally()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
@@ -88,11 +90,13 @@ def append_result(game_data):
 
     if response.status_code == 200:
         print("Game added successfully")
+        wipe_tally()
     else:
         print(f"Failed to add record. Status code: {response.status_code}")
 
 def update_score_result(score):
-    '''Update the result of a game that already exists in the database'''
+    '''Update the result of a game that already exists in the database
+    based on the score the stats are also updated by the API'''
     # Send a PUT request to update all records
     # Example json score =
     # {
@@ -100,9 +104,10 @@ def update_score_result(score):
     # "scoreTeamB": 4
     # }
     date = gameday
-    response = requests.put(games_api_url + "/" + date, json=score, headers=access_headers)
+    response = requests.put(games_api_url + "/updatescore/" + date, json=score, headers=access_headers)
 
     if response.status_code == 200:
         print("Game updated successfully")
+        wipe_tally()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")

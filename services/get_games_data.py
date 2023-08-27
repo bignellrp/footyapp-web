@@ -33,35 +33,16 @@ def game_stats():
         print(f"Failed to fetch data. Status code: {response.status_code}")
         return []
 
-# def most_recent_game():
-#     response = requests.get(games_api_url, headers=access_headers)
-#     if response.status_code == 200:
-#         games = response.json()
-
-#         # Sort games by date in descending order
-#         # This might not work until date is converted in the api
-#         sorted_games = sorted(games, key=lambda game: game["date"], reverse=True)
-
-#         if sorted_games:
-#             most_recent_game = sorted_games[0]
-#             game_data = {
-#                 "date": most_recent_game["date"],
-#                 "teamA": most_recent_game["teamA"],
-#                 "teamB": most_recent_game["teamB"],
-#                 "scoreTeamA": most_recent_game["scoreTeamA"],
-#                 "scoreTeamB": most_recent_game["scoreTeamB"],
-#                 "totalTeamA": most_recent_game["totalTeamA"],
-#                 "totalTeamB": most_recent_game["totalTeamB"],
-#                 "colourTeamA": most_recent_game["colourTeamA"],
-#                 "colourTeamB": most_recent_game["colourTeamB"]
-#             }
-#             return [game_data]
-#         else:
-#             print("No games found.")
-#             return []
-#     else:
-#         print(f"Failed to fetch data. Status code: {response.status_code}")
-#         return []
+def game_wins(player):
+    response = requests.get(games_api_url + "/wins/" + player, headers=access_headers)
+    if response.status_code == 200:
+        #Count games where the player is in teamA and scoreTeamA is greater than scoreTeamB
+        data = response.json()
+        data = data["wins"]
+        return data
+    else:
+        print(f"Failed to fetch data. Status code: {response.status_code}")
+        return []
 
 def most_recent_game():
     response = requests.get(games_api_url + "/" + "most_recent_game", headers=access_headers)

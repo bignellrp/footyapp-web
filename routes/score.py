@@ -58,7 +58,9 @@ def score():
         ##If there was an error return the score page with error
         return render_template('score.html', 
                                teama = get_teama, 
-                               teamb = get_teamb, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
                                date = get_date, 
                                error = error,
                                coloura = get_coloura,
@@ -67,6 +69,8 @@ def score():
     return render_template('score.html', 
                            teama = get_teama, 
                            teamb = get_teamb, 
+                           scorea = get_scorea,
+                           scoreb = get_scoreb, 
                            date = get_date,
                            coloura = get_coloura,
                            colourb = get_colourb)

@@ -19,6 +19,6 @@ def next_weekday(d, weekday):
     return d + timedelta(days_ahead)
 
 d = datetime.today()
-# Games are played on Wednesday, so return next Wednesday's date
+# Games are played on {INPUT_GAMEDAY}, so return next {INPUT_GAMEDAY} date
 weekday = next_weekday(d, 2)
-gameday_input = weekday.strftime('%Y-%m-%d')
+gameday = weekday.strftime('%Y-%m-%d')
