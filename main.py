@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for
 from routes import *
 from dotenv import load_dotenv
 import os
-from flask_discord import DiscordOAuth2Session, Unauthorized
+#from flask_discord import DiscordOAuth2Session, Unauthorized
 
 ##Load the .env file
 load_dotenv()
@@ -20,7 +20,7 @@ app.config["DISCORD_REDIRECT_URI"] = os.getenv("DISCORD_REDIRECT_URI")
 #app.config["DISCORD_BOT_TOKEN"] = ""
 
 ##Set the Discord OAuth2 Client ID and Secret
-discord = DiscordOAuth2Session(app)
+#discord = DiscordOAuth2Session(app)
 
 ##Register the blueprint for each route
 app.register_blueprint(index_blueprint)
@@ -31,19 +31,19 @@ app.register_blueprint(result_blueprint)
 app.register_blueprint(score_blueprint)
 
 #Login to Discord
+#https://github.com/weibeu/Flask-Discord
+# @app.route('/login')
+# def login():
+#     return discord.create_session()
 
-@app.route('/login')
-def login():
-    return discord.create_session()
+# @app.route("/callback/")
+# def callback():
+#     discord.callback()
+#     return redirect(url_for("index.index"))
 
-@app.route("/callback/")
-def callback():
-    discord.callback()
-    return redirect(url_for("index.index"))
-
-@app.errorhandler(Unauthorized)
-def redirect_unauthorized(e):
-    return redirect(url_for("login"))
+# @app.errorhandler(Unauthorized)
+# def redirect_unauthorized(e):
+#     return redirect(url_for("login"))
 
 
 ##Run the app

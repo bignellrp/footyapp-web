@@ -1,5 +1,5 @@
 import requests
-from services.get_date import next_wednesday
+from services.get_date import gameday
 import json
 from dotenv import load_dotenv
 import os
@@ -91,7 +91,7 @@ def append_result(game_data):
     else:
         print(f"Failed to add record. Status code: {response.status_code}")
 
-def update_score_result(date,score):
+def update_score_result(score):
     '''Update the result of a game that already exists in the database'''
     # Send a PUT request to update all records
     # Example json score =
@@ -99,6 +99,7 @@ def update_score_result(date,score):
     # "scoreTeamA": 5,
     # "scoreTeamB": 4
     # }
+    date = gameday
     response = requests.put(games_api_url + "/" + date, json=score, headers=access_headers)
 
     if response.status_code == 200:

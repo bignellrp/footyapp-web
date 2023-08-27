@@ -13,11 +13,9 @@ def stats():
     Takes in game stats from google sheets 
     and return them to stats page'''
 
-    #Example outputs:
-
-    game_stats = game_stats()
-    player_stats = player_stats()
+    get_game_stats = game_stats()
+    get_player_stats = player_stats()
     
     return render_template('stats.html', 
-                           game_stats = game_stats, 
-                           player_game_stats = player_stats)
+                           game_stats = get_game_stats, 
+                           player_game_stats = get_player_stats)

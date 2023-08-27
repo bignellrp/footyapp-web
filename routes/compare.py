@@ -12,8 +12,8 @@ def compare():
     Takes in available players from a flask form 
     and returns player names and total score for each team'''
 
-    all_players = all_players()
-    player_names = player_names()
+    get_all_players = all_players()
+    get_player_names = player_names()
     
     if request.method == 'POST':
 
@@ -29,21 +29,21 @@ def compare():
             print("Not enough players!")
             error = "*ERROR*: Please select 10 players!"
             return render_template('compare.html', 
-                                   player_names = player_names, 
+                                   player_names = get_player_names, 
                                    error = error)
         elif check is True:
             '''If Player from ListA is in ListB'''
             print("You cannot have a player in both teams!")
             error = "*ERROR*: You cannot have a player in both teams!" 
             return render_template('compare.html', 
-                                   player_names = player_names, 
+                                   player_names = get_player_names, 
                                    error = error)
         else:
             ##Build teams out of available players 
             ##from all_players using an if 
             team_a = []
             team_b = []
-            for row in all_players: 
+            for row in get_all_players: 
                 if row[0] in available_players_a:
                     team_a.append((row[0] , int(row[1])))
                 elif row[0] in available_players_b:
@@ -72,4 +72,4 @@ def compare():
     ##If request method is not POST then it must be GET 
     ##so render compare.html including player_names
     return render_template('compare.html', 
-                            player_names = player_names)
+                            player_names = get_player_names)

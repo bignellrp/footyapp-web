@@ -11,12 +11,23 @@ API_PASSWORD = os.getenv("API_PASSWORD")
 
 # Url used for login
 login_api_url = "http://localhost:8080/login"
+# Prepare the request data
+login_data = {"username": API_USERNAME, "password": API_PASSWORD}
 
-response = requests.post(login_api_url, json={"username": API_USERNAME, "password": API_PASSWORD})
-access_token = response.json()["access_token"]
-access_headers = {
-    "Authorization": f"Bearer {access_token}"
-}
+try:
+    response = requests.post(login_api_url, json=login_data)
+    if response.status_code == 200:
+        # Successful response
+        access_token = response.json()["access_token"]
+        access_headers = {
+            "Authorization": f"Bearer {access_token}"
+        }   
+    else:
+        print(f"Failed to log in. Status code: {response.status_code}")
+    
+except requests.exceptions.RequestException as e:
+    print("An error occurred:", e)
+
 
 # Url used for player data
 player_api_url = "http://localhost:8080/players"
@@ -59,6 +70,12 @@ def player_stats():
         #{'name': 'Joe', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}, 
         #{'name': 'Rik', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}
         data = response.json()
+        data = [(player["name"], 
+                 player["wins"], 
+                 player["draws"], 
+                 player["losses"], 
+                 player["score"], 
+                 player["winpercent"]) for player in data]
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
@@ -68,11 +85,9 @@ def get_leaderboard():
     response = requests.get(player_api_url + "/" + "leaderboard", headers=access_headers)
     if response.status_code == 200:
         #Example output:
-        #{'name': 'Rik', 'score': 10}, 
-        #{'name': 'Cal', 'score': 8}, 
-        #{'name': 'Amy', 'score': 6}, 
-        #{'name': 'Joe', 'score': 4}
+        #[('Rik', 0), ('Cal', 0), ('Amy', 0), ('Joe', 0)]
         data = response.json()
+        data = [(player["name"], player["score"]) for player in data]
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
@@ -82,11 +97,9 @@ def winpercentage():
     response = requests.get(player_api_url + "/" + "winpercentage", headers=access_headers)
     if response.status_code == 200:
         #Example output:
-        #{'name': 'Rik', 'winpercent': 0}, 
-        #{'name': 'Cal', 'winpercent': 0}, 
-        #{'name': 'Amy', 'winpercent': 0}, 
-        #{'name': 'Joe', 'winpercent': 0}
+        #[('Rik', 0), ('Cal', 0), ('Amy', 0), ('Joe', 0)]
         data = response.json()
+        data = [(player["name"], player["winpercent"]) for player in data]
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
@@ -96,7 +109,7 @@ def player_count():
     response = requests.get(player_api_url + "/" + "game_player_tally", headers=access_headers)
     if response.status_code == 200:
         #Example output:
-        #['Rik', 'Amy', 'Joe', 'Player 15']
+        #['Rik', 'Amy', 'Joe', 'Cal']
         data = response.json()
         game_player_tally = [(player["name"]) for player in data]
         return len(game_player_tally) # Just return the length of the list
@@ -118,6 +131,8 @@ def game_player_tally():
         print(f'')
         return []
 
+##### TESTS #####
+
 # player_names = player_names()
 # print("Player Names:", player_names)
 
@@ -127,7 +142,7 @@ def game_player_tally():
 # stats = player_stats()
 # print("Stats:", stats)
 
-# leaderboard = leaderboard()
+# leaderboard = get_leaderboard()
 # print("Leaderboard:", leaderboard)
 
 # winpercentages = winpercentage()

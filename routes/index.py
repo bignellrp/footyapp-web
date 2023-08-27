@@ -7,7 +7,7 @@ from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 from dotenv import load_dotenv
 import os
-from flask_discord import requires_authorization
+#from flask_discord import requires_authorization
 
 ##Load the .env file
 load_dotenv()
@@ -18,7 +18,7 @@ index_blueprint = Blueprint('index',
                             static_folder='static')
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
-@requires_authorization
+#@requires_authorization
 def index():
     '''A function for building the index page.
     Takes in available players from a flask form 
@@ -47,13 +47,23 @@ def index():
                 ##name exists in available_players
                 ##Also build a tally of available players 
                 ##to use as a running session
+
+                ##Example input:
+                # get_all_players = [
+                #     {'name': 'Amy', 'total': 77},
+                #     {'name': 'Cal', 'total': 77},
+                #     {'name': 'Joe', 'total': 77},
+                #     {'name': 'Rik', 'total': 77}
+                # ]
+                # available_players = ["Amy", "Joe"]
+
+                ##Example ouptput:
+                #[('Amy', 77), ('Joe', 77)]
+
                 game_players = []
                 for player in get_all_players:
-                    '''Takes in row of all_players 
-                    and returns tuple of game_players 
-                    if name in available_players'''
-                    if player["name"] in available_players:
-                        game_players.append(player["name"] , player["score"])
+                    if player['name'] in available_players:
+                        game_players.append((player['name'], player['total']))
 
                 ##Save the tally of available players
                 update_tally(available_players)

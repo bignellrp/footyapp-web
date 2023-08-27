@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
-from services.get_date import next_wednesday
+from services.get_date import gameday
 import services.post_games_data as post
 from services.get_games_data import *
 from services.get_oscommand import GITBRANCH, IFBRANCH
@@ -38,18 +38,18 @@ def result():
             scoreb_passback = session['team_b_total']
 
             game_json = {
-                "date": next_wednesday,
-                "teamA": [teama_passback],
-                "teamB": [teamb_passback],
-                "scoreTeamA": str("-"),
-                "scoreTeamB": str("-"),
+                "date": gameday,
+                "teamA": teama_passback,
+                "teamB": teamb_passback,
+                "scoreTeamA": None,
+                "scoreTeamB": None,
                 "totalTeamA": scorea_passback,
                 "totalTeamB": scoreb_passback,
                 "colourTeamA": teama_colour,
                 "colourTeamB": teamb_colour
                 }
 
-            ##Now vars are safely in the google output remove 
+            ##Now vars are safely in the game_json remove 
             ##them from the session so they are not carried 
             ##from page to page unnecessarily.
             session.pop('team_a', None)
@@ -57,10 +57,8 @@ def result():
             session.pop('team_a_total', None)
             session.pop('team_b_total', None)
 
-            ##Gets Result data for validation
-            scorea = result.scorea()
-            date = next_wednesday
 
+            ##Send Discord Message
             try:
                 ##Send the teams to discord
                 fileA = discord.File("static/"+teama_colour+".png")
@@ -96,16 +94,20 @@ def result():
             except:
                 print("Discord Webhook not set")
                 pass
-            
+
+            ##Gets Result data for validation
+            get_scorea = scorea()
+            get_date = date()
+
             ##Run Update Functions, either update or append
-            if date == next_wednesday and scorea == "-":
+            if get_date == gameday and get_scorea == None:
                 '''If the last row has next wednesdays date 
                 then replace the results.
                 Else append results on a new line'''
-                result = post.update_result(game_json)
+                post.update_result(game_json)
                 print("Running update function")
             else:
-                result = post.append_result(game_json)
+                post.append_result(game_json)
                 print("Running append function")
 
             ##Return Team A and Team B to the results template

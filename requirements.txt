@@ -12,6 +12,7 @@ Flask==2.3.3
 Flask-Discord==0.1.69
 frozenlist==1.4.0
 future==0.18.3
+gunicorn==21.2.0
 idna==3.4
 imageio-ffmpeg==0.4.8
 importlib-metadata==6.8.0
