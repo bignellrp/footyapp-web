@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
 
-##Load the .env file
+# Load the .env file
 load_dotenv()
 
 # Get gameday from .env file
@@ -13,17 +13,12 @@ INPUT_GAMEDAY = os.getenv("GAMEDAY")
 weekday_number = datetime.strptime(INPUT_GAMEDAY, "%A").weekday()
 
 def next_weekday(d, weekday):
-    '''Takes in todays date and weekday 
-    returns the required day in isoformat'''
     days_ahead = weekday - d.weekday()
     if days_ahead <= 0:
         days_ahead += 7
     return d + timedelta(days_ahead)
-    
+
 d = datetime.today()
-##Games are played on wednesday 
-##so returns next wednesday's date
-weekday = next_weekday(d, 2).isoformat()
+# Games are played on Wednesday, so return next Wednesday's date
+weekday = next_weekday(d, 2)
 gameday_input = weekday.strftime('%Y-%m-%d')
-gameday = datetime.strptime(gameday_input, '%Y-%m-%d')
-print(gameday)
