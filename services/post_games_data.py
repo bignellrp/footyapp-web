@@ -111,3 +111,27 @@ def update_score_result(score):
         wipe_tally()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
+
+def swap_players(current_player, new_player):
+    '''Swap players in the most recent game and update totals'''
+    # Example usage
+    # current_player = "PlayerA"
+    # new_player = "PlayerB"
+    # swap_players(current_player, new_player)
+    payload = {
+        "current_player": current_player,
+        "new_player": new_player
+    }
+    
+    response = requests.put(games_api_url + "/swap_player", json=payload, headers=access_headers)
+
+    if response.status_code == 200:
+        print("Players swapped and totals updated successfully")
+    else:
+        print(f"Failed to swap players. Status code: {response.status_code}")
+
+##### TESTS #####
+
+# current_player = "Cla"
+# new_player = "Emily"
+# swap_players(current_player, new_player)
