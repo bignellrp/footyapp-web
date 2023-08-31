@@ -26,5 +26,3 @@ jobs:
           stack-definition: 'docker-compose.yml'
           template-variables: '{"BRANCH": "main"}'
           image: ghcr.io/bignellrp/footyapp-web:main
-          prune-stack: true
-          pull-image: true
