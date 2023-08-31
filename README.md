@@ -2,8 +2,7 @@
 
 A web app for managing a 5 a side footy team.
 
-Select the players using the checkboxes and it should output a balanced team
-for each side.
+Select the players using the checkboxes and it should output a balanced team for each side.
 
 Coded using Python, HTML and Flask using
 [grayscale bootstrap template](https://startbootstrap.com/theme/grayscale)
