@@ -28,9 +28,9 @@ access_token = os.getenv("API_TOKEN")
 access_headers = {
              "Authorization": f"Bearer {access_token}"
          } 
-
+api_url = os.getenv("API_URL")
 # Url used for games data
-player_api_url = "http://localhost:8080/players"
+player_api_url = f"{api_url}/players"
 
 def wipe_tally():
     # Prepare the updated data
