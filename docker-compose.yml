@@ -12,6 +12,8 @@ services:
     restart: always
     env_file:
       - /mnt/docker/footyapp-web/.env
+    environment:
+      - TZ=Europe/London
 
 networks:
   br0:
