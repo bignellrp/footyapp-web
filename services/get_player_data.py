@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 import os
+from services.get_channelid import channelid
 
 ##Load the .env file
 load_dotenv()
@@ -169,6 +170,35 @@ def game_player_tally_with_score_and_index():
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
         print(f'')
+        return []
+
+def all_players_by_channel():
+    response = requests.get(player_api_url + "/" + "all_players_by_channel" + "/" + channelid, headers=access_headers)
+    if response.status_code == 200:
+        #Example output:
+        # [{'name': 'Amy', 'total': 77}, 
+        # {'name': 'Cal', 'total': 77}, 
+        # {'name': 'Joe', 'total': 77}, 
+        # {'name': 'Rik', 'total': 77}]
+        data = response.json()
+        return data
+    else:
+        print(f"Failed to fetch data. Status code: {response.status_code}")
+        return []
+
+def player_names_by_channel():
+    response = requests.get(player_api_url + "/" + "player_names_by_channel" + "/" + channelid, headers=access_headers)
+    if response.status_code == 200:
+        #Example output:
+        # {'name': 'Amy', 'playing': True}, 
+        # {'name': 'Cal', 'playing': False}, 
+        # {'name': 'Joe', 'playing': True}, 
+        # {'name': 'Rik', 'playing': True}
+        player_names = response.json()
+        data = [(player["name"], player["playing"]) for player in player_names]
+        return data
+    else:
+        print(f"Failed to fetch data. Status code: {response.status_code}")
         return []
 
 ##### TESTS #####
