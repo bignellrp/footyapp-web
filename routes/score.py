@@ -51,7 +51,7 @@ def score():
             error = "Score is not a valid input"
         else:
             print("Updating score")
-            update_score_result(score_output)
+            update_score_result(get_date,score_output)
             
             ##If there is a dash then post is returned after running update
             return render_template('post.html')
