@@ -24,16 +24,18 @@ version: '3.8'
 
 services:
   footyapp-web:
-    image: ghcr.io/bignellrp/footyapp-web:main
+    image: ghcr.io/bignellrp/footyapp-web:${BRANCH}
     container_name: footyapp-web-${BRANCH}
     networks:
       br0:
-        ipv4_address: 192.168.0.230
+        ipv4_address: ${IPV4_ADDRESS}
     ports:
       - "80:80"
     restart: always
     env_file:
-      - /mnt/docker/footyapp-web/.env
+      - /mnt/docker/footyapp-web-${BRANCH}/.env
+    environment:
+      - TZ=Europe/London
 
 networks:
   br0:
