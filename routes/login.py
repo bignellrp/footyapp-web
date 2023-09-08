@@ -9,10 +9,10 @@ login_blueprint = Blueprint('login',
 
 @login_blueprint.route('/', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        error = None
         if username == User("1").username and password == User("1").password:
             user = User("1")  # Create a User object
             login_user(user)  # Log in the user
@@ -20,5 +20,4 @@ def login():
             return redirect(url_for('index.index'))
         else:
             error = '*ERROR*: Invalid username or password!'
-
     return render_template('login.html', error = error)
