@@ -49,6 +49,9 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST">
                                 <h1>Welcome to Footyapp!</h1>
                                 <h2>Please login:</h2>
+                                {% if error %}
+                                <div class="tool_tip"><h2> {{ error }} </h2></div>
+                                {% endif %}
                                 <br><br><br>
                                 <label for="username">Username:</label>
                                 <input type="text" id="username" name="username" required><br><br>
