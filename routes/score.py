@@ -2,6 +2,7 @@ from flask import render_template, request, Blueprint
 from services.post_games_data import *
 from services.get_games_data import *
 import re
+from flask_login import login_required
 
 score_blueprint = Blueprint('score', 
                             __name__, 
@@ -9,6 +10,7 @@ score_blueprint = Blueprint('score',
                             static_folder='static')
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
+@login_required
 def score():
     '''A function for building the score page.
     Takes in this weeks score as form input from flask form

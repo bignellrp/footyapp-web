@@ -4,3 +4,5 @@ from routes.leaderboard import leaderboard_blueprint
 from routes.stats import stats_blueprint
 from routes.result import result_blueprint
 from routes.score import score_blueprint
+from routes.login import login_blueprint
+from routes.logout import logout_blueprint

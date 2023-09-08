@@ -1,7 +1,9 @@
-from flask import Flask, redirect, url_for
+from flask import Flask
 from routes import *
 from dotenv import load_dotenv
 import os
+from flask_login import LoginManager
+from services.get_user import User
 #from flask_discord import DiscordOAuth2Session, Unauthorized
 
 ##Load the .env file
@@ -9,6 +11,16 @@ load_dotenv()
 
 ##Create the Flask App
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Get the values of AUTH_USERNAME and AUTH_PASSWORD from the environment variables
+auth_username = os.getenv("AUTH_USERNAME")
+auth_password = os.getenv("AUTH_PASSWORD")
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
 
 ##Import Secret Key for Session Pop
 app.secret_key = os.getenv("SESSION")
@@ -29,6 +41,8 @@ app.register_blueprint(leaderboard_blueprint)
 app.register_blueprint(stats_blueprint)
 app.register_blueprint(result_blueprint)
 app.register_blueprint(score_blueprint)
+app.register_blueprint(login_blueprint)
+app.register_blueprint(logout_blueprint)
 
 #Login to Discord
 #https://github.com/weibeu/Flask-Discord

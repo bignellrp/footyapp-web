@@ -1,5 +1,5 @@
-from flask import render_template, \
-                request, Blueprint, session, redirect, url_for
+from flask import render_template, request, Blueprint, session, redirect, url_for
+from flask_login import LoginManager, login_user, login_required, current_user, UserMixin
 from services.get_player_data import *
 from services.post_player_data import *
 from services.get_even_teams import get_even_teams
@@ -17,8 +17,9 @@ index_blueprint = Blueprint('index',
                             template_folder='templates', 
                             static_folder='static')
 
-@index_blueprint.route('/', methods=['GET', 'POST'])
+@index_blueprint.route('/auto', methods=['GET', 'POST'])
 #@requires_authorization
+@login_required
 def index():
     '''A function for building the index page.
     Takes in available players from a flask form 
