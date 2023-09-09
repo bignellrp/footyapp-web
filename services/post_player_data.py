@@ -73,3 +73,27 @@ def update_player(player,data):
         print("Player updated successfully")
     else:
         print(f"Failed to update records. Status code: {response.status_code}")
+
+def add_player(name):
+    
+    new_player = {
+        "name": name,
+        "total": 77,
+        "wins": 0,
+        "draws": 0,
+        "losses": 0,
+        "score": 0,
+        "playing": False,
+        "played": 0,
+        "percent": 0,
+        "winpercent": 0
+    }
+
+    response = requests.post(player_api_url, json=new_player, headers=access_headers)
+
+    if response.status_code == 200:
+        response_data = response.json()
+        print("Player added successfully")
+        print("Player ID:", response_data["_id"])
+    else:
+        print(f"Failed to add player. Status code: {response.status_code}")

@@ -43,6 +43,8 @@ app.register_blueprint(result_blueprint)
 app.register_blueprint(score_blueprint)
 app.register_blueprint(login_blueprint)
 app.register_blueprint(logout_blueprint)
+app.register_blueprint(player_blueprint)
+app.register_blueprint(swap_blueprint)
 
 #Login to Discord
 #https://github.com/weibeu/Flask-Discord

@@ -6,3 +6,5 @@ from routes.result import result_blueprint
 from routes.score import score_blueprint
 from routes.login import login_blueprint
 from routes.logout import logout_blueprint
+from routes.player import player_blueprint
+from routes.swap import swap_blueprint
