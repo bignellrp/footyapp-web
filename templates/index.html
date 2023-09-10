@@ -55,9 +55,6 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Choose <span class="indextotalchecked">{{ player_count }}</span>:</h2>
-                                    {% if error %}
-                                    <div class="tool_tip"><h2> {{ error }} </h2></div>
-                                    {% endif %}
                                     {% for name, playing in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td>
@@ -77,6 +74,10 @@
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
+                                <br>
+                                {% if error %}
+                                <div class="tool_tip"><h2> {{ error }} </h2></div>
+                                {% endif %}
                                 </form>
                         </div>
                     </div>

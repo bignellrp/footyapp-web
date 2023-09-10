@@ -49,9 +49,6 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
                                 <h1>Enter Score for</h1>
                                 <h1>{{ date }}:</h1>
-                                {% if error %}
-                                <div class="tool_tip">{{ error }}</div>
-                                {% endif %}
                                 <br>
                                 <h3>Score for Team A:</h3>
                                 <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}">
@@ -71,6 +68,10 @@
                                 <br>
                                 <h3><b>Save Scores:</b></h3>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                <br>
+                                {% if error %}
+                                <div class="tool_tip">{{ error }}</div>
+                                {% endif %}
                             </form>
                         </div>
                     </div>

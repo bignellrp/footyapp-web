@@ -55,9 +55,6 @@
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
                                     <h2>Choose <span class="compatotalchecked">5</span> players for Team A:</h2>
-                                    {% if error %}
-                                    <div class="tool_tip"><h2> {{ error }} </h2></div>
-                                    {% endif %}
                                     {% for name, playing in player_names %}
                                     <tr class="form-check checkbox-slider--default">
                                         <td><label><input class="compa-single-checkbox" type="checkbox" name="available_players_a" value="{{ name }}"><span>{{ name }}</span></label></td>
@@ -77,6 +74,10 @@
                                     {% endfor %}
                                 </table>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                <br>
+                                {% if error %}
+                                <div class="tool_tip"><h2> {{ error }} </h2></div>
+                                {% endif %}
                                 </form>
                         </div>
                     </div>

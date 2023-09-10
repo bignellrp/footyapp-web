@@ -18,20 +18,27 @@ def swap():
     get_all_players = all_players()
     names = [player["name"] for player in get_all_players]
 
+    get_teama = teama()
+    get_teamb = teamb()
+    get_date = date()
+    get_scorea = scorea()
+    get_scoreb = scoreb()
+    get_coloura = coloura()
+    get_colourb = colourb()
+    get_coloura = "/static/"+str(get_coloura)+".png"
+    get_colourb = "/static/"+str(get_colourb)+".png"
+
     if request.method == 'POST':
 
         ##Get vars
         use_player_names = names
-        get_teama = teama()
-        get_teamb = teamb()
-        get_scorea = scorea()
         teams = get_teama + get_teamb
-        current_player = request.form.get('curr_player_input')
+        current_player = request.form.get('cur_player_input')
         new_player = request.form.get('new_player_input')
         
         ##Using re.match to check if score input is 2 digits
-        match_a = re.match("(^[A-Z][a-zA-Z]*$)",current_player)
-        match_b = re.match("(^[A-Z][a-zA-Z]*$)",new_player)
+        match_a = re.match("(^[A-Z][a-zA-Z]*$)",str(current_player))
+        match_b = re.match("(^[A-Z][a-zA-Z]*$)",str(new_player))
         
         if get_scorea != None:
             print('Game has already been played this week!')
@@ -57,6 +64,22 @@ def swap():
             ##If there is a dash then post is returned after running update
             return render_template('post.html', error=error)
         ##If there was an error return the score page with error
-        return render_template('swap.html', error=error)
+        return render_template('swap.html', 
+                               teama = get_teama, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
+                               date = get_date, 
+                               error = error,
+                               coloura = get_coloura,
+                               colourb = get_colourb)
     ##If request method is not POST then it must be GET
-    return render_template('swap.html', error=error)
+    return render_template('swap.html', 
+                               teama = get_teama, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
+                               date = get_date, 
+                               error = error,
+                               coloura = get_coloura,
+                               colourb = get_colourb)

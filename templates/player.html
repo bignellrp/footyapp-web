@@ -48,16 +48,17 @@
                         <div class="text-white-50 text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
                                 <h1>Add a new player</h1>
-                                {% if error %}
-                                <div class="tool_tip">{{ error }}</div>
-                                {% endif %}
                                 <br>
-                                <h3>Player Name:</h3>
-                                <h4>Please use one name with no spaces, starting with a capital.</h4>
+                                <b>Player Name:</b>
+                                <b>Please use one name with no spaces, starting with a capital.</b>
                                 <input class="form-control" type="text" id="player_input" name="player_input">
                                 <br>
                                 <h3><b>Save:</b></h3>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                <br>
+                                {% if error %}
+                                <div class="tool_tip">{{ error }}</div>
+                                {% endif %}
                             </form>
                         </div>
                     </div>
