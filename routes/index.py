@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
-from flask_login import LoginManager, login_user, login_required, current_user, UserMixin
+from flask_login import login_required
 from services.get_player_data import *
 from services.post_player_data import *
 from services.get_even_teams import get_even_teams
@@ -30,7 +30,11 @@ def index():
     get_all_players = all_players()
     get_player_names = player_names()
     get_player_count = player_count()
-    get_player_count = 10 - int(get_player_count)
+    try:
+        get_player_count = 10 - int(get_player_count)
+    except:
+        print("Cannot get player count from database!")
+        pass
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
