@@ -16,29 +16,35 @@ def player():
 
     get_all_players = all_players()
     names = [player["name"] for player in get_all_players]
+    get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
     error = None
 
     if request.method == 'POST':
+        if request.form['submit_button'] == 'Post':
 
-        ##Get player from form user input
-        player_input = request.form.get('player_input')
+            ##Get player from form user input
+            player_input = request.form.get('player_input')
 
-        ##Using re.match to check name is in correct format
-        match = re.match("(^[A-Z][a-zA-Z]*$)",player_input)
-        if player_input in names:
-            print("Player exists already")
-            error = "Player exists already"
-        elif match == None:
-            '''If regex is wrong then error'''
-            print("Player name input is invalid")
-            error = "Player name is not a valid input"
+            ##Using re.match to check name is in correct format
+            match = re.match("(^[A-Z][a-zA-Z]*$)",player_input)
+            if player_input in names:
+                print("Player exists already")
+                error = "Player exists already"
+            elif match == None:
+                '''If regex is wrong then error'''
+                print("Player name input is invalid")
+                error = "Player name is not a valid input"
+            else:
+                print("Adding new player with a generic score of 77")
+                add_player(player_input)
+                
+                ##If there is a dash then post is returned after running update
+                return render_template('post.html')
+        elif request.form['submit_button'] == 'Update':
+            ##Get the updates from JS 
+                return render_template('post.html')
         else:
-            print("Adding new player with a generic score of 77")
-            add_player(player_input)
-            
-            ##If there is a dash then post is returned after running update
-            return render_template('post.html', error=error)
-        ##If there was an error return the score page with error
-        return render_template('player.html', error=error)
+            ##If there was an error return the score page with error
+            return render_template('player.html', error=error)
     ##If request method is not POST then it must be GET
-    return render_template('player.html', error=error)
+    return render_template('player.html', all_players = get_all_player_totals, error=error)
