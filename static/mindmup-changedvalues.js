@@ -1,35 +1,45 @@
-// Define an empty array to store changed values
-var changedValues = [];
-
-// Bind a change event handler to all table cells except the first column
-$('table#mainTable td:not(:first-child)').on('change', function (evt) {
-    var cell = $(this),
-        row = cell.closest('tr'),
-        name = row.find('td:first-child').text(), // Get the name from the first column
-        total = cell.text(); // Get the new total from the changed cell
-
-    // Create an object to store the name and total
-    var changedEntry = {
-        name: name,
-        total: total
-    };
-
-    // Check if the entry is already in the array
-    var existingIndex = -1;
-    for (var i = 0; i < changedValues.length; i++) {
-        if (changedValues[i].name === name) {
-            existingIndex = i;
-            break;
-        }
-    }
-
-    // If the entry exists, update it; otherwise, add it to the array
-    if (existingIndex !== -1) {
-        changedValues[existingIndex] = changedEntry;
-    } else {
-        changedValues.push(changedEntry);
-    }
-
-    // For testing, you can log the updated array
-    console.log(changedValues);
-});
+document.addEventListener("DOMContentLoaded", function () {
+    const changedRows = [];
+  
+    // Add the editableTableWidget plugin to your table
+    $('#mainTable').editableTableWidget();
+  
+    // Listen for the change event on table cells
+    $('#mainTable').on('change', 'td', function () {
+      const cell = $(this);
+      const row = cell.closest('tr');
+      const rowId = row.attr('data-row-id');
+      const value = cell.text().trim(); // Get the edited cell value
+  
+      // Check if the row is already in the changedRows array
+      const existingRow = changedRows.find(row => row.rowId === rowId);
+  
+      if (existingRow) {
+        existingRow.value = value;
+      } else {
+        changedRows.push({ rowId, value });
+      }
+    });
+  
+    // Listen for the submit button click
+    document.querySelector("#submit-button").addEventListener("click", function () {
+      // Send the changedRows array to the Flask server using a GET request
+      const queryParams = new URLSearchParams(changedRows.map(row => `row_${row.rowId}=${row.value}`));
+      const url = `/player?${queryParams.toString()}`;
+  
+      // Print the URL to the console for debugging
+      console.log("URL to be sent:", url);
+  
+      // Redirect or use fetch to send the data to your Flask server
+      window.location.href = url;
+      // Alternatively, use fetch() to send the data asynchronously
+      /*
+      fetch(url, {
+        method: "GET",
+      })
+      .then(response => {
+        // Handle the response
+      });
+      */
+    });
+  });

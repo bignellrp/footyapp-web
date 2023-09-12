@@ -41,8 +41,17 @@ def player():
                 ##If there is a dash then post is returned after running update
                 return render_template('post.html')
         elif request.form['submit_button'] == 'Update':
-            ##Get the updates from JS 
-                return render_template('post.html')
+            
+            changed_rows = {}
+            for key, value in request.args.items():
+                if key.startswith('row_'):
+                    row_id = key.replace('row_', '')
+                    changed_rows[row_id] = value
+
+            # Do something with the changed_rows data
+            print(changed_rows)
+
+            return render_template('post.html')
         else:
             ##If there was an error return the score page with error
             return render_template('player.html', error=error)

@@ -69,13 +69,14 @@
                                     <thead><tr><th>Name</th><th>Total</th></tr></thead>
                                     <tbody>
                                     {% for player in all_players %}
-                                      <tr><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>
+                                      <tr data-row-id="{{ loop.index }}"><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
                                 <br>
                                 <h3><b>Save Changes:</b></h3>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Update">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" id="submit-button" name="submit_button" value="Update">
+                                <!--<button class="btn btn-primary js-scroll-trigger" id="submit-button">Submit</button>-->
                                 <br>
                                 </p>
                                 </div>
@@ -93,10 +94,12 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/static/scripts.js"></script>
         <!-- Mindmup Table Widget JS-->
+        <!--
         <script>
             $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
             $('#textAreaEditor').editableTableWidget({editor: $('<textarea>')});
             window.prettyPrint && prettyPrint();
         </script>
+        -->
     </body>
 </html>
