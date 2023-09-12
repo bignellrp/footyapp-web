@@ -42,6 +42,7 @@ def player():
         ##If request method is not POST then it must be GET
         changed_rows = {}
         error = None
+        tooltip = None
         ##Need to change the validation to be done before values come back to python
         
         for key, value in request.args.items():
@@ -56,8 +57,10 @@ def player():
                     json_value = {"total": value}
                     print(name, json_value)
                     update_player(name, json_value)
+                    tooltip = "Updated successfully"
+        
         # Refresh the players
         get_all_players = all_players()
         get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
                     
-        return render_template('player.html', all_players = get_all_player_totals, error=error)
+        return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
