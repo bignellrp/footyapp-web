@@ -62,21 +62,22 @@
                                 {% if error %}
                                 <div class="tool_tip">{{ error }}</div>
                                 {% endif %}
-
+                            </form>
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
                                 <div class="text-pre text-white-50 text-lg-center">
                                 <p>
                                 <table id="mainTable" class="table table-striped text-pre text-white-50 text-lg-center">
                                     <thead><tr><th>Name</th><th>Total</th></tr></thead>
                                     <tbody>
                                     {% for player in all_players %}
-                                      <tr data-row-id="{{ loop.index }}"><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>
+                                      <!--<tr data-row-id="{{ loop.index }}"><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>-->
+                                      <tr data-row-id="{{ player.name }}"><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>
                                 <br>
                                 <h3><b>Save Changes:</b></h3>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" id="submit-button" name="submit_button" value="Update">
-                                <!--<button class="btn btn-primary js-scroll-trigger" id="submit-button">Submit</button>-->
+                                <button class="btn btn-primary js-scroll-trigger" id="submit-button">Submit</button>
                                 <br>
                                 </p>
                                 </div>

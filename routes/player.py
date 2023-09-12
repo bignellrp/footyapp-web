@@ -20,8 +20,6 @@ def player():
     error = None
 
     if request.method == 'POST':
-        if request.form['submit_button'] == 'Post':
-
             ##Get player from form user input
             player_input = request.form.get('player_input')
 
@@ -40,20 +38,12 @@ def player():
                 
                 ##If there is a dash then post is returned after running update
                 return render_template('post.html')
-        elif request.form['submit_button'] == 'Update':
-            
-            changed_rows = {}
-            for key, value in request.args.items():
-                if key.startswith('row_'):
-                    row_id = key.replace('row_', '')
-                    changed_rows[row_id] = value
-
-            # Do something with the changed_rows data
-            print(changed_rows)
-
-            return render_template('post.html')
-        else:
-            ##If there was an error return the score page with error
-            return render_template('player.html', error=error)
-    ##If request method is not POST then it must be GET
-    return render_template('player.html', all_players = get_all_player_totals, error=error)
+    elif request.method == 'GET':
+        ##If request method is not POST then it must be GET
+        changed_rows = {}
+        for key, value in request.args.items():
+            if key.startswith('row_'):
+                row_id = key.replace('row_', '')
+                changed_rows[row_id] = value
+        print(changed_rows)
+        return render_template('player.html', all_players = get_all_player_totals, error=error)
