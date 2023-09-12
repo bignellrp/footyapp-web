@@ -41,9 +41,23 @@ def player():
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET
         changed_rows = {}
+        error = None
+        ##Need to change the validation to be done before values come back to python
+        
         for key, value in request.args.items():
             if key.startswith('row_'):
-                row_id = key.replace('row_', '')
-                changed_rows[row_id] = value
-        print(changed_rows)
+                name = key.replace('row_', '')
+                changed_rows[name] = value
+                match = re.match("(^(?:100|[1-9]?[0-9])$)", value)
+                if match == None:
+                    print(name, "has an invalid total")
+                    error = f"{name}'s total is not a valid input"
+                else:
+                    json_value = {"total": value}
+                    print(name, json_value)
+                    update_player(name, json_value)
+        # Refresh the players
+        get_all_players = all_players()
+        get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
+                    
         return render_template('player.html', all_players = get_all_player_totals, error=error)
