@@ -48,8 +48,19 @@
                         <div class="text-white-50 text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/swap">
                                 <h1>Swap players:</h1>
-                                <b>This function allows you to swap a player that may have dropped out.</b>
+                                <b>This function allows you to swap a <br>
+                                    player that may have dropped out.</b>
+                                {% if error %}
+                                <p class="tool_tip tooltip-centered">{{ error }}</p>
+                                {% endif %}
+                                <br><br><br>
+                                {% if tooltip %}
+                                <p class="tool_tip tooltip-centered">{{ tooltip }}</p>
+                                {% endif %}
+                                <br><br>
+                                <div>
                                 <h1>{{ date }}:</h1>
+                                </div>
                                 <p id="rcorners">
                                     <img id="imageA" src="{{ coloura }}" width="90" height="100" class="center">
                                     <b>Team A:</b><br>
@@ -64,21 +75,21 @@
                                 <br>
                                 <b>Current Player Name:</b>
                                 <br>
-                                Please use one name with no spaces, starting with a capital.
+                                Please use one name <br>
+                                with no spaces, <br>
+                                starting with a capital. 
+                                <br>
                                 <input class="form-control" type="text" id="cur_player_input" name="cur_player_input">
                                 <br>
                                 <b>New Player Name:</b>
                                 <br>
-                                Please use one name with no spaces, starting with a capital.
+                                Please use one name <br>
+                                with no spaces, <br>
+                                starting with a capital. 
+                                <br>
                                 <input class="form-control" type="text" id="new_player_input" name="new_player_input">
                                 <br>
-                                <h3><b>Save:</b></h3>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
-                                <br>
-                                {% if error %}
-                                <div class="tool_tip">{{ error }}</div>
-                                {% endif %}
-                                <br>
                             </form>
                         </div>
                     </div>

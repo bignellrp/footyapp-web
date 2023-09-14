@@ -5686,6 +5686,13 @@ a.close.disabled {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.button-container {
+  text-align: center;
+}
+.tooltip-container-with-date {
+  display: flex;
+  align-items: center;
+}
 .tooltip {
   position: absolute;
   z-index: 1070;

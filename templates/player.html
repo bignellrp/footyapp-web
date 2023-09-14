@@ -64,11 +64,15 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
                                 <h1>Add a new player</h1>
                                 <br>
-                                <b>Player Name:</b>
-                                <b>Please use one name with no spaces, starting with a capital.</b>
+                                <b>Please use one name <br>
+                                    with no spaces, <br>
+                                    starting with a capital.</b>
+                                <br>
                                 <input class="form-control" type="text" id="player_input" name="player_input">
                                 <br>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
+                                <div class="button-container">
+                                    <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
+                                </div>
                                 <br><br><br>
                                 {% if error %}
                                 <p class="tool_tip tooltip-centered">{{ error }}</p>
@@ -89,7 +93,9 @@
                                     </tbody>
                                 </table>
                                 <br>
-                                <button class="btn btn-primary js-scroll-trigger" id="submit-button">Submit</button>
+                                <div class="button-container">
+                                    <button class="btn btn-primary js-scroll-trigger" id="submit-button">Submit</button>
+                                </div>
                                 <br>
                                 </p>
                             </form>

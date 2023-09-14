@@ -15,6 +15,7 @@ swap_blueprint = Blueprint('swap',
 def swap():
     '''A function for adding a new player'''
     error = None
+    tooltip = None
     get_all_players = all_players()
     names = [player["name"] for player in get_all_players]
 
@@ -61,8 +62,21 @@ def swap():
             error = f'{current_player} and {new_player} are in Team B: {teamb}'
         else:
             swap_players(current_player, new_player)
+            tooltip = "Updated successfully"
+            ##Refresh the teams
+            get_teama = teama()
+            get_teamb = teamb()
             ##If there is a dash then post is returned after running update
-            return render_template('post.html', error=error)
+            return render_template('swap.html', 
+                               teama = get_teama, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
+                               date = get_date, 
+                               error = error,
+                               tooltip = tooltip,
+                               coloura = get_coloura,
+                               colourb = get_colourb)
         ##If there was an error return the score page with error
         return render_template('swap.html', 
                                teama = get_teama, 
@@ -71,6 +85,7 @@ def swap():
                                scoreb = get_scoreb, 
                                date = get_date, 
                                error = error,
+                               tooltip = tooltip,
                                coloura = get_coloura,
                                colourb = get_colourb)
     ##If request method is not POST then it must be GET
@@ -81,5 +96,6 @@ def swap():
                                scoreb = get_scoreb, 
                                date = get_date, 
                                error = error,
+                               tooltip = tooltip,
                                coloura = get_coloura,
                                colourb = get_colourb)
