@@ -54,7 +54,7 @@ def player():
                     print(name, "has an invalid total")
                     error = f"{name}'s total is not a valid input"
                 else:
-                    json_value = {"total": value}
+                    json_value = {"total": int(value)}
                     print(name, json_value)
                     update_player(name, json_value)
                     tooltip = "Updated successfully"

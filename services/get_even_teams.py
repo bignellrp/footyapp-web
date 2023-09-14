@@ -13,7 +13,8 @@ def get_even_teams(game_players):
     def comp(team):
         return players - set(team)
     def team_score(team):
-        return sum(game_players[member] for member in team)
+    # Convert values to integers using int() function
+        return sum(int(game_players[member]) for member in team)
     def score_diff(team):
         team2 = comp(team)
         return abs(team_score(team) - team_score(team2))
