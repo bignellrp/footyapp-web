@@ -6,6 +6,7 @@ from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 from dotenv import load_dotenv
 import os
+from flask_login import login_required
 
 ##Load the .env file
 load_dotenv()
@@ -16,6 +17,7 @@ result_blueprint = Blueprint('result',
                              static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
+@login_required
 def result():
     '''A function for building the results page.
     Takes in teama and teamb from flask 
@@ -109,9 +111,26 @@ def result():
             else:
                 post.append_result(game_json)
                 print("Running append function")
-
+            get_teama = teama()
+            get_teamb = teamb()
+            get_date = date()
+            get_scorea = scorea()
+            get_scoreb = scoreb()
+            error = None
+            get_coloura = coloura()
+            get_colourb = colourb()
+            get_coloura = "/static/"+str(get_coloura)+".png"
+            get_colourb = "/static/"+str(get_colourb)+".png"
             ##Return Team A and Team B to the results template
-            return render_template('post.html')
+            return render_template('score.html', 
+                               teama = get_teama, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
+                               date = get_date, 
+                               error = error,
+                               coloura = get_coloura,
+                               colourb = get_colourb)
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
             try:

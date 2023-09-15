@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint, session
 from services.get_player_data import *
+from flask_login import login_required
 
 compare_blueprint = Blueprint('compare', 
                               __name__, 
@@ -7,6 +8,7 @@ compare_blueprint = Blueprint('compare',
                               static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
+@login_required
 def compare():
     '''A function for building the compare page.
     Takes in available players from a flask form 

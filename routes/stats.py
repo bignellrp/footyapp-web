@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint
 from services.get_games_data import game_stats
 from services.get_player_data import player_stats
+from flask_login import login_required
 
 stats_blueprint = Blueprint('stats', 
                             __name__, 
@@ -8,6 +9,7 @@ stats_blueprint = Blueprint('stats',
                             static_folder='static')
 
 @stats_blueprint.route('/stats', methods=['GET'])
+@login_required
 def stats():
     '''A function for building the stats page.
     Takes in game stats from google sheets 

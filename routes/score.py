@@ -2,6 +2,7 @@ from flask import render_template, request, Blueprint
 from services.post_games_data import *
 from services.get_games_data import *
 import re
+from flask_login import login_required
 
 score_blueprint = Blueprint('score', 
                             __name__, 
@@ -9,6 +10,7 @@ score_blueprint = Blueprint('score',
                             static_folder='static')
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
+@login_required
 def score():
     '''A function for building the score page.
     Takes in this weeks score as form input from flask form
@@ -36,6 +38,7 @@ def score():
 
         ##Print the result to database with update enabled
         error = None
+        tooltip = None
         ##Using re.match to check if score input is 2 digits
         match_a = re.match("(^[0-9]{1,2}$)",score_input_a)
         match_b = re.match("(^[0-9]{1,2}$)",score_input_b)
@@ -52,9 +55,21 @@ def score():
         else:
             print("Updating score")
             update_score_result(get_date,score_output)
-            
+            tooltip = "Updated successfully"
+            ##Refresh scores
+            get_scorea = scorea()
+            get_scoreb = scoreb()
             ##If there is a dash then post is returned after running update
-            return render_template('post.html')
+            return render_template('score.html', 
+                               teama = get_teama, 
+                               teamb = get_teamb,
+                               scorea = get_scorea,
+                               scoreb = get_scoreb, 
+                               date = get_date, 
+                               error = error,
+                               tooltip = tooltip,
+                               coloura = get_coloura,
+                               colourb = get_colourb)
         ##If there was an error return the score page with error
         return render_template('score.html', 
                                teama = get_teama, 

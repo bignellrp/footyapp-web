@@ -5674,6 +5674,25 @@ a.close.disabled {
     max-width: 1140px;
   }
 }
+.tooltip-centered {
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tooltip-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button-container {
+  text-align: center;
+}
+.tooltip-container-with-date {
+  display: flex;
+  align-items: center;
+}
 .tooltip {
   position: absolute;
   z-index: 1070;
