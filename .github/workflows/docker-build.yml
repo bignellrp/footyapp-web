@@ -19,16 +19,22 @@ jobs:
 
       - name: Set up webhook secret based on branch
         id: set_secret
+        env:
+          WEBHOOK_SECRET_MAIN: ${{ secrets.WEBHOOK_MAIN }}
+          WEBHOOK_SECRET_DEV: ${{ secrets.WEBHOOK_DEV }}
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "::set-output name=WEBHOOK_SECRET::${{ secrets.WEBHOOK_MAIN }}"
+            echo "WEBHOOK_SECRET=$WEBHOOK_SECRET_MAIN" >> $GITHUB_ENV
           else
-            echo "::set-output name=WEBHOOK_SECRET::${{ secrets.WEBHOOK_DEV }}"
+            echo "WEBHOOK_SECRET=$WEBHOOK_SECRET_DEV" >> $GITHUB_ENV
           fi
 
       - name: Send Rebuild Request to Portainer
+        env:
+          PORTAINER_TOKEN: ${{ secrets.PORTAINER_TOKEN }}
+          WEBHOOK_SECRET: ${{ env.WEBHOOK_SECRET }}
         run: |
           curl -X POST \
-                -H "Authorization: Bearer ${{ secrets.PORTAINER_TOKEN }}" \
+                -H "Authorization: Bearer $PORTAINER_TOKEN" \
                 -H "Content-Type: application/json" \
-                ${{ steps.set_secret.outputs.WEBHOOK_SECRET }}
+                $WEBHOOK_SECRET
