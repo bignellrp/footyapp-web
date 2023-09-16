@@ -69,9 +69,9 @@
     // Compare Team A Checkbox Limit
 
     const compalimit = 5;
-    $('input.compa-single-checkbox').on('change', function() {
+    $('input.slider-checkbox-a').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
-        if( $('input.compa-single-checkbox:checked').length > compalimit) {
+        if( $('input.slider-checkbox-a:checked').length > compalimit) {
             this.checked = false;
         }
     });
@@ -79,9 +79,9 @@
     // Compare Team B Checkbox Limit
 
     const compblimit = 5;
-    $('input.compb-single-checkbox').on('change', function() {
+    $('input.slider-checkbox-b').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
-        if( $('input.compb-single-checkbox:checked').length > compblimit) {
+        if( $('input.slider-checkbox-b:checked').length > compblimit) {
             this.checked = false;
         }
     });
@@ -95,15 +95,15 @@
 
     // Count Compare A Checkboxes that are checked
 
-    $('input.compa-single-checkbox').on('change', function() {
-        var companumber = $('input.compa-single-checkbox:checked').length;
+    $('input.slider-checkbox-a').on('change', function() {
+        var companumber = $('input.slider-checkbox-a:checked').length;
         $('.compatotalchecked').html(5 - companumber);
     });
 
     // Count Compare B Checkboxes that are checked
 
-    $('input.compb-single-checkbox').on('change', function() {
-        var compbnumber = $('input.compb-single-checkbox:checked').length;
+    $('input.slider-checkbox-b').on('change', function() {
+        var compbnumber = $('input.slider-checkbox-b:checked').length;
         $('.compbtotalchecked').html(5 - compbnumber);
     });
 

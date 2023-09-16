@@ -10518,6 +10518,14 @@ img.center {
   .slider-checkbox {
     display: none;
   }
+
+  .slider-checkbox-a {
+    display: none;
+  }
+
+  .slider-checkbox-b {
+    display: none;
+  }
   
   .slider-label {
     border: 2px solid #666;
@@ -10564,6 +10572,14 @@ img.center {
   }
   
   .slider-checkbox:checked + .slider-label .slider-inner {
+    margin-left: 0;
+  }
+
+  .slider-checkbox-a:checked + .slider-label .slider-inner {
+    margin-left: 0;
+  }
+
+  .slider-checkbox-b:checked + .slider-label .slider-inner {
     margin-left: 0;
   }
   

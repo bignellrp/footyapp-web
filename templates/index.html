@@ -54,7 +54,7 @@
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span>:</h2>
+                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span> players for {{ date }}:</h2>
                                     {% for name, playing in player_names %}
                                     <tr>
                                         <td>
@@ -82,7 +82,7 @@
                                     </tr>
                                     {% endfor %}
                                 </table>
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
