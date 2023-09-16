@@ -59,9 +59,9 @@
     // Index Checkbox Limit
 
     const indlimit = 10;
-    $('input.single-checkbox').on('change', function() {
-        // Check how many inputs of class 'single-checkbox' are checked.
-        if( $('input.single-checkbox:checked').length > indlimit) {
+    $('input.slider-checkbox').on('change', function() {
+        // Check how many inputs of class 'slider-checkbox' are checked.
+        if( $('input.slider-checkbox:checked').length > indlimit) {
             this.checked = false;
         }
     });
@@ -88,8 +88,8 @@
 
     // Count Index Checkboxes that are checked
 
-    $('input.single-checkbox').on('change', function() {
-        var indexnumber = $('input.single-checkbox:checked').length;
+    $('input.slider-checkbox').on('change', function() {
+        var indexnumber = $('input.slider-checkbox:checked').length;
         $('.indextotalchecked').html(10 - indexnumber);
     });
 

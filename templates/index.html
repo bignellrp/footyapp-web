@@ -56,21 +56,33 @@
                                     </colgroup>
                                     <h2>Choose <span class="indextotalchecked">{{ player_count }}</span>:</h2>
                                     {% for name, playing in player_names %}
-                                    <tr class="form-check checkbox-slider--default">
+                                    <tr>
                                         <td>
-                                            <label>
-                                                <input class="single-checkbox" type="checkbox" 
-                                                {% if playing %} 
-                                                checked="true"
-                                                {% else %}
-                                                {% endif %}
-                                                name="available_players" value="{{ name }}">
-                                                <span>{{ name }}</span>
-                                            </label>
+                                            <div class="main-container">
+                                                <div class="slider-container">
+                                                  <input type="checkbox" 
+                                                        {% if playing %} 
+                                                        checked="true"
+                                                        {% else %}
+                                                        {% endif %}
+                                                        name="available_players" 
+                                                        class="slider-checkbox" 
+                                                        id="sliderSwitch{{ loop.index }}"
+                                                        value="{{ name }}">
+                                                  <label class="slider-label" for="sliderSwitch{{ loop.index }}">
+                                                    <span class="slider-inner"></span>
+                                                    <span class="slider-circle"></span>
+                                                  </label>
+                                                </div>
+                                                <div class="name-container">
+                                                  <span class="slider-name">{{ name }}</span>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </table>
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
