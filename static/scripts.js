@@ -119,4 +119,21 @@
         $('#imageB')[0].src = "/static/"+this.value+".png";
     });
 
+    // Confirm delete
+
+    const postButton = document.getElementById('postButton');
+
+    postButton.addEventListener('click', function() {
+    const confirmation = confirm("Are you sure you want to delete this player. There is no recovery option for their stats?");
+
+    if (confirmation) {
+        // user clicked OK, proceed with posting
+        // insert your code here for posting the data
+        console.log("Posting...");
+    } else {
+        // user clicked Cancel, do nothing
+        console.log("Cancelled.");
+    }
+    });
+
 })(jQuery); // End of use strict
