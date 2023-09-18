@@ -18,7 +18,7 @@ index_blueprint = Blueprint('index',
                             template_folder='templates', 
                             static_folder='static')
 
-@index_blueprint.route('/auto', methods=['GET', 'POST'])
+@index_blueprint.route('/', methods=['GET', 'POST'])
 #@requires_authorization
 @login_required
 def index():

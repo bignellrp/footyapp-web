@@ -8,7 +8,7 @@ login_blueprint = Blueprint('login',
                              template_folder='templates',
                              static_folder='static')
 
-@login_blueprint.route('/', methods=['GET', 'POST'])
+@login_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
