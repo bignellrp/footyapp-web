@@ -14,6 +14,9 @@ load_dotenv()
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
+##Redirect to login page if user is not logged in
+##https://flask-login.readthedocs.io/en/latest/#customizing-the-login-process
+login_manager.login_view = 'login.login'
 
 # Get the values of AUTH_USERNAME and AUTH_PASSWORD from the environment variables
 auth_username = os.getenv("AUTH_USERNAME")
