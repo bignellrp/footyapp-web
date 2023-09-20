@@ -3,6 +3,7 @@ from flask_login import login_required
 from services.get_player_data import *
 from services.post_player_data import *
 from services.get_games_data import *
+from services.get_date import gameday
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
@@ -31,7 +32,7 @@ def index():
     get_all_players = all_players()
     get_player_names = player_names()
     get_player_count = player_count()
-    get_date = date()
+    get_date = gameday
     try:
         get_player_count = 10 - int(get_player_count)
     except:
