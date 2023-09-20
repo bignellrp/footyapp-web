@@ -2,6 +2,7 @@ from flask import render_template, request, Blueprint, session, redirect, url_fo
 from flask_login import login_required
 from services.get_player_data import *
 from services.post_player_data import *
+from services.get_games_data import *
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
@@ -17,7 +18,7 @@ index_blueprint = Blueprint('index',
                             template_folder='templates', 
                             static_folder='static')
 
-@index_blueprint.route('/auto', methods=['GET', 'POST'])
+@index_blueprint.route('/', methods=['GET', 'POST'])
 #@requires_authorization
 @login_required
 def index():
@@ -30,6 +31,7 @@ def index():
     get_all_players = all_players()
     get_player_names = player_names()
     get_player_count = player_count()
+    get_date = date()
     try:
         get_player_count = 10 - int(get_player_count)
     except:
@@ -49,6 +51,7 @@ def index():
                 return render_template('index.html', 
                                         player_names = get_player_names, 
                                         player_count = get_player_count, 
+                                        date = get_date,
                                         error = error)
             else:
                 ##Build list of game_players if 
@@ -139,5 +142,6 @@ def index():
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         return render_template('index.html', 
+                                date = get_date,
                                 player_names = get_player_names, 
                                 player_count = get_player_count)

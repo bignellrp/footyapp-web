@@ -42,7 +42,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
@@ -79,7 +79,7 @@
                                 {% endif %}
                                 <br><br><br>
                                 {% if tooltip %}
-                                <p class="tool_tip tooltip-centered">{{ tooltip }}</p>
+                                <p class="green_tool_tip tooltip-centered">{{ tooltip }}</p>
                                 {% endif %}
                             </form>
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
@@ -98,6 +98,20 @@
                                 </div>
                                 <br>
                                 </p>
+                            </form>
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
+                                <h1>Delete a player</h1>
+                                <br>
+                                <b>Please use one name <br>
+                                    with no spaces, <br>
+                                    starting with a capital.</b>
+                                <br>
+                                <input class="form-control" type="text" id="player_delete" name="player_delete">
+                                <br>
+                                <!--id postButton is for a JS are you sure on the delete-->
+                                <div class="button-container">
+                                    <input class="btn btn-primary js-scroll-trigger" id="postButton" type="submit" name="submit_button" value="Delete">
+                                </div>
                             </form>
                         </div>
                     </div>

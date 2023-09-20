@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
@@ -56,8 +56,25 @@
                                     </colgroup>
                                     <h2>Choose <span class="compatotalchecked">5</span> players for Team A:</h2>
                                     {% for name, playing in player_names %}
-                                    <tr class="form-check checkbox-slider--default">
-                                        <td><label><input class="compa-single-checkbox" type="checkbox" name="available_players_a" value="{{ name }}"><span>{{ name }}</span></label></td>
+                                    <tr>
+                                        <td>
+                                            <div class="main-container">
+                                                <div class="slider-container">
+                                                <input type="checkbox"
+                                                        name="available_players_a" 
+                                                        class="slider-checkbox-a" 
+                                                        id="sliderSwitch-a{{ loop.index }}"
+                                                        value="{{ name }}">
+                                                <label class="slider-label" for="sliderSwitch-a{{ loop.index }}">
+                                                    <span class="slider-inner"></span>
+                                                    <span class="slider-circle"></span>
+                                                </label>
+                                                </div>
+                                                <div class="name-container">
+                                                <span class="slider-name">{{ name }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </table>
@@ -68,8 +85,25 @@
                                     </colgroup>
                                     <h2>Choose <span class="compbtotalchecked">5</span> players for Team B:</h2>
                                     {% for name, playing in player_names %}
-                                    <tr class="form-check checkbox-slider--default">
-                                        <td><label><input class="compb-single-checkbox" type="checkbox" name="available_players_b" value="{{ name }}"><span>{{ name }}</span></label></td>
+                                    <tr>
+                                        <td>
+                                            <div class="main-container">
+                                                <div class="slider-container">
+                                                <input type="checkbox"
+                                                        name="available_players_b" 
+                                                        class="slider-checkbox-b" 
+                                                        id="sliderSwitch-b{{ loop.index }}"
+                                                        value="{{ name }}">
+                                                <label class="slider-label" for="sliderSwitch-b{{ loop.index }}">
+                                                    <span class="slider-inner"></span>
+                                                    <span class="slider-circle"></span>
+                                                </label>
+                                                </div>
+                                                <div class="name-container">
+                                                <span class="slider-name">{{ name }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </table>

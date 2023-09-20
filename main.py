@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from flask_login import LoginManager
 from services.get_user import User
+from datetime import timedelta
 #from flask_discord import DiscordOAuth2Session, Unauthorized
 
 ##Load the .env file
@@ -13,6 +14,9 @@ load_dotenv()
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
+##Redirect to login page if user is not logged in
+##https://flask-login.readthedocs.io/en/latest/#customizing-the-login-process
+login_manager.login_view = 'login.login'
 
 # Get the values of AUTH_USERNAME and AUTH_PASSWORD from the environment variables
 auth_username = os.getenv("AUTH_USERNAME")
@@ -29,6 +33,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"      # !! Only in development
 app.config["DISCORD_CLIENT_ID"] = os.getenv("DISCORD_CLIENT_ID")
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("DISCORD_CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = os.getenv("DISCORD_REDIRECT_URI")
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)  # Set session cookie expiration time to 30 days
 #app.config["DISCORD_BOT_TOKEN"] = ""
 
 ##Set the Discord OAuth2 Client ID and Secret

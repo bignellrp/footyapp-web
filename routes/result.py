@@ -38,6 +38,8 @@ def result():
             teamb_passback = session['team_b']
             scorea_passback = session['team_a_total']
             scoreb_passback = session['team_b_total']
+            error = None
+            tooltip = None
 
             game_json = {
                 "date": gameday,
@@ -117,6 +119,7 @@ def result():
             get_scorea = scorea()
             get_scoreb = scoreb()
             error = None
+            tooltip = "Teams Saved Successfully!"
             get_coloura = coloura()
             get_colourb = colourb()
             get_coloura = "/static/"+str(get_coloura)+".png"
@@ -129,6 +132,7 @@ def result():
                                scoreb = get_scoreb, 
                                date = get_date, 
                                error = error,
+                               tooltip = tooltip,
                                coloura = get_coloura,
                                colourb = get_colourb)
         if request.form['submit_button'] == 'Rerun':

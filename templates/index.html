@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Automatic</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
@@ -54,23 +54,35 @@
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span>:</h2>
+                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span> players for {{ date }}:</h2>
                                     {% for name, playing in player_names %}
-                                    <tr class="form-check checkbox-slider--default">
+                                    <tr>
                                         <td>
-                                            <label>
-                                                <input class="single-checkbox" type="checkbox" 
-                                                {% if playing %} 
-                                                checked="true"
-                                                {% else %}
-                                                {% endif %}
-                                                name="available_players" value="{{ name }}">
-                                                <span>{{ name }}</span>
-                                            </label>
+                                            <div class="main-container">
+                                                <div class="slider-container">
+                                                  <input type="checkbox" 
+                                                        {% if playing %} 
+                                                        checked="true"
+                                                        {% else %}
+                                                        {% endif %}
+                                                        name="available_players" 
+                                                        class="slider-checkbox" 
+                                                        id="sliderSwitch{{ loop.index }}"
+                                                        value="{{ name }}">
+                                                  <label class="slider-label" for="sliderSwitch{{ loop.index }}">
+                                                    <span class="slider-inner"></span>
+                                                    <span class="slider-circle"></span>
+                                                  </label>
+                                                </div>
+                                                <div class="name-container">
+                                                  <span class="slider-name">{{ name }}</span>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
                                 </table>
+                                <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">

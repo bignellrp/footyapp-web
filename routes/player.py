@@ -20,6 +20,7 @@ def player():
     error = None
 
     if request.method == 'POST':
+        if request.form['submit_button'] == 'Post':
             ##Get player from form user input
             player_input = request.form.get('player_input')
 
@@ -35,9 +36,35 @@ def player():
             else:
                 print("Adding new player with a generic score of 77")
                 add_player(player_input)
-                
-                ##If there is a dash then post is returned after running update
-                return render_template('post.html')
+                # Refresh the players
+                get_all_players = all_players()
+                get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
+                tooltip = "Updated successfully"
+                return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
+        elif request.form['submit_button'] == 'Delete':
+            ##Get player from form user input
+            player_delete = request.form.get('player_delete')
+
+            ##Using re.match to check name is in correct format
+            match = re.match("(^[A-Z][a-zA-Z]*$)",player_delete)
+            if player_delete not in names:
+                print("Player doesnt exist")
+                error = "Player doesnt exist"
+            elif match == None:
+                '''If regex is wrong then error'''
+                print("Player name input is invalid")
+                error = "Player name is not a valid input"
+            else:
+                print(f"Deleting player:{player_delete}")
+                delete_player(player_delete)
+                # Refresh the players
+                get_all_players = all_players()
+                get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
+                tooltip = "Updated successfully"
+                return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
+        else:
+            print("No button pressed")
+            return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET
         changed_rows = {}

@@ -97,3 +97,13 @@ def add_player(name):
         print("Player ID:", response_data["_id"])
     else:
         print(f"Failed to add player. Status code: {response.status_code}")
+
+def delete_player(player):
+
+    # Send a DELETE request to delete the player
+    response = requests.delete(player_api_url + '/' + player, headers=access_headers)
+
+    if response.status_code == 200:
+        print("Player deleted successfully")
+    else:
+        print(f"Failed to modify db. Status code: {response.status_code}")
