@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint, session
 from services.get_player_data import *
 from flask_login import login_required
+from services.get_date import gameday
 
 compare_blueprint = Blueprint('compare', 
                               __name__, 
@@ -86,5 +87,4 @@ def compare():
                                    scoreb = team_b_total)
     ##If request method is not POST then it must be GET 
     ##so render compare.html including player_names
-    return render_template('compare.html', 
-                            player_names = get_player_names)
+    return render_template('compare.html', player_names = get_player_names, date = gameday)
