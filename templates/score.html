@@ -47,7 +47,7 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
-                                <h1>LINEUP</h1>
+                                <h1>Lineup for {{ date }}:</h1>
                                 <br>
                                 {% if error %}
                                 <p class="tool_tip tooltip-centered">{{ error }}</p>
@@ -57,7 +57,6 @@
                                 <p class="green_tool_tip tooltip-centered">{{ tooltip }}</p>
                                 {% endif %}
                                 <br>
-                                <h3>{{ date }}:</h3>
                                 <br>
                                 <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)">
                                 <p id="rcorners">
