@@ -57,8 +57,8 @@
     // Custom Validation Code
 
     // Index Checkbox Limit
-
-    const indlimit = 10;
+    let indlimit = $('#players').text();
+    indlimit = parseInt(indlimit)
     $('input.slider-checkbox').on('change', function() {
         // Check how many inputs of class 'slider-checkbox' are checked.
         if( $('input.slider-checkbox:checked').length > indlimit) {
@@ -68,7 +68,8 @@
 
     // Compare Team A Checkbox Limit
 
-    const compalimit = 5;
+    let compalimit = $('#compplayers').text();
+    compalimit = parseInt(compalimit)
     $('input.slider-checkbox-a').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.slider-checkbox-a:checked').length > compalimit) {
@@ -78,7 +79,8 @@
 
     // Compare Team B Checkbox Limit
 
-    const compblimit = 5;
+    let compblimit = $('#compplayers').text();
+    compblimit = parseInt(compblimit)
     $('input.slider-checkbox-b').on('change', function() {
         // Check how many inputs of class 'single-checkbox' are checked.
         if( $('input.slider-checkbox-b:checked').length > compblimit) {
@@ -90,21 +92,21 @@
 
     $('input.slider-checkbox').on('change', function() {
         var indexnumber = $('input.slider-checkbox:checked').length;
-        $('.indextotalchecked').html(10 - indexnumber);
+        $('.indextotalchecked').html(indlimit - indexnumber);
     });
 
     // Count Compare A Checkboxes that are checked
 
     $('input.slider-checkbox-a').on('change', function() {
         var companumber = $('input.slider-checkbox-a:checked').length;
-        $('.compatotalchecked').html(5 - companumber);
+        $('.compatotalchecked').html(compalimit - companumber);
     });
 
     // Count Compare B Checkboxes that are checked
 
     $('input.slider-checkbox-b').on('change', function() {
         var compbnumber = $('input.slider-checkbox-b:checked').length;
-        $('.compbtotalchecked').html(5 - compbnumber);
+        $('.compbtotalchecked').html(compblimit - compbnumber);
     });
 
     // Change Image with dropdown

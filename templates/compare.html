@@ -54,7 +54,7 @@
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="compatotalchecked">5</span> players for Team A for {{ date }}:</h2>
+                                    <h2>Choose <span class="compatotalchecked">{{ players }}</span> out of <span id='compplayers'>{{ players }}</span> players for Team A for {{ date }}:</h2>
                                     {% for name, playing in player_names %}
                                     <tr>
                                         <td>
@@ -83,7 +83,7 @@
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="compbtotalchecked">5</span> players for Team B for {{ date }}:</h2>
+                                    <h2>Choose <span class="compbtotalchecked">{{ players }}</span> out of <span id='compplayers'>{{ players }}</span> players for Team B for {{ date }}:</h2>
                                     {% for name, playing in player_names %}
                                     <tr>
                                         <td>

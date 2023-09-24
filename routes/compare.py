@@ -2,6 +2,11 @@ from flask import render_template, request, Blueprint, session
 from services.get_player_data import *
 from flask_login import login_required
 from services.get_date import gameday
+from dotenv import load_dotenv
+import os
+
+##Load the .env file
+load_dotenv()
 
 compare_blueprint = Blueprint('compare', 
                               __name__, 
@@ -17,6 +22,14 @@ def compare():
 
     get_all_players = all_players()
     get_player_names = player_names()
+    try:
+        players = int(os.getenv("PLAYERS")) / 2
+        players = int(players)
+    except:
+        print("Cannot get player count from database!")
+        # Default to 5 players per team
+        players = 5
+        pass
     
     if request.method == 'POST':
 
@@ -27,20 +40,22 @@ def compare():
         check = any(player in available_players_a for player 
                                             in available_players_b)
 
-        if len(available_players_a) < 5 or len(available_players_b) < 5:
-            '''If available players less than 10'''
+        if len(available_players_a) < players or len(available_players_b) < players:
+            '''If available players less than required'''
             print("Not enough players!")
-            error = "*ERROR*: Please select 10 players!"
+            error = "*ERROR*: Not enough players!"
             return render_template('compare.html', 
                                    player_names = get_player_names, 
-                                   error = error)
+                                   error = error,
+                                   players = players)
         elif check is True:
             '''If Player from ListA is in ListB'''
             print("You cannot have a player in both teams!")
             error = "*ERROR*: You cannot have a player in both teams!" 
             return render_template('compare.html', 
                                    player_names = get_player_names, 
-                                   error = error)
+                                   error = error,
+                                   players = players)
         else:
             ##Build teams out of available players 
             ##from all_players using an if statement
@@ -87,4 +102,4 @@ def compare():
                                    scoreb = team_b_total)
     ##If request method is not POST then it must be GET 
     ##so render compare.html including player_names
-    return render_template('compare.html', player_names = get_player_names, date = gameday)
+    return render_template('compare.html', player_names = get_player_names, date = gameday, players = players)
