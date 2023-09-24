@@ -2,6 +2,11 @@ from flask import render_template, request, Blueprint, session
 from services.get_player_data import *
 from flask_login import login_required
 from services.get_date import gameday
+from dotenv import load_dotenv
+import os
+
+##Load the .env file
+load_dotenv()
 
 compare_blueprint = Blueprint('compare', 
                               __name__, 
