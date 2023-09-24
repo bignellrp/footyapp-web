@@ -25,7 +25,7 @@ index_blueprint = Blueprint('index',
 def index():
     '''A function for building the index page.
     Takes in available players from a flask form 
-    and returns an even set of two 5 a side teams'''
+    and returns an even set of two teams'''
 
     # get_all_players = all_players_by_channel()
     # get_player_names = player_names_by_channel()
@@ -34,9 +34,11 @@ def index():
     get_player_count = player_count()
     get_date = gameday
     try:
-        get_player_count = 10 - int(get_player_count)
+        players = int(os.getenv("PLAYERS"))
+        get_player_count = players - int(get_player_count)
     except:
         print("Cannot get player count from database!")
+        get_player_count = 0
         pass
 
     if request.method == 'POST':
@@ -45,15 +47,16 @@ def index():
             ##from the index template into the array
             available_players = request.form.getlist('available_players')
             error = None
-            if len(available_players) < 10:
-                '''If available players less than 10'''
+            if len(available_players) < players:
+                '''If available players less than total'''
                 print("Not enough players!")
-                error = "*ERROR*: Please select 10 players!"
+                error = f"*ERROR*: Please select {players} players!"
                 return render_template('index.html', 
                                         player_names = get_player_names, 
                                         player_count = get_player_count, 
                                         date = get_date,
-                                        error = error)
+                                        error = error,
+                                        players = players)
             else:
                 ##Build list of game_players if 
                 ##name exists in available_players
@@ -145,4 +148,5 @@ def index():
         return render_template('index.html', 
                                 date = get_date,
                                 player_names = get_player_names, 
-                                player_count = get_player_count)
+                                player_count = get_player_count,
+                                players = players)

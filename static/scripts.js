@@ -57,8 +57,8 @@
     // Custom Validation Code
 
     // Index Checkbox Limit
-
-    const indlimit = 10;
+    let indlimit = $('#players').text();
+    indlimit = parseInt(indlimit)
     $('input.slider-checkbox').on('change', function() {
         // Check how many inputs of class 'slider-checkbox' are checked.
         if( $('input.slider-checkbox:checked').length > indlimit) {
@@ -90,7 +90,7 @@
 
     $('input.slider-checkbox').on('change', function() {
         var indexnumber = $('input.slider-checkbox:checked').length;
-        $('.indextotalchecked').html(10 - indexnumber);
+        $('.indextotalchecked').html(indlimit - indexnumber);
     });
 
     // Count Compare A Checkboxes that are checked
