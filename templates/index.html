@@ -49,12 +49,13 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="featured-text text-center text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
-                                <table class="mx-auto text-lg-left" style="width: 50%">
+                                <h3>Choose <span class="indextotalchecked">{{ player_count }}</span> out of <span id='players'>{{ players }}</span> players for {{ date }}:</h3>
+                                <table class="mx-auto text-lg-left" width="50%">
                                     <colgroup>
                                         <col span="1" style="width: 20%;">
                                         <col span="1" style="width: 30%;">
                                     </colgroup>
-                                    <h2>Choose <span class="indextotalchecked">{{ player_count }}</span> out of <span id='players'>{{ players }}</span> players for {{ date }}:</h2>
+                                    
                                     {% for name, playing in player_names %}
                                     <tr>
                                         <td>
@@ -82,7 +83,6 @@
                                     </tr>
                                     {% endfor %}
                                 </table>
-                                <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
