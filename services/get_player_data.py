@@ -1,7 +1,7 @@
 import requests
 from dotenv import load_dotenv
 import os
-from services.get_channelid import channelid
+from services.get_post_tenant_data import get_channelid
 
 ##Load the .env file
 load_dotenv()
@@ -173,7 +173,7 @@ def game_player_tally_with_score_and_index():
         return []
 
 def all_players_by_channel():
-    response = requests.get(player_api_url + "/" + "all_players_by_channel" + "/" + channelid, headers=access_headers)
+    response = requests.get(player_api_url + "/" + "all_players_by_channel" + "/" + get_channelid, headers=access_headers)
     if response.status_code == 200:
         #Example output:
         # [{'name': 'Amy', 'total': 77}, 
@@ -187,7 +187,7 @@ def all_players_by_channel():
         return []
 
 def player_names_by_channel():
-    response = requests.get(player_api_url + "/" + "player_names_by_channel" + "/" + channelid, headers=access_headers)
+    response = requests.get(player_api_url + "/" + "player_names_by_channel" + "/" + get_channelid, headers=access_headers)
     if response.status_code == 200:
         #Example output:
         # {'name': 'Amy', 'playing': True}, 
