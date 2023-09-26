@@ -18,6 +18,7 @@ def player():
     names = [player["name"] for player in get_all_players]
     get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
     error = None
+    tooltip = None
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -29,10 +30,12 @@ def player():
             if player_input in names:
                 print("Player exists already")
                 error = "Player exists already"
+                return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
             elif match == None:
                 '''If regex is wrong then error'''
                 print("Player name input is invalid")
                 error = "Player name is not a valid input"
+                return render_template('player.html', all_players = get_all_player_totals, error=error, tooltip=tooltip)
             else:
                 print("Adding new player with a generic score of 77")
                 add_player(player_input)

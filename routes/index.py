@@ -3,6 +3,7 @@ from flask_login import login_required
 from services.get_player_data import *
 from services.post_player_data import *
 from services.get_games_data import *
+from services.get_post_tenant_data import *
 from services.get_date import gameday
 from services.get_even_teams import get_even_teams
 from services.get_oscommand import GITBRANCH, IFBRANCH
@@ -33,7 +34,11 @@ def index():
     get_player_names = player_names()
     get_player_count = player_count()
     get_date = gameday
+    error = None
+    tooltip = None
     try:
+        #players = playernum() # Commented as lookup was too slow. Maybe can cache in a cookie
+        # Or store the change as temporary in a session?
         players = int(os.getenv("PLAYERS"))
         get_player_count = players - int(get_player_count)
     except:
@@ -46,7 +51,6 @@ def index():
             ##Use GetList to put the data 
             ##from the index template into the array
             available_players = request.form.getlist('available_players')
-            error = None
             if len(available_players) < players:
                 '''If available players less than total'''
                 print("Not enough players!")
@@ -140,6 +144,26 @@ def index():
             wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
+        elif request.form['submit_button'] == '10players':
+            wipe_tally()
+            print("Running clear function")    
+            return render_template('index.html', 
+                                date = get_date,
+                                player_names = get_player_names, 
+                                player_count = get_player_count,
+                                players = players,
+                                error = error,
+                                tooltip = tooltip)
+        elif request.form['submit_button'] == '12players':
+            player()
+            print("Running clear function")    
+            return render_template('index.html', 
+                                date = get_date,
+                                player_names = get_player_names, 
+                                player_count = get_player_count,
+                                players = players,
+                                error = error,
+                                tooltip = tooltip)
         else:
             available_players = request.form.getlist('available_players')
             print("No button pressed")
@@ -149,4 +173,6 @@ def index():
                                 date = get_date,
                                 player_names = get_player_names, 
                                 player_count = get_player_count,
-                                players = players)
+                                players = players,
+                                error = error,
+                                tooltip = tooltip)
