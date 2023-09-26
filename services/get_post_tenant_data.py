@@ -68,7 +68,6 @@ def channelid():
     except requests.exceptions.RequestException as err:
         print(f"Error occurred: {err}")
         return []
-    
 
 def players_ten():
     # Prepare the updated data
@@ -94,4 +93,6 @@ def players_twelve():
     else:
         print(f"Failed to update records. Status code: {response.status_code}")
 
-get_channelid = channelid()
+# This will need a tenant in the db
+#get_channelid = channelid()
+get_channelid = "1154043593485455500"
