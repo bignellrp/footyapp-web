@@ -43,13 +43,19 @@ def playernum():
                 return int(data)
             except KeyError:  
                 print("Key 'playernum' not found in the response.")
-                return []
+                # Return default 10
+                data = 10
+                return data
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}")
-            return []
+            # Return default 10
+            data = 10
+            return data
     except requests.exceptions.RequestException as err:
         print(f"Error occurred: {err}")
-        return []
+        # Return default 10
+        data = 10
+        return data
 
 def channelid():
     try:
