@@ -37,9 +37,9 @@ def index():
     error = None
     tooltip = None
     try:
-        #players = playernum() # Commented as lookup was too slow. Maybe can cache in a cookie
+        players = playernum() # Commented as lookup was too slow. Maybe can cache in a cookie
         # Or store the change as temporary in a session?
-        players = int(os.getenv("PLAYERS"))
+        #players = int(os.getenv("PLAYERS"))
         get_player_count = players - int(get_player_count)
     except:
         print("Cannot get player count from database!")
