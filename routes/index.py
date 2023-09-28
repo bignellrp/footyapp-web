@@ -30,21 +30,19 @@ def index():
 
     # get_all_players = all_players_by_channel()
     # get_player_names = player_names_by_channel()
-    get_all_players = all_players()
-    get_player_names = player_names()
-    get_player_count = player_count()
-    get_date = gameday
     error = None
     tooltip = None
     try:
-        #players = playernum() # Commented as lookup was too slow. Maybe can cache in a cookie
-        # Or store the change as temporary in a session?
-        players = int(os.getenv("PLAYERS"))
+        get_all_players = all_players()
+        get_player_names = player_names()
+        get_player_count = player_count()
+        get_date = gameday
+        players = playernum()
+
         get_player_count = players - int(get_player_count)
-    except:
-        print("Cannot get player count from database!")
+    except Exception as err:
+        print(f"Cannot get player count from database due to: {err}")
         get_player_count = 0
-        pass
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':

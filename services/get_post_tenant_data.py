@@ -32,30 +32,17 @@ api_url = os.getenv("API_URL")
 teamname = os.getenv("TEAMNAME")
 # Url used for games data
 tenant_api_url = f"{api_url}/tenant"
+tenant_api_url_with_teamname = f"{api_url}/tenant/{teamname}"
 
 def playernum():
+    data = 10   # default value
     try:
-        response = requests.get(tenant_api_url + "/" + teamname, headers=access_headers)
-        if response.status_code == 200:
-            data = response.json()
-            try:
-                data = data["playernum"]
-                return int(data)
-            except KeyError:  
-                print("Key 'playernum' not found in the response.")
-                # Return default 10
-                data = 10
-                return data
-        else:
-            print(f"Failed to fetch data. Status code: {response.status_code}")
-            # Return default 10
-            data = 10
-            return data
-    except requests.exceptions.RequestException as err:
-        print(f"Error occurred: {err}")
-        # Return default 10
-        data = 10
-        return data
+        response = requests.get(tenant_api_url_with_teamname, headers=access_headers)
+        response.raise_for_status()  # Will raise an HTTPError if the response was unsuccessful
+        data = response.json().get("playernum", data)
+    except (requests.exceptions.RequestException, KeyError) as err:
+        print(f"Error occurred: {err}. Using default player number: {data}")
+    return int(data)
 
 def channelid():
     try:
