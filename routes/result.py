@@ -2,7 +2,6 @@ from flask import render_template, request, Blueprint, session, redirect, url_fo
 from services.get_date import gameday
 import services.post_games_data as post
 from services.get_games_data import *
-from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 from dotenv import load_dotenv
 import os
@@ -61,16 +60,12 @@ def result():
             session.pop('team_a_total', None)
             session.pop('team_b_total', None)
 
-
             ##Send Discord Message
             try:
                 ##Send the teams to discord
                 fileA = discord.File("static/"+teama_colour+".png")
                 fileB = discord.File("static/"+teamb_colour+".png")
-                if IFBRANCH in GITBRANCH:
-                    url = os.getenv("DISCORD_WEBHOOK")
-                else:
-                    url = os.getenv("DISCORD_WEBHOOK_DEV")
+                url = os.getenv("DISCORD_WEBHOOK")
                 teama_json = "\n".join(item for item in teama_passback)
                 teamb_json = "\n".join(item for item in teamb_passback)
                 webhook = discord.Webhook.from_url(url, 
@@ -97,7 +92,6 @@ def result():
                 webhook.send(file = fileB, embed = embed2)
             except:
                 print("Discord Webhook not set")
-                pass
 
             ##Gets Result data for validation
             get_scorea = scorea()
@@ -139,10 +133,7 @@ def result():
             print("Rerun button pressed!")
             try:
                 ##Send Rerun message to discord
-                if IFBRANCH in GITBRANCH:
-                    url = os.getenv("DISCORD_WEBHOOK")
-                else:
-                    url = os.getenv("DISCORD_WEBHOOK_DEV")
+                url = os.getenv("DISCORD_WEBHOOK")
                 webhook = discord.Webhook.from_url(url, 
                                                 adapter=discord.RequestsWebhookAdapter())
                 ##Embed Message
@@ -152,7 +143,6 @@ def result():
                 webhook.send(embed = embed)
             except:
                 print("Discord Webhook not set")
-                pass
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET

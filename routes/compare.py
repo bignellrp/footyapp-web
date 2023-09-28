@@ -23,13 +23,13 @@ def compare():
     get_all_players = all_players()
     get_player_names = player_names()
     try:
-        players = int(os.getenv("PLAYERS")) / 2
+        players = playernum()
+        players = players / 2
         players = int(players)
     except:
         print("Cannot get player count from database!")
         # Default to 5 players per team
         players = 5
-        pass
     
     if request.method == 'POST':
 

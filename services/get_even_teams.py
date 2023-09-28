@@ -1,19 +1,19 @@
 from itertools import combinations
 import random
-import os
 from dotenv import load_dotenv
+from services.get_post_tenant_data import playernum
 
 ##Load the .env file
 load_dotenv()
 
 try:
-    playernum = int(os.getenv("PLAYERS")) / 2
-    playernum = int(playernum)
+    get_playernum = playernum()
+    get_playernum = get_playernum / 2
+    get_playernum = int(playernum)
 except:
     print("Cannot get player count from database!")
     # Default to 5 players per team
-    playernum = 5
-    pass
+    get_playernum = 5
 
 def get_even_teams(game_players):
     '''A brute force function for calulating even teams.
@@ -36,7 +36,7 @@ def get_even_teams(game_players):
     ##Requires a dict with a key
     game_players = dict(game_players)
     players = set(game_players.keys())
-    all_teams = {frozenset(team) for team in combinations(game_players, playernum)}
+    all_teams = {frozenset(team) for team in combinations(game_players, get_playernum)}
     paired_down = set()
 
     ##Remove complimentary teams
