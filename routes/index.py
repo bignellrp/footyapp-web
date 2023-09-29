@@ -31,12 +31,17 @@ def index():
     # get_player_names = player_names_by_channel()
     error = None
     tooltip = None
+
     try:
         get_all_players = all_players()
         get_player_names = player_names()
         get_player_count = player_count()
         get_date = gameday
-        players = playernum()
+
+        if 'playernum' in session:
+            players = session['playernum']
+        else:
+            players = playernum()
 
         get_player_count = players - int(get_player_count)
     except Exception as err:
@@ -139,26 +144,22 @@ def index():
             wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
-        elif request.form['submit_button'] == '10players':
-            wipe_tally()
-            print("Running clear function")    
-            return render_template('index.html', 
-                                date = get_date,
-                                player_names = get_player_names, 
-                                player_count = get_player_count,
-                                players = players,
-                                error = error,
-                                tooltip = tooltip)
-        elif request.form['submit_button'] == '12players':
-            player()
-            print("Running clear function")    
-            return render_template('index.html', 
-                                date = get_date,
-                                player_names = get_player_names, 
-                                player_count = get_player_count,
-                                players = players,
-                                error = error,
-                                tooltip = tooltip)
+        elif request.form['submit_button'] == 'Change Player Total':
+            try:
+                if request.form.get('players_checkbox') == "True":
+                    # checkbox was ticked, the user wants 12 players
+                    players_twelve()
+                    session['playernum'] = 12
+                    print("Changing to 12 players")
+                else: 
+                    # checkbox was not ticked, assume user wants 10 players
+                    players_ten()
+                    session['playernum'] = 10
+                    print("Changing to 10 players")
+            except Exception as err:
+                print(f"Error changing player number: {err}")
+
+            return redirect(url_for('index.index'))
         else:
             available_players = request.form.getlist('available_players')
             print("No button pressed")

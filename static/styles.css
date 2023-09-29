@@ -10505,100 +10505,121 @@ img.center {
   margin-left: 10px; /* distance between tooltip and element it points to */
 }
   
-  .slider {
-    border: none;
-    position: relative;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    width: 125px;
-  }
-  
-  .slider-checkbox {
-    display: none;
-  }
+/* Common CSS for all sliders */
 
-  .slider-checkbox-a {
-    display: none;
-  }
+.slider {
+  border: none;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 125px;
+}
 
-  .slider-checkbox-b {
-    display: none;
-  }
-  
-  .slider-label {
-    border: 2px solid #666;
-    border-radius: 20px;
-    cursor: pointer;
-    display: block;
-    overflow: hidden;
-    margin-left: 10px;
-  }
-  
-  .slider-inner {
-    display: block;
-    margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-    width: 200%;
-  }
-  
-  .slider-inner:before,
-  .slider-inner:after {
-    box-sizing: border-box;
-    display: block;
-    float: left;
-    font-family: sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    height: 30px;
-    line-height: 30px;
-    padding: 0;
-    width: 50%;
-  }
-  
-  .slider-inner:before {
-    background-color: #66bb6a;
-    color: #fff;
-    content: "PLAYING";
-    padding-left: .75em;
-  }
-  
-  .slider-inner:after {
-    background-color: #eee;
-    color: #666;
-    content: "BENCHED";
-    padding-left: .45em;
-  }
-  
-  .slider-checkbox:checked + .slider-label .slider-inner {
-    margin-left: 0;
-  }
+.slider-checkbox {
+  display: none;
+}
 
-  .slider-checkbox-a:checked + .slider-label .slider-inner {
-    margin-left: 0;
-  }
+.slider-checkbox-a {
+  display: none;
+}
 
-  .slider-checkbox-b:checked + .slider-label .slider-inner {
-    margin-left: 0;
-  }
-  
-  .main-container {
-    display: flex;
-  }
-  
-  .slider-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-  
-  .name-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-  
-  .slider-name {
-    margin-left: 10px;
-  }
+.slider-checkbox-b {
+  display: none;
+}
+
+.slider-label {
+  border: 2px solid #666;
+  border-radius: 20px;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.slider-inner {
+  display: block;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+  width: 200%;
+}
+
+.slider-inner:before,
+.slider-inner:after {
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  width: 50%;
+}
+
+/* Specific CSS for PLAYING/BENCHED slider */
+
+.slider-playing-benched .slider-inner:before {
+  background-color: #66bb6a;
+  color: #fff;
+  content: "PLAYING";
+  padding-left: .75em;
+}
+
+.slider-playing-benched .slider-inner:after {
+  background-color: #eee;
+  color: #666;
+  content: "BENCHED";
+  padding-left: .45em;
+}
+
+.slider-playing-benched .slider-checkbox:checked + .slider-label .slider-inner {
+  margin-left: 0;
+}
+
+/* Specific CSS for ACTIVE/INACTIVE slider */
+
+.slider-active-inactive .slider-inner:before {
+  background-color: #66bb6a;
+  color: #fff;
+  content: "TOTAL 12";
+  padding-left: .75em;
+}
+
+.slider-active-inactive .slider-inner:after {
+  background-color: #eee;
+  color: #666;
+  content: "TOTAL 10";
+  padding-left: .45em;
+}
+
+.slider-active-inactive .slider-checkbox:checked + .slider-label .slider-inner {
+  margin-left: 0;
+}
+
+.main-container {
+  display: flex;
+}
+
+.slider-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.name-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.slider-name {
+  margin-left: 10px;
+}
+
+.player-row {
+  border-top: 10px solid #64a19e;
+  margin-top: 40px;
+}
