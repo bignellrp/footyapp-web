@@ -136,6 +136,7 @@ def index():
             ##Use GetList to put the data 
             ##from the index template into the array
             available_players = request.form.getlist('available_players')
+            wipe_tally()
             # Update the tally of available players
             update_tally(available_players)
             print("Running tally function")    
