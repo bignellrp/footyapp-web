@@ -42,6 +42,7 @@ def index():
             players = session['playernum']
         else:
             players = playernum
+            session['playernum'] = players
 
         get_player_count = players - int(get_player_count)
     except Exception as err:
