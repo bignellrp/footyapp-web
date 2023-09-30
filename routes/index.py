@@ -41,7 +41,7 @@ def index():
         if 'playernum' in session:
             players = session['playernum']
         else:
-            players = playernum()
+            players = playernum
 
         get_player_count = players - int(get_player_count)
     except Exception as err:
@@ -145,7 +145,7 @@ def index():
             wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
-        elif request.form['submit_button'] == 'Change Player Total':
+        elif request.form['submit_button'] == 'Total':
             try:
                 if request.form.get('players_checkbox') == "True":
                     # checkbox was ticked, the user wants 12 players

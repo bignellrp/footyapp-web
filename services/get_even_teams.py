@@ -21,7 +21,7 @@ def get_even_teams(game_players):
             get_playernum = session['playernum']
             print(f"Playernum = {get_playernum}")
         else:
-            get_playernum = playernum()
+            get_playernum = playernum
         get_playernum = get_playernum / 2
         get_playernum = int(get_playernum)
     except:

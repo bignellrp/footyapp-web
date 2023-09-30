@@ -10584,15 +10584,17 @@ img.center {
 .slider-active-inactive .slider-inner:before {
   background-color: #66bb6a;
   color: #fff;
-  content: "TOTAL 12";
-  padding-left: .75em;
+  content: "12";
+  padding-left: .85em;
+  padding-right: .30em;
 }
 
 .slider-active-inactive .slider-inner:after {
   background-color: #eee;
   color: #666;
-  content: "TOTAL 10";
-  padding-left: .45em;
+  content: "10";
+  padding-left: .85em;
+  padding-right: .30em;
 }
 
 .slider-active-inactive .slider-checkbox:checked + .slider-label .slider-inner {
@@ -10618,8 +10620,14 @@ img.center {
 .slider-name {
   margin-left: 10px;
 }
-
+/*
 .player-row {
   border-top: 10px solid #64a19e;
   margin-top: 40px;
+}
+*/
+
+.player-row {
+  margin-top: 5px;
+  margin-right: 60px;
 }

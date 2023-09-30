@@ -34,7 +34,7 @@ teamname = os.getenv("TEAMNAME")
 tenant_api_url = f"{api_url}/tenant"
 tenant_api_url_with_teamname = f"{api_url}/tenant/{teamname}"
 
-def playernum():
+def playernumber():
     data = 10   # default value
     try:
         response = requests.get(tenant_api_url_with_teamname, headers=access_headers)
@@ -89,3 +89,4 @@ def players_twelve():
 # This will need a tenant in the db
 #get_channelid = channelid()
 get_channelid = "1154043593485455500"
+playernum = playernumber()

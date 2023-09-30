@@ -24,7 +24,7 @@ def compare():
     get_all_players = all_players()
     get_player_names = player_names()
     try:
-        players = playernum()
+        players = playernum
         players = players / 2
         players = int(players)
     except:
