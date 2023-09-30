@@ -88,6 +88,26 @@ def player():
                     print(name, json_value)
                     update_player(name, json_value)
                     tooltip = "Updated successfully"
+    
+    # Changes needed to the JS to send updated name
+        # for key, value in request.args.items():
+        #     if key.startswith('row_'):
+                
+        #         old_name = key.replace('row_', '')
+        #         new_name, new_total = value.split(':')  # Assuming you pass new name and total separated by ':' 
+                
+        #         changed_rows[old_name] = {'name': new_name, 'total': new_total}
+                
+        #         match = re.match("(^(?:100|[1-9]?[0-9])$)", new_total)
+                
+        #         if match == None:
+        #             print(new_name, "has an invalid total")
+        #             error = f"{new_name}'s total is not a valid input"
+        #         else:
+        #             json_value = {"name": new_name, "total": int(new_total)}
+        #             print(new_name, json_value)
+        #             update_player(old_name, json_value)
+        #             tooltip = "Updated successfully"
         
         # Refresh the players
         get_all_players = all_players()

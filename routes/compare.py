@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint, session
 from services.get_player_data import *
+from services.get_post_tenant_data import *
 from flask_login import login_required
 from services.get_date import gameday
 from dotenv import load_dotenv
@@ -23,13 +24,13 @@ def compare():
     get_all_players = all_players()
     get_player_names = player_names()
     try:
-        players = int(os.getenv("PLAYERS")) / 2
+        players = playernum
+        players = players / 2
         players = int(players)
     except:
-        print("Cannot get player count from database!")
+        print("Cannot get player count from database for compare!")
         # Default to 5 players per team
         players = 5
-        pass
     
     if request.method == 'POST':
 

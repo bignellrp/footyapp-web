@@ -58,10 +58,10 @@
 
     // Index Checkbox Limit
     let indlimit = $('#players').text();
-    indlimit = parseInt(indlimit)
+    indlimit = parseInt(indlimit);
     $('input.slider-checkbox').on('change', function() {
-        // Check how many inputs of class 'slider-checkbox' are checked.
-        if( $('input.slider-checkbox:checked').length > indlimit) {
+        // Check how many inputs of class 'slider-checkbox' are checked and do not have the [data-limit="exclude"] attribute.
+        if( $('input.slider-checkbox:checked:not([data-limit="exclude"])').length > indlimit) {
             this.checked = false;
         }
     });
@@ -91,7 +91,8 @@
     // Count Index Checkboxes that are checked
 
     $('input.slider-checkbox').on('change', function() {
-        var indexnumber = $('input.slider-checkbox:checked').length;
+        // use :checked:not([data-limit="exclude"]) to exclude checkboxes with data-limit="exclude"
+        var indexnumber = $('input.slider-checkbox:checked:not([data-limit="exclude"])').length;
         $('.indextotalchecked').html(indlimit - indexnumber);
     });
 

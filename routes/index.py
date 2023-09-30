@@ -6,7 +6,6 @@ from services.get_games_data import *
 from services.get_post_tenant_data import *
 from services.get_date import gameday
 from services.get_even_teams import get_even_teams
-from services.get_oscommand import GITBRANCH, IFBRANCH
 import discord
 from dotenv import load_dotenv
 import os
@@ -30,21 +29,24 @@ def index():
 
     # get_all_players = all_players_by_channel()
     # get_player_names = player_names_by_channel()
-    get_all_players = all_players()
-    get_player_names = player_names()
-    get_player_count = player_count()
-    get_date = gameday
     error = None
     tooltip = None
+
     try:
-        #players = playernum() # Commented as lookup was too slow. Maybe can cache in a cookie
-        # Or store the change as temporary in a session?
-        players = int(os.getenv("PLAYERS"))
+        get_all_players = all_players()
+        get_player_names = player_names()
+        get_player_count = player_count()
+        get_date = gameday
+
+        if 'playernum' in session:
+            players = session['playernum']
+        else:
+            players = playernum
+
         get_player_count = players - int(get_player_count)
-    except:
-        print("Cannot get player count from database!")
+    except Exception as err:
+        print(f"Cannot get player count from database due to: {err}")
         get_player_count = 0
-        pass
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Post':
@@ -101,30 +103,28 @@ def index():
                 ##Send the teams to discord presave (only for main)
                 try:
                     file = discord.File("static/football.png")
-                    if IFBRANCH in GITBRANCH:
-                        url = os.getenv("DISCORD_WEBHOOK")
-                        teama_json = "\n".join(item for item in team_a)
-                        teamb_json = "\n".join(item for item in team_b)
-                        webhook = discord.Webhook.from_url(url, 
-                                                        adapter=discord.RequestsWebhookAdapter())
-                        ##Embed Message
-                        embed=discord.Embed(title="PRE-SAVE:",
-                                            color=discord.Color.dark_green())
-                        embed.set_author(name="footyapp")
-                        embed.add_field(name="TeamA (" 
-                                        + str(team_a_total) 
-                                        + "):", value=teama_json, 
-                                        inline=True)
-                        embed.add_field(name="TeamB (" 
-                                        + str(team_b_total) 
-                                        + "):", value=teamb_json, 
-                                        inline=True)
-                        embed.set_thumbnail(url="attachment://football.png")
-                        webhook.send(file = file, embed = embed)
+                    url = os.getenv("DISCORD_WEBHOOK")
+                    teama_json = "\n".join(item for item in team_a)
+                    teamb_json = "\n".join(item for item in team_b)
+                    webhook = discord.Webhook.from_url(url, 
+                                                    adapter=discord.RequestsWebhookAdapter())
+                    ##Embed Message
+                    embed=discord.Embed(title="PRE-SAVE:",
+                                        color=discord.Color.dark_green())
+                    embed.set_author(name="footyapp")
+                    embed.add_field(name="TeamA (" 
+                                    + str(team_a_total) 
+                                    + "):", value=teama_json, 
+                                    inline=True)
+                    embed.add_field(name="TeamB (" 
+                                    + str(team_b_total) 
+                                    + "):", value=teamb_json, 
+                                    inline=True)
+                    embed.set_thumbnail(url="attachment://football.png")
+                    webhook.send(file = file, embed = embed)
                 except discord.DiscordException as e:
                    print("Discord Webhook Error!", e)
                    print("Check .env DISCORD_WEBHOOK is set correctly!")
-                   pass
                     
                 # Return Team A and Team B to the results template
                 return render_template('result.html', 
@@ -136,6 +136,7 @@ def index():
             ##Use GetList to put the data 
             ##from the index template into the array
             available_players = request.form.getlist('available_players')
+            wipe_tally()
             # Update the tally of available players
             update_tally(available_players)
             print("Running tally function")    
@@ -144,26 +145,22 @@ def index():
             wipe_tally()
             print("Running clear function")    
             return redirect(url_for('index.index'))
-        elif request.form['submit_button'] == '10players':
-            wipe_tally()
-            print("Running clear function")    
-            return render_template('index.html', 
-                                date = get_date,
-                                player_names = get_player_names, 
-                                player_count = get_player_count,
-                                players = players,
-                                error = error,
-                                tooltip = tooltip)
-        elif request.form['submit_button'] == '12players':
-            player()
-            print("Running clear function")    
-            return render_template('index.html', 
-                                date = get_date,
-                                player_names = get_player_names, 
-                                player_count = get_player_count,
-                                players = players,
-                                error = error,
-                                tooltip = tooltip)
+        elif request.form['submit_button'] == 'Total':
+            try:
+                if request.form.get('players_checkbox') == "True":
+                    # checkbox was ticked, the user wants 12 players
+                    players_twelve()
+                    session['playernum'] = 12
+                    print("Changing to 12 players")
+                else: 
+                    # checkbox was not ticked, assume user wants 10 players
+                    players_ten()
+                    session['playernum'] = 10
+                    print("Changing to 10 players")
+            except Exception as err:
+                print(f"Error changing player number: {err}")
+
+            return redirect(url_for('index.index'))
         else:
             available_players = request.form.getlist('available_players')
             print("No button pressed")

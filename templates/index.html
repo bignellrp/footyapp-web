@@ -60,32 +60,61 @@
                                     <tr>
                                         <td>
                                             <div class="main-container">
-                                                <div class="slider-container">
-                                                  <input type="checkbox" 
-                                                        {% if playing %} 
-                                                        checked="true"
-                                                        {% else %}
-                                                        {% endif %}
-                                                        name="available_players" 
-                                                        class="slider-checkbox" 
-                                                        id="sliderSwitch{{ loop.index }}"
-                                                        value="{{ name }}">
-                                                  <label class="slider-label" for="sliderSwitch{{ loop.index }}">
-                                                    <span class="slider-inner"></span>
-                                                    <span class="slider-circle"></span>
-                                                  </label>
+                                                <div class="slider-container slider-playing-benched">
+                                                    <input type="checkbox" 
+                                                            {% if playing %} 
+                                                                checked="true"
+                                                            {% else %}
+                                                            {% endif %}
+                                                            name="available_players" 
+                                                            class="slider-checkbox" 
+                                                            id="sliderSwitch{{ loop.index }}"
+                                                            value="{{ name }}">
+                                                    <label class="slider-label" for="sliderSwitch{{ loop.index }}">
+                                                        <span class="slider-inner"></span>
+                                                        <span class="slider-circle"></span>
+                                                    </label>
                                                 </div>
                                                 <div class="name-container">
-                                                  <span class="slider-name">{{ name }}</span>
+                                                    <span class="slider-name">{{ name }}</span>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
+                                    <tr>
+                                        <td>
+                                            <div class="main-container">
+                                                <div class="slider-container slider-active-inactive player-row">
+                                                    <input type="checkbox" 
+                                                          {% if players == 12 %} 
+                                                              checked="true"
+                                                          {% else %}
+                                                          {% endif %}
+                                                          name="players_checkbox" 
+                                                          class="slider-checkbox" 
+                                                          id="sliderSwitch100"
+                                                          value="True"
+                                                          data-limit="exclude">
+                                                    <label class="slider-label" for="sliderSwitch100">
+                                                        <span class="slider-inner"></span>
+                                                        <span class="slider-circle"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="name-container">
+                                                  <!--<span class="slider-name">SELECT <br> TOTAL</span>-->
+                                                  <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Total">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </table>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Post">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Save">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Wipe">
+                                <br>
+                                <!--<input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Change Player Total">-->
+                                <br>
                                 <br>
                                 {% if error %}
                                 <div class="tool_tip"><h2> {{ error }} </h2></div>

@@ -1,19 +1,11 @@
+from flask import session
 from itertools import combinations
 import random
-import os
 from dotenv import load_dotenv
+from services.get_post_tenant_data import *
 
 ##Load the .env file
 load_dotenv()
-
-try:
-    playernum = int(os.getenv("PLAYERS")) / 2
-    playernum = int(playernum)
-except:
-    print("Cannot get player count from database!")
-    # Default to 5 players per team
-    playernum = 5
-    pass
 
 def get_even_teams(game_players):
     '''A brute force function for calulating even teams.
@@ -23,6 +15,20 @@ def get_even_teams(game_players):
         team_b: A list of teamb players
         team_a_total: Total of teama
         team_b_total: Total of teamb'''
+    
+    try:
+        if 'playernum' in session:
+            get_playernum = session['playernum']
+            print(f"Playernum = {get_playernum}")
+        else:
+            get_playernum = playernum
+        get_playernum = get_playernum / 2
+        get_playernum = int(get_playernum)
+    except:
+        print("Cannot get player count from database for even teams!")
+        # Default to 5 players per team
+        get_playernum = 5
+
 
     def comp(team):
         return players - set(team)
@@ -36,7 +42,7 @@ def get_even_teams(game_players):
     ##Requires a dict with a key
     game_players = dict(game_players)
     players = set(game_players.keys())
-    all_teams = {frozenset(team) for team in combinations(game_players, playernum)}
+    all_teams = {frozenset(team) for team in combinations(game_players, get_playernum)}
     paired_down = set()
 
     ##Remove complimentary teams
@@ -44,8 +50,7 @@ def get_even_teams(game_players):
         if not comp(team) in paired_down:
             paired_down.add(team)
     sorted_teams = sorted(paired_down, key = score_diff)
-    num = random.randint(0, 5)
-    print(num)
+    num = random.randint(0, get_playernum)
     team_a = set(sorted_teams[num])
     print(f'Using Random Number {num} Team A: {team_a}')
     team_b = comp(team_a)
