@@ -19,7 +19,7 @@ def leaderboard():
     leaderboard = get_leaderboard()
     
     # Sorting the leaderboard by score (in descending order) and name (in ascending order)
-    sorted_leaderboard = sorted(leaderboard, key=lambda x: (-x[1], x[0]))
+    sorted_leaderboard = sorted(leaderboard, key=lambda x: (-x[1], -x[2], x[0]))
     
     return render_template('leaderboard.html', 
                             game_stats = sorted_leaderboard)
