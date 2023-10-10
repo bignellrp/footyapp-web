@@ -31,12 +31,12 @@ def index():
     # get_player_names = player_names_by_channel()
     error = None
     tooltip = None
+    get_date = gameday
 
     try:
         get_all_players = all_players()
         get_player_names = player_names()
         get_player_count = player_count()
-        get_date = gameday
 
         if 'playernum' in session:
             players = session['playernum']
