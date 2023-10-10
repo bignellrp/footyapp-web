@@ -1,6 +1,4 @@
 import requests
-from services.get_date import gameday
-#import json
 from dotenv import load_dotenv
 import os
 from services.post_player_data import *
