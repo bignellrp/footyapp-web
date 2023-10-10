@@ -1,3 +1,4 @@
+from flask import session
 import requests
 from dotenv import load_dotenv
 import os

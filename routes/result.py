@@ -39,9 +39,10 @@ def result():
             scoreb_passback = session['team_b_total']
             error = None
             tooltip = None
+            get_gameday = gameday()
 
             game_json = {
-                "date": gameday,
+                "date": get_gameday,
                 "teamA": teama_passback,
                 "teamB": teamb_passback,
                 "scoreTeamA": None,
@@ -98,7 +99,7 @@ def result():
             get_date = date()
 
             ##Run Update Functions, either update or append
-            if get_date == gameday and get_scorea == None:
+            if get_date == get_gameday and get_scorea == None:
                 '''If the last row has next wednesdays date 
                 then replace the results.
                 Else append results on a new line'''

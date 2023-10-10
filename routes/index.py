@@ -31,18 +31,17 @@ def index():
     # get_player_names = player_names_by_channel()
     error = None
     tooltip = None
+    get_date = gameday()
+    get_all_players = all_players()
+    get_player_names = player_names()
+    get_player_count = player_count()
 
     try:
-        get_all_players = all_players()
-        get_player_names = player_names()
-        get_player_count = player_count()
-        get_date = gameday
-
         if 'playernum' in session:
             players = session['playernum']
         else:
             players = playernum
-
+            session['playernum'] = players
         get_player_count = players - int(get_player_count)
     except Exception as err:
         print(f"Cannot get player count from database due to: {err}")
