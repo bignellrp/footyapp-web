@@ -10579,6 +10579,14 @@ img.center {
   margin-left: 0;
 }
 
+.slider-playing-benched .slider-checkbox-a:checked + .slider-label .slider-inner {
+  margin-left: 0;
+}
+
+.slider-playing-benched .slider-checkbox-b:checked + .slider-label .slider-inner {
+  margin-left: 0;
+}
+
 /* Specific CSS for ACTIVE/INACTIVE slider */
 
 .slider-active-inactive .slider-inner:before {
