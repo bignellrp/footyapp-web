@@ -20,9 +20,12 @@ def gameday():
             days_ahead += 7
         return d + timedelta(days_ahead)
 
-    d = datetime.today()
+    d = datetime.today().date()  # Get today's date (ignoring time)
     # Games are played on {INPUT_GAMEDAY}, so return next {INPUT_GAMEDAY} date
     weekday = next_weekday(d, weekday_number)
     gameday = weekday.strftime('%Y-%m-%d')
     
     return gameday
+
+printgameday = gameday()
+print(printgameday)
