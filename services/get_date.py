@@ -8,11 +8,18 @@ load_dotenv()
 
 def gameday():
 
-    # Get gameday from .env file
-    INPUT_GAMEDAY = os.getenv("GAMEDAY")
+    weekday_mapping = {
+        'MONDAY': 0,
+        'TUESDAY': 1,
+        'WEDNESDAY': 2,
+        'THURSDAY': 3,
+        'FRIDAY': 4,
+        'SATURDAY': 5,
+        'SUNDAY': 6,
+    }
 
-    # Convert weekday name to a number (0 = Monday, 1 = Tuesday, ..., 6 = Sunday)
-    weekday_number = datetime.strptime(INPUT_GAMEDAY, "%A").weekday()
+    INPUT_GAMEDAY = os.getenv("GAMEDAY").strip().upper()
+    weekday_number = weekday_mapping.get(INPUT_GAMEDAY)
 
     def next_weekday(d, weekday):
         days_ahead = weekday - d.weekday()
@@ -26,6 +33,3 @@ def gameday():
     gameday = weekday.strftime('%Y-%m-%d')
     
     return gameday
-
-printgameday = gameday()
-print(printgameday)

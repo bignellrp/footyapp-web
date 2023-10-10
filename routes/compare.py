@@ -23,6 +23,7 @@ def compare():
 
     get_all_players = all_players()
     get_player_names = player_names()
+    get_gameday = gameday()
     try:
         players = playernum
         players = players / 2
@@ -103,4 +104,4 @@ def compare():
                                    scoreb = team_b_total)
     ##If request method is not POST then it must be GET 
     ##so render compare.html including player_names
-    return render_template('compare.html', player_names = get_player_names, date = gameday, players = players)
+    return render_template('compare.html', player_names = get_player_names, date = get_gameday, players = players)
