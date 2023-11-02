@@ -24,6 +24,8 @@ def swap():
     get_date = date()
     get_scorea = scorea()
     get_scoreb = scoreb()
+    get_totala = totala()
+    get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
     get_coloura = "/static/"+str(get_coloura)+".png"
@@ -71,7 +73,9 @@ def swap():
                                teama = get_teama, 
                                teamb = get_teamb,
                                scorea = get_scorea,
-                               scoreb = get_scoreb, 
+                               scoreb = get_scoreb,
+                               totala = get_totala,
+                               totalb = get_totalb,
                                date = get_date, 
                                error = error,
                                tooltip = tooltip,
@@ -82,7 +86,9 @@ def swap():
                                teama = get_teama, 
                                teamb = get_teamb,
                                scorea = get_scorea,
-                               scoreb = get_scoreb, 
+                               scoreb = get_scoreb,
+                               totala = get_totala,
+                               totalb = get_totalb,
                                date = get_date, 
                                error = error,
                                tooltip = tooltip,
@@ -93,7 +99,9 @@ def swap():
                                teama = get_teama, 
                                teamb = get_teamb,
                                scorea = get_scorea,
-                               scoreb = get_scoreb, 
+                               scoreb = get_scoreb,
+                               totala = get_totala,
+                               totalb = get_totalb,
                                date = get_date, 
                                error = error,
                                tooltip = tooltip,
