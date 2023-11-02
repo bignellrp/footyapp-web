@@ -113,6 +113,8 @@ def result():
             get_date = date()
             get_scorea = scorea()
             get_scoreb = scoreb()
+            get_totala = totala()
+            get_totalb = totalb()
             error = None
             tooltip = "Teams Saved Successfully!"
             get_coloura = coloura()
@@ -124,7 +126,9 @@ def result():
                                teama = get_teama, 
                                teamb = get_teamb,
                                scorea = get_scorea,
-                               scoreb = get_scoreb, 
+                               scoreb = get_scoreb,
+                               totala = get_totala,
+                               totalb = get_totalb,
                                date = get_date, 
                                error = error,
                                tooltip = tooltip,
