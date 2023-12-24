@@ -51,7 +51,11 @@ def player_names():
         # {'name': 'Joe', 'playing': True}, 
         # {'name': 'Rik', 'playing': True}
         player_names = response.json()
-        data = [(player["name"], player["playing"]) for player in player_names]
+        # Sort the player_names list first by playing status (True comes first),
+        # and then alphabetically by name.
+        sorted_players = sorted(player_names, key=lambda x: (not x["playing"], x["name"]))
+        # Extract only the name and playing status from the sorted list.
+        data = [(player["name"], player["playing"]) for player in sorted_players]
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
