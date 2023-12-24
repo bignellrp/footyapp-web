@@ -99,7 +99,9 @@ def swap():
                                 coloura = get_coloura,
                                 colourb = get_colourb)
         if request.form['submit_button'] == 'Shuffle':
-            if request.form.get('confirm_shuffle') == 'on':
+            confirmed = request.form.get('confirm_shuffle') == 'on'
+
+            if confirmed:
                 available_players = get_teama + get_teamb
                 game_players = []
                 for player in get_all_players:
@@ -168,16 +170,20 @@ def swap():
                 else:
                     post.append_result(game_json)
                     print("Running append function")
-                #Rerun Get Functions
+                # Update the template variables
+                get_teama = get_newteama
+                get_teamb = get_newteamb
+                get_totala = get_newtotala
+                get_totalb = get_newtotalb
                 error = None
                 tooltip = "Teams Saved Successfully!"
                 return render_template('swap.html', 
-                                    teama = get_newteama, 
-                                    teamb = get_newteamb,
+                                    teama = get_teama, 
+                                    teamb = get_teamb,
                                     scorea = get_scorea,
                                     scoreb = get_scoreb,
-                                    totala = get_newtotala,
-                                    totalb = get_newtotalb,
+                                    totala = get_totala,
+                                    totalb = get_totalb,
                                     date = get_date, 
                                     error = error,
                                     tooltip = tooltip,
