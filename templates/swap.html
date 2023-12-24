@@ -92,9 +92,8 @@
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Swap">
                                 
                             </form>
-                            <!--<form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">-->
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/swap">
-                                <!--<input type="hidden" name="confirm_shuffle" value="off">-->
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
+                                <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Shuffle">
                             </form>
                         </div>
@@ -113,7 +112,15 @@
         <script src="/static/scripts.js"></script>
         <script>
             function confirmShuffle() {
-                return confirm("Are you sure you want to shuffle the teams?");
+                // Display a confirmation dialog
+                var userConfirmed = confirm("Are you sure you want to shuffle the teams?");
+        
+                // Update the value of the hidden input based on user confirmation
+                var confirmInput = document.getElementById("confirm_shuffle_input");
+                confirmInput.value = userConfirmed ? "on" : "off";
+        
+                // Return true to submit the form if the user confirmed, or false otherwise
+                return userConfirmed;
             }
         </script>
     </body>
