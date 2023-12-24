@@ -102,6 +102,7 @@ def swap():
                 for player in get_all_players:
                     if player['name'] in available_players:
                         game_players.append((player['name'], player['total']))
+                        print(game_players)
                 get_teama,get_teamb,get_totala,get_totalb = get_even_teams(game_players)
             return render_template('swap.html', 
                                 teama = get_teama, 
