@@ -105,6 +105,7 @@ def swap():
                 for player in get_all_players:
                     if player['name'] in available_players:
                         game_players.append((player['name'], player['total']))
+                # Run the even teams command with the existing players        
                 get_newteama,get_newteamb,get_newtotala,get_newtotalb = get_even_teams(game_players)
 
                 get_gameday = gameday()
@@ -167,20 +168,21 @@ def swap():
                 else:
                     post.append_result(game_json)
                     print("Running append function")
+                #Rerun Get Functions
                 error = None
                 tooltip = "Teams Saved Successfully!"
-            return render_template('swap.html', 
-                                teama = get_newteama, 
-                                teamb = get_newteamb,
-                                scorea = get_scorea,
-                                scoreb = get_scoreb,
-                                totala = get_newtotala,
-                                totalb = get_newtotalb,
-                                date = get_date, 
-                                error = error,
-                                tooltip = tooltip,
-                                coloura = get_coloura,
-                                colourb = get_colourb)
+                return render_template('swap.html', 
+                                    teama = get_newteama, 
+                                    teamb = get_newteamb,
+                                    scorea = get_scorea,
+                                    scoreb = get_scoreb,
+                                    totala = get_newtotala,
+                                    totalb = get_newtotalb,
+                                    date = get_date, 
+                                    error = error,
+                                    tooltip = tooltip,
+                                    coloura = get_coloura,
+                                    colourb = get_colourb)
     ##If request method is not POST then it must be GET
     elif request.method == 'GET':
         return render_template('swap.html', 
