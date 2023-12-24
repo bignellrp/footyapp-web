@@ -96,8 +96,13 @@ def swap():
                                 coloura = get_coloura,
                                 colourb = get_colourb)
         if request.form['submit_button'] == 'Shuffle':
-            game_players = get_teama + get_teamb
-            get_teama,get_teamb,get_totala,get_totalb = get_even_teams(game_players)
+            if request.form.get('confirm_shuffle') == 'on':
+                available_players = get_teama + get_teamb
+                game_players = []
+                for player in get_all_players:
+                    if player['name'] in available_players:
+                        game_players.append((player['name'], player['total']))
+                get_teama,get_teamb,get_totala,get_totalb = get_even_teams(game_players)
             return render_template('swap.html', 
                                 teama = get_teama, 
                                 teamb = get_teamb,
