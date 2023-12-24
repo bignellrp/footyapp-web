@@ -183,6 +183,19 @@ def swap():
                                     tooltip = tooltip,
                                     coloura = get_coloura,
                                     colourb = get_colourb)
+            #If not confirmed just return the original
+            return render_template('swap.html', 
+                                teama = get_teama, 
+                                teamb = get_teamb,
+                                scorea = get_scorea,
+                                scoreb = get_scoreb,
+                                totala = get_totala,
+                                totalb = get_totalb,
+                                date = get_date, 
+                                error = error,
+                                tooltip = tooltip,
+                                coloura = get_coloura,
+                                colourb = get_colourb)
     ##If request method is not POST then it must be GET
     elif request.method == 'GET':
         return render_template('swap.html', 
