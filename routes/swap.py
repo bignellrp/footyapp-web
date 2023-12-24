@@ -3,6 +3,9 @@ from services.post_games_data import *
 from services.get_games_data import *
 from services.get_player_data import *
 from services.get_even_teams import get_even_teams
+from services.get_date import gameday
+import services.post_games_data as post
+import discord
 import re
 from flask_login import login_required
 
@@ -102,15 +105,77 @@ def swap():
                 for player in get_all_players:
                     if player['name'] in available_players:
                         game_players.append((player['name'], player['total']))
-                        print(game_players)
-                get_teama,get_teamb,get_totala,get_totalb = get_even_teams(game_players)
+                get_newteama,get_newteamb,get_newtotala,get_newtotalb = get_even_teams(game_players)
+
+                get_gameday = gameday()
+
+                game_json = {
+                    "date": get_gameday,
+                    "teamA": get_newteama,
+                    "teamB": get_newteamb,
+                    "scoreTeamA": None,
+                    "scoreTeamB": None,
+                    "totalTeamA": get_newtotala,
+                    "totalTeamB": get_newtotalb,
+                    "colourTeamA": get_coloura,
+                    "colourTeamB": get_colourb
+                }
+                ##Send Discord Message
+                try:
+                    ##Send the teams to discord
+                    fileA = discord.File("static/"+get_coloura+".png")
+                    fileB = discord.File("static/"+get_colourb+".png")
+                    url = os.getenv("DISCORD_WEBHOOK")
+                    teama_json = "\n".join(item for item in get_newteama)
+                    teamb_json = "\n".join(item for item in get_newteamb)
+                    webhook = discord.Webhook.from_url(url, 
+                                                    adapter=discord.RequestsWebhookAdapter())
+                    ##Embed Message
+                    embed1=discord.Embed(title="TEAM A:",
+                                        color=discord.Color.dark_green())
+                    embed1.set_author(name="footyapp")
+                    embed1.add_field(name="TeamA (" 
+                                    + str(get_newtotala) 
+                                    + "):", value=teama_json, 
+                                    inline=True)
+                    embed1.set_thumbnail(url="attachment://"+get_coloura+".png")
+                    webhook.send(file = fileA, embed = embed1)
+
+                    embed2=discord.Embed(title="TEAM B:",
+                                        color=discord.Color.dark_green())
+                    embed2.set_author(name="footyapp")
+                    embed2.add_field(name="TeamB (" 
+                                    + str(get_newtotalb) 
+                                    + "):", value=teamb_json, 
+                                    inline=True)
+                    embed2.set_thumbnail(url="attachment://"+get_colourb+".png")
+                    webhook.send(file = fileB, embed = embed2)
+                except:
+                    print("Discord Webhook not set")
+
+                ##Gets Result data for validation
+                get_scorea = scorea()
+                get_date = date()
+
+                ##Run Update Functions, either update or append
+                if get_date == get_gameday and get_scorea == None:
+                    '''If the last row has next wednesdays date 
+                    then replace the results.
+                    Else append results on a new line'''
+                    post.update_result(game_json)
+                    print("Running update function")
+                else:
+                    post.append_result(game_json)
+                    print("Running append function")
+                error = None
+                tooltip = "Teams Saved Successfully!"
             return render_template('swap.html', 
-                                teama = get_teama, 
-                                teamb = get_teamb,
+                                teama = get_newteama, 
+                                teamb = get_newteamb,
                                 scorea = get_scorea,
                                 scoreb = get_scoreb,
-                                totala = get_totala,
-                                totalb = get_totalb,
+                                totala = get_newtotala,
+                                totalb = get_newtotalb,
                                 date = get_date, 
                                 error = error,
                                 tooltip = tooltip,
