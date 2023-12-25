@@ -25,8 +25,8 @@ def score():
     get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
-    get_coloura = "/static/"+str(get_coloura)+".png"
-    get_colourb = "/static/"+str(get_colourb)+".png"
+    get_coloura = str(coloura)
+    get_colourb = str(colourb)
 
     if request.method == 'POST':
 
