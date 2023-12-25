@@ -119,8 +119,8 @@ def result():
             tooltip = "Teams Saved Successfully!"
             get_coloura = coloura()
             get_colourb = colourb()
-            get_coloura = "/static/"+str(get_coloura)+".png"
-            get_colourb = "/static/"+str(get_colourb)+".png"
+            get_coloura = str(get_coloura)
+            get_colourb = str(get_colourb)
             ##Return Team A and Team B to the results template
             return render_template('score.html', 
                                teama = get_teama, 

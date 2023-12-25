@@ -58,17 +58,17 @@
                                 <p class="green_tool_tip tooltip-centered">{{ tooltip }}</p>
                                 {% endif %}
                                 <br><br>
-                                <div>
+                                <div class="date-container">
                                 <h1>{{ date }}:</h1>
                                 </div>
                                 <p id="rcorners">
-                                    <img id="imageA" src="{{ coloura }}" width="90" height="100" class="center">
+                                    <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
                                     <b>Team A({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
                                 <p id="rcorners">
-                                    <img id="imageB" src="{{ colourb }}" width="90" height="100" class="center">
+                                    <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
                                     <b>Team B({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
@@ -89,7 +89,12 @@
                                 <br>
                                 <input class="form-control" type="text" id="new_player_input" name="new_player_input">
                                 <br>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Swap">
+                                
+                            </form>
+                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
+                                <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Shuffle">
                             </form>
                         </div>
                     </div>
@@ -105,5 +110,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+            function confirmShuffle() {
+                // Display a confirmation dialog
+                var userConfirmed = confirm("Are you sure you want to shuffle the teams?");
+        
+                // Update the value of the hidden input based on user confirmation
+                var confirmInput = document.getElementById("confirm_shuffle_input");
+                confirmInput.value = userConfirmed ? "on" : "off";
+        
+                // Return true to submit the form if the user confirmed, or false otherwise
+                return userConfirmed;
+            }
+        </script>
     </body>
 </html>
