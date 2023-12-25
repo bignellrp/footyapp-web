@@ -10646,36 +10646,40 @@ img.center {
 
 
 /* Specific CSS for PLAYING/BENCHED/NONE slider */
-.slider-playing-benched-none .slider-inner:before {
-  background-color: #66bb6a;
-  color: #fff;
-  content: "PLAYING";
-  padding-left: .75em;
-}
-
-.slider-playing-benched-none .slider-inner:after {
-  background-color: #eee;
-  color: #666;
-  content: "BENCHED";
-  padding-left: .45em;
-}
-
-.slider-playing-benched-none .slider-inner:after:after {
+.slider-playing-benched-none .custom-slider {
+  display: flex;
+  align-items: center;
   background-color: #ccc;
-  color: #333;
-  content: "NONE";
-  padding-left: .45em;
+  border-radius: 20px;
+  position: relative;
+  width: 125px;
+  height: 30px;
 }
 
-.slider-playing-benched-none .slider-checkbox:checked + .slider-label .slider-inner {
-  margin-left: 0;
+.slider-playing-benched-none .slider-option {
+  flex: 1;
+  text-align: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
 }
 
-/* Additional CSS for NONE state */
-.slider-playing-benched-none .slider-checkbox:checked + .slider-label .slider-inner:before {
-  margin-left: -100%;
+.slider-playing-benched-none .slider-playing { background-color: #66bb6a; }
+.slider-playing-benched-none .slider-benched { background-color: #ff6b6b; }
+.slider-playing-benched-none .slider-none { background-color: #ccc; }
+
+.slider-playing-benched-none .slider-handle {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  transition: left 0.3s;
 }
 
-.slider-playing-benched-none .slider-checkbox:checked + .slider-label .slider-inner:after {
-  margin-left: -200%;
-}
+/* Styles to highlight the active option */
+/* (These would be dynamically applied via JavaScript) */
+.slider-playing-benched-none .slider-playing.active { opacity: 1; }
+.slider-playing-benched-none .slider-benched.active { opacity: 1; }
+.slider-playing-benched-none .slider-none.active { opacity: 1; }
