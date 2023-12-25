@@ -62,13 +62,13 @@
                                 <h1>{{ date }}:</h1>
                                 </div>
                                 <p id="rcorners">
-                                    <img id="imageA" src="{{ coloura }}" width="90" height="100" class="center">
+                                    <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
                                     <b>Team A({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
                                 <p id="rcorners">
-                                    <img id="imageB" src="{{ colourb }}" width="90" height="100" class="center">
+                                    <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
                                     <b>Team B({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>

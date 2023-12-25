@@ -37,6 +37,8 @@ def swap():
     get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
+    get_coloura = str(get_coloura)
+    get_colourb = str(get_colourb)
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Swap':
