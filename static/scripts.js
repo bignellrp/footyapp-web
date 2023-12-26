@@ -139,4 +139,49 @@
     }
     });
 
+    // New JS for tri state slider
+
+    document.querySelectorAll('.slider-checkbox').forEach(function(slider) {
+        slider.addEventListener('click', function() {
+            let currentState = this.getAttribute('data-state') || 'none';
+    
+            switch (currentState) {
+                case 'none':
+                    this.setAttribute('data-state', 'benched');
+                    this.checked = true; // Set checkbox to checked for Benched
+                    break;
+                case 'benched':
+                    this.setAttribute('data-state', 'playing');
+                    // Keep checkbox checked for Playing
+                    break;
+                case 'playing':
+                    this.setAttribute('data-state', 'none');
+                    this.checked = false; // Uncheck for None
+                    break;
+            }
+    
+            updateSliderAppearance(this);
+        });
+    });
+    
+    function updateSliderAppearance(slider) {
+        let currentState = slider.getAttribute('data-state');
+        let label = slider.nextElementSibling;
+    
+        switch (currentState) {
+            case 'benched':
+                // Apply Benched styles
+                label.style.backgroundColor = '#fff';
+                break;
+            case 'playing':
+                // Apply Playing styles
+                label.style.backgroundColor = '#66bb6a';
+                break;
+            default:
+                // Apply None styles
+                label.style.backgroundColor = '#ccc';
+                break;
+        }
+    }
+
 })(jQuery); // End of use strict

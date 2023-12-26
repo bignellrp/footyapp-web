@@ -10679,3 +10679,22 @@ img.center {
 .slider-playing-benched-none .slider-checkbox:checked + .slider-label .slider-inner:after {
   margin-left: -200%;
 }
+
+/* Default State (None) */
+.slider-playing-benched-none .slider-inner {
+  background-color: #ccc; /* Default background color */
+  color: #333;
+  content: "NONE";
+}
+
+/* Benched State */
+.slider-playing-benched-none .slider-benched:checked + .slider-label .slider-inner {
+  background-color: #fff; /* White background for Benched */
+  color: #666;
+}
+
+/* Playing State */
+.slider-playing-benched-none .slider-playing:checked + .slider-label .slider-inner {
+  background-color: #66bb6a; /* Green background for Playing */
+  color: #fff;
+}
