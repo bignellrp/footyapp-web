@@ -51,8 +51,7 @@ def index():
         if request.form['submit_button'] == 'Post':
             ##Use GetList to put the data 
             ##from the index template into the array
-            player_statuses = request.form.getlist('player_status')
-            available_players = [name for name, status in player_statuses.items() if status == 'PLAYING']
+            available_players = request.form.getlist('available_players')
             if len(available_players) < players:
                 '''If available players less than total'''
                 print("Not enough players!")
@@ -135,8 +134,7 @@ def index():
         elif request.form['submit_button'] == 'Save':
             ##Use GetList to put the data 
             ##from the index template into the array
-            player_statuses = request.form.getlist('player_status')
-            available_players = [name for name, status in player_statuses.items() if status == 'PLAYING']
+            available_players = request.form.getlist('available_players')
             wipe_tally()
             # Update the tally of available players
             update_tally(available_players)
@@ -163,8 +161,7 @@ def index():
 
             return redirect(url_for('index.index'))
         else:
-            player_statuses = request.form.getlist('player_status')
-            available_players = [name for name, status in player_statuses.items() if status == 'PLAYING']
+            available_players = request.form.getlist('available_players')
             print("No button pressed")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':

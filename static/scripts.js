@@ -3,7 +3,7 @@
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
     */
-    (function ($) {
+(function ($) {
     "use strict"; // Start of use strict
 
     // Smooth scrolling using jQuery easing
@@ -137,62 +137,6 @@
         // user clicked Cancel, do nothing
         console.log("Cancelled.");
     }
-    });
-
-    // Custom slider functionality
-    // Function to initialize sliders
-    function initSliders() {
-        const sliders = document.querySelectorAll('.custom-slider');
-
-        sliders.forEach(slider => {
-            slider.addEventListener('click', function() {
-                toggleSliderState(this);
-            });
-            // Set the initial state of the slider based on its class
-            updateSliderState(slider);
-        });
-    }
-
-    // Function to toggle the state of a slider
-    function toggleSliderState(slider) {
-        let newState;
-        if (slider.classList.contains('playing')) {
-            slider.classList.remove('playing');
-            slider.classList.add('benched');
-            newState = 'BENCHED';
-        } else if (slider.classList.contains('benched')) {
-            slider.classList.remove('benched');
-            slider.classList.add('none');
-            newState = 'NONE';
-        } else {
-            slider.classList.remove('none');
-            slider.classList.add('playing');
-            newState = 'PLAYING';
-        }
-        updateSliderState(slider);
-
-        // Update the value of the corresponding hidden input field
-        const inputField = document.getElementById(slider.getAttribute('data-input-id'));
-        if (inputField) {
-            inputField.value = newState;
-        }
-    }
-
-    // Function to update the visual state of the slider
-    function updateSliderState(slider) {
-        const handle = slider.querySelector('.slider-handle');
-        if (slider.classList.contains('playing')) {
-            handle.style.left = '2px'; // Position for 'PLAYING'
-        } else if (slider.classList.contains('benched')) {
-            handle.style.left = 'calc(50% - 13px)'; // Position for 'BENCHED'
-        } else {
-            handle.style.left = 'calc(100% - 30px)'; // Position for 'NONE'
-        }
-    }
-
-    // Initialize sliders when the document is ready
-    $(document).ready(function() {
-        initSliders();
     });
 
 })(jQuery); // End of use strict
