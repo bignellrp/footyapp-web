@@ -77,6 +77,8 @@ def swap():
                 ##Refresh the teams
                 get_teama = teama()
                 get_teamb = teamb()
+                get_totala = totala()
+                get_totalb = totalb()
                 ##If there is a dash then post is returned after running update
                 return render_template('swap.html', 
                                 teama = get_teama, 
