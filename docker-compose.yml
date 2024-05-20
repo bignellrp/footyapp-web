@@ -7,7 +7,7 @@ services:
     networks:
       - br1
     ports:
-      - "2${PORT}:80"
+      - "8${PORT}:80"
     restart: always
     env_file:
       - /mnt/docker/footyapp-web-${BRANCH}/.env
