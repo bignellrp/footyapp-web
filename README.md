@@ -17,6 +17,7 @@ The Discord tokens and webhooks will need to be generated using the following gu
 
 https://support-dev.discord.com/hc/en-us/articles/360028717192-Where-can-I-find-my-Application-Team-Server-ID-
 
+Configure the username and password in .env
 
 # docker-compose.yml
 ```
