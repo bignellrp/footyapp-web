@@ -7,7 +7,7 @@ Select the players using the checkboxes and it should output a balanced team for
 Coded using Python, HTML and Flask using
 [grayscale bootstrap template](https://startbootstrap.com/theme/grayscale)
 
-Converted all Get, Post, Update and Delete commands so Footyapp can use REST.
+Converted all GET, POST, UPDATE and DELETE commands so Footyapp can use REST.
 
 See REST api here: https://github.com/bignellrp/footyapp-api
 
@@ -17,6 +17,7 @@ The Discord tokens and webhooks will need to be generated using the following gu
 
 https://support-dev.discord.com/hc/en-us/articles/360028717192-Where-can-I-find-my-Application-Team-Server-ID-
 
+Configure the username and password in .env
 
 # docker-compose.yml
 ```
