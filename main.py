@@ -29,6 +29,14 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=30)
 
+@app.context_processor
+def inject_env_indicator():
+    """Make environment indicator available to all templates"""
+    git_branch = os.getenv("GIT_BRANCH", "main").lower()
+    is_dev = git_branch == "dev"
+    env_suffix = " Dev" if is_dev else ""
+    return dict(env_suffix=env_suffix)
+
 ##Import Secret Key for Session Pop
 app.secret_key = os.getenv("SESSION")
 app.config["DISCORD_CLIENT_ID"] = os.getenv("DISCORD_CLIENT_ID")
