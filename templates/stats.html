@@ -140,7 +140,7 @@
                         }
                     })
                     .catch(error => {
-                        alert('Error resetting season: ' + error);
+                        alert('Error resetting season: ' + (error.message || error));
                         console.error('Error:', error);
                     });
                 }

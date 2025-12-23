@@ -2,7 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 
-##Load the .env file
+# Load the .env file
 load_dotenv()
 
 # Create auth header
@@ -27,9 +27,9 @@ def reset_season():
     """
     try:
         # Step 1: Delete all games
-        games_response = requests.delete(games_api_url, headers=access_headers)
+        games_response = requests.delete(games_api_url, headers=access_headers, timeout=30)
         
-        if games_response.status_code != 200:
+        if not games_response.ok:
             return {
                 "success": False,
                 "message": f"Failed to delete games. Status code: {games_response.status_code}"
@@ -51,10 +51,11 @@ def reset_season():
         players_response = requests.put(
             f"{players_api_url}/reset_season", 
             json=reset_data, 
-            headers=access_headers
+            headers=access_headers,
+            timeout=30
         )
         
-        if players_response.status_code != 200:
+        if not players_response.ok:
             return {
                 "success": False,
                 "message": f"Games deleted but failed to reset player stats. Status code: {players_response.status_code}"
