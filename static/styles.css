@@ -38,6 +38,8 @@
   --pitch-line-opacity-alt: 0.05;
   --pitch-line-spacing: 80px;
   --pitch-line-height: 50px;
+  --text-shadow-default: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  --text-shadow-glow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(82, 183, 136, 0.6);
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -10167,7 +10169,7 @@ body {
   color: #ffffff;
   font-weight: 700;
   padding: 0.9rem 0;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: var(--text-shadow-default);
 }
 #mainNav .navbar-nav .nav-item:hover {
   color: fade(#fff, 80%);
@@ -10190,7 +10192,7 @@ body {
   #mainNav .navbar-brand {
     padding: 0.5rem 0;
     color: #ffffff;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: var(--text-shadow-default);
   }
   #mainNav .nav-link {
     transition: all 0.3s ease;
@@ -10297,7 +10299,7 @@ body {
   line-height: 2.5rem;
   letter-spacing: 0.8rem;
   color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(64, 145, 108, 0.6);
+  text-shadow: var(--text-shadow-glow);
   font-weight: 700;
 }
 .masthead h2 {
