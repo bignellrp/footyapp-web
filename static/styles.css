@@ -10509,11 +10509,13 @@ body {
   margin: auto;
   width: 50%;
   border-radius: 15px;
-  background: #2F3136;
+  background: linear-gradient(135deg, rgba(26, 77, 46, 0.8) 0%, rgba(45, 106, 79, 0.8) 100%);
   padding: 20px;
   width: 300px;
   height: 200px;
   color: white;
+  border: 2px solid #52b788;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 img.center {
@@ -10523,21 +10525,23 @@ img.center {
 }
 
 .form-control {
-  background-color: #fff;
+  background-color: rgba(26, 77, 46, 0.5);
   margin: auto;
   width: 50%;
   text-align:center;
   width: 300px;
-  color: black;
+  color: white;
+  border: 2px solid #52b788;
 }
 
 .form-control:focus {
-  background-color: #fff;
+  background-color: rgba(26, 77, 46, 0.7);
   margin: auto;
   width: 50%;
   text-align:center;
   width: 300px;
-  color: black;
+  color: white;
+  border-color: #74c69d;
 }
 
 /* Error Tool Tip Styles*/
@@ -10607,12 +10611,13 @@ img.center {
 }
 
 .slider-label {
-  border: 2px solid #666;
+  border: 2px solid #52b788;
   border-radius: 20px;
   cursor: pointer;
   display: block;
   overflow: hidden;
   margin-left: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .slider-inner {
@@ -10639,15 +10644,16 @@ img.center {
 /* Specific CSS for PLAYING/BENCHED slider */
 
 .slider-playing-benched .slider-inner:before {
-  background-color: #66bb6a;
+  background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
   color: #fff;
   content: "PLAYING";
   padding-left: .75em;
+  font-weight: 600;
 }
 
 .slider-playing-benched .slider-inner:after {
-  background-color: #eee;
-  color: #666;
+  background-color: rgba(26, 77, 46, 0.3);
+  color: #ffffff;
   content: "BENCHED";
   padding-left: .45em;
 }
@@ -10667,16 +10673,17 @@ img.center {
 /* Specific CSS for ACTIVE/INACTIVE slider */
 
 .slider-active-inactive .slider-inner:before {
-  background-color: #66bb6a;
+  background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
   color: #fff;
   content: "12";
   padding-left: .85em;
   padding-right: .30em;
+  font-weight: 600;
 }
 
 .slider-active-inactive .slider-inner:after {
-  background-color: #eee;
-  color: #666;
+  background-color: rgba(26, 77, 46, 0.3);
+  color: #ffffff;
   content: "10";
   padding-left: .85em;
   padding-right: .30em;
