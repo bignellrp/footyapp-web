@@ -34,6 +34,10 @@
   --dark: #1a4d2e;
   --dark-green: #0d3b2e;
   --black: #000000;
+  --pitch-line-opacity: 0.03;
+  --pitch-line-opacity-alt: 0.05;
+  --pitch-line-spacing: 80px;
+  --pitch-line-height: 50px;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -10283,8 +10287,8 @@ body {
   right: 0;
   bottom: 0;
   background-image: 
-    repeating-linear-gradient(90deg, transparent 0, transparent 49%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 51%);
-  background-size: 80px 100%;
+    repeating-linear-gradient(90deg, transparent 0, transparent 49%, rgba(255, 255, 255, var(--pitch-line-opacity)) 49%, rgba(255, 255, 255, var(--pitch-line-opacity)) 51%, transparent 51%);
+  background-size: var(--pitch-line-spacing) 100%;
   pointer-events: none;
 }
 .masthead h1 {
@@ -10344,7 +10348,7 @@ body {
   right: 0;
   bottom: 0;
   background-image: 
-    repeating-linear-gradient(0deg, transparent 0, transparent 49px, rgba(255, 255, 255, 0.05) 49px, rgba(255, 255, 255, 0.05) 51px, transparent 51px);
+    repeating-linear-gradient(0deg, transparent 0, transparent calc(var(--pitch-line-height) - 2px), rgba(255, 255, 255, var(--pitch-line-opacity-alt)) calc(var(--pitch-line-height) - 2px), rgba(255, 255, 255, var(--pitch-line-opacity-alt)) calc(var(--pitch-line-height) + 2px), transparent calc(var(--pitch-line-height) + 2px));
   pointer-events: none;
 }
 .projects-section .featured-text {
