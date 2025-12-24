@@ -37,6 +37,23 @@ def swap():
     get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
+    
+    # Handle empty games DB
+    if get_date is None:
+        error = "No games found in the database. Please create a game first."
+        return render_template('swap.html',
+                             teama = [],
+                             teamb = [],
+                             scorea = None,
+                             scoreb = None,
+                             totala = None,
+                             totalb = None,
+                             date = None,
+                             error = error,
+                             tooltip = tooltip,
+                             coloura = None,
+                             colourb = None)
+    
     get_coloura = str(get_coloura)
     get_colourb = str(get_colourb)
 
