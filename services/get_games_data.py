@@ -72,7 +72,7 @@ def most_recent_game():
         # 'colourTeamA': 'red', 
         # 'colourTeamB': 'blue'}]
         data = response.json()
-        if len(data) > 0:
+        if data:
             return data[0] #Output only 1 game
         else:
             return None #No games in DB
