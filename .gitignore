@@ -18,3 +18,6 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Test files
+test_reset_season.py
