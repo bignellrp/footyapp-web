@@ -32,6 +32,7 @@
   --danger: #dc3545;
   --light: #f8f9fa;
   --dark: #1a4d2e;
+  --dark-green: #0d3b2e;
   --black: #000000;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
@@ -6208,13 +6209,13 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #64a19d !important;
+  background-color: #52b788 !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
-  background-color: #4f837f !important;
+  background-color: #40916c !important;
 }
 
 .bg-secondary {
@@ -10267,7 +10268,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(135deg, #1a4d2e 0%, #2d6a4f 20%, #40916c 40%, #2d6a4f 60%, #1a4d2e 80%, #0d3b2e 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, #2d6a4f 20%, #40916c 40%, #2d6a4f 60%, var(--dark) 80%, var(--dark-green) 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -10323,7 +10324,7 @@ body {
 
 .about-section {
   padding-top: 10rem;
-  background: linear-gradient(to bottom, #1a4d2e 0%, #2d6a4f 50%, #1a4d2e 100%);
+  background: linear-gradient(to bottom, var(--dark) 0%, #2d6a4f 50%, var(--dark) 100%);
 }
 .about-section p {
   margin-bottom: 5rem;
@@ -10331,7 +10332,7 @@ body {
 
 .projects-section {
   padding: 10rem 0;
-  background: linear-gradient(135deg, #1a4d2e 0%, #2d6a4f 25%, #40916c 50%, #2d6a4f 75%, #1a4d2e 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, #2d6a4f 25%, #40916c 50%, #2d6a4f 75%, var(--dark) 100%);
   background-attachment: fixed;
   position: relative;
 }
@@ -10378,7 +10379,7 @@ body {
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(135deg, #0d3b2e 0%, #1a4d2e 25%, #2d6a4f 50%, #1a4d2e 75%, #0d3b2e 100%);
+  background: linear-gradient(135deg, var(--dark-green) 0%, var(--dark) 25%, #2d6a4f 50%, var(--dark) 75%, var(--dark-green) 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -10440,13 +10441,13 @@ body {
 
 .footer {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #0d3b2e 0%, #1a4d2e 100%);
+  background: linear-gradient(135deg, var(--dark-green) 0%, var(--dark) 100%);
 }
 
 
 /* leaderboard */
 .leaderboard {
-  background: linear-gradient(135deg, #1a4d2e 0%, #2d6a4f 50%, #1a4d2e 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, #2d6a4f 50%, var(--dark) 100%);
 }
 
 /* head */
