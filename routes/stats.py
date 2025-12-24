@@ -9,9 +9,13 @@ import os
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
+import logging
 
-##Load the .env file
+# Load the .env file
 load_dotenv()
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 stats_blueprint = Blueprint('stats', 
                             __name__, 
@@ -78,19 +82,29 @@ def reset_season():
         access_token = os.getenv("API_TOKEN")
         api_url = os.getenv("API_URL")
         
-        if access_token and api_url:
-            headers = {"Authorization": f"Bearer {access_token}"}
+        # Validate environment variables
+        if not access_token or not api_url:
+            logger.error("Missing API_TOKEN or API_URL environment variables")
+            return jsonify({"error": "Server configuration error: missing API credentials"}), 500
+        
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        # Call the API to reset games
+        games_reset_url = f"{api_url}/games/reset"
+        games_response = requests.delete(games_reset_url, headers=headers)
+        
+        # Call the API to reset player stats
+        players_reset_url = f"{api_url}/players/reset_stats"
+        players_response = requests.put(players_reset_url, headers=headers)
+        
+        # Check if reset was successful
+        if games_response.status_code not in [200, 204]:
+            logger.error(f"Failed to reset games. Status: {games_response.status_code}")
+            return jsonify({"error": "Failed to reset game statistics"}), 500
             
-            # Call the API to reset games
-            games_reset_url = f"{api_url}/games/reset"
-            games_response = requests.delete(games_reset_url, headers=headers)
-            
-            # Call the API to reset player stats
-            players_reset_url = f"{api_url}/players/reset_stats"
-            players_response = requests.put(players_reset_url, headers=headers)
-            
-            if games_response.status_code not in [200, 204] or players_response.status_code not in [200, 204]:
-                print(f"Warning: Reset API calls may have failed. Games: {games_response.status_code}, Players: {players_response.status_code}")
+        if players_response.status_code not in [200, 204]:
+            logger.error(f"Failed to reset player stats. Status: {players_response.status_code}")
+            return jsonify({"error": "Failed to reset player statistics"}), 500
         
         # Prepare ZIP file for download
         zip_buffer.seek(0)
@@ -105,5 +119,5 @@ def reset_season():
         )
     
     except Exception as e:
-        print(f"Error in reset_season: {str(e)}")
+        logger.error(f"Error in reset_season: {str(e)}")
         return jsonify({"error": "Failed to reset season", "details": str(e)}), 500

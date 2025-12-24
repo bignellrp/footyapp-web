@@ -165,9 +165,12 @@
                     }
 
                     // Get the filename from the Content-Disposition header if available
+                    // Parse Content-Disposition header (e.g., "attachment; filename=stats_backup_20231224.zip")
                     const contentDisposition = response.headers.get('Content-Disposition');
                     let filename = 'stats_backup.zip';
                     if (contentDisposition) {
+                        // Extract filename from Content-Disposition header using regex
+                        // Matches: filename="value" or filename=value
                         const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
                         if (matches != null && matches[1]) {
                             filename = matches[1].replace(/['"]/g, '');
@@ -176,6 +179,11 @@
 
                     // Convert response to blob
                     const blob = await response.blob();
+
+                    // Verify blob has content before proceeding
+                    if (blob.size === 0) {
+                        throw new Error("Downloaded file is empty");
+                    }
 
                     // Create a temporary download link and trigger download
                     const url = window.URL.createObjectURL(blob);
@@ -190,7 +198,8 @@
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
 
-                    alert("Season reset successfully! Backup file downloaded.");
+                    // Show success message and reload page
+                    alert("Season reset successfully! Backup file has been downloaded.");
                     
                     // Reload the page to show updated stats
                     location.reload();
