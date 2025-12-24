@@ -1,4 +1,4 @@
-from flask import Blueprint, send_file, jsonify, render_template, redirect, url_for
+from flask import Blueprint, send_file, jsonify
 from flask_login import login_required
 from services.backup_stats import create_backup_zip, reset_season_data
 from datetime import datetime

@@ -167,7 +167,9 @@
                 // Submit form to trigger download
                 form.submit();
                 
-                // Wait for download to start, then confirm reset
+                // Wait for download to initiate before proceeding with reset
+                // The timeout gives the browser time to start the download process
+                // If download fails, the reset confirmation will still catch the error
                 setTimeout(function() {
                     resetSeasonBtn.textContent = 'Resetting database...';
                     
@@ -202,9 +204,9 @@
                         resetSeasonBtn.textContent = 'Reset Season';
                         console.error('Error:', error);
                     });
-                }, 1000); // Wait 1 second for download to start
+                }, 2000); // 2 second delay to allow download to initiate
                 
-                // Cleanup
+                // Cleanup iframe and form after download completes
                 setTimeout(function() {
                     document.body.removeChild(form);
                     document.body.removeChild(iframe);

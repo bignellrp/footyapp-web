@@ -5,7 +5,7 @@ import io
 from dotenv import load_dotenv
 import os
 
-##Load the .env file
+# Load the .env file
 load_dotenv()
 
 # Create auth header
@@ -55,8 +55,11 @@ def create_backup_zip():
     player_stats = fetch_all_player_stats()
     
     # Check if we successfully fetched both stats
-    if game_stats is None or player_stats is None:
-        print("Failed to fetch stats for backup")
+    if game_stats is None:
+        print("Failed to fetch game stats for backup")
+        return None
+    if player_stats is None:
+        print("Failed to fetch player stats for backup")
         return None
     
     # Create a BytesIO object to store the ZIP file in memory
