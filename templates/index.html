@@ -115,10 +115,15 @@
                                 <br>
                                 <!--<input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Change Player Total">-->
                                 <br>
+                                {% if env_suffix %}
+                                <button id="resetSeasonBtn" class="btn btn-danger js-scroll-trigger" type="button">Reset Season</button>
+                                <br>
+                                {% endif %}
                                 <br>
                                 {% if error %}
                                 <div class="tool_tip"><h2> {{ error }} </h2></div>
                                 {% endif %}
+                                <div id="resetMessage" style="display:none; margin-top: 10px;"></div>
                                 </form>
                         </div>
                     </div>

@@ -139,4 +139,78 @@
     }
     });
 
+    // Reset Season functionality
+    const resetSeasonBtn = document.getElementById('resetSeasonBtn');
+    if (resetSeasonBtn) {
+        resetSeasonBtn.addEventListener('click', function() {
+            const confirmation = confirm("WARNING: This will download a backup and reset ALL season data. Are you sure you want to continue?");
+            
+            if (confirmation) {
+                // Disable button to prevent multiple clicks
+                resetSeasonBtn.disabled = true;
+                resetSeasonBtn.textContent = 'Creating backup...';
+                
+                // Create a hidden form to submit POST request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/reset_season';
+                form.style.display = 'none';
+                document.body.appendChild(form);
+                
+                // Create an iframe to handle the download
+                const iframe = document.createElement('iframe');
+                iframe.name = 'downloadFrame';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+                form.target = 'downloadFrame';
+                
+                // Submit form to trigger download
+                form.submit();
+                
+                // Wait for download to start, then confirm reset
+                setTimeout(function() {
+                    resetSeasonBtn.textContent = 'Resetting database...';
+                    
+                    // Call the confirm endpoint to reset the database
+                    fetch('/reset_season_confirm', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const messageDiv = document.getElementById('resetMessage');
+                        if (data.success) {
+                            messageDiv.innerHTML = '<h3 style="color: green;">' + data.message + '</h3>';
+                            messageDiv.style.display = 'block';
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            messageDiv.innerHTML = '<h3 style="color: red;">Error: ' + data.error + '</h3>';
+                            messageDiv.style.display = 'block';
+                            resetSeasonBtn.disabled = false;
+                            resetSeasonBtn.textContent = 'Reset Season';
+                        }
+                    })
+                    .catch(error => {
+                        const messageDiv = document.getElementById('resetMessage');
+                        messageDiv.innerHTML = '<h3 style="color: red;">Error: Failed to reset database</h3>';
+                        messageDiv.style.display = 'block';
+                        resetSeasonBtn.disabled = false;
+                        resetSeasonBtn.textContent = 'Reset Season';
+                        console.error('Error:', error);
+                    });
+                }, 1000); // Wait 1 second for download to start
+                
+                // Cleanup
+                setTimeout(function() {
+                    document.body.removeChild(form);
+                    document.body.removeChild(iframe);
+                }, 5000);
+            }
+        });
+    }
+
 })(jQuery); // End of use strict
