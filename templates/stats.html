@@ -109,11 +109,8 @@
                             </table>
                             </p>
                             <div style="margin-top: 30px;">
-                                <button id="resetSeasonBtn" class="btn btn-danger btn-lg">Reset Season</button>
+                                <button id="resetSeasonBtn" class="btn btn-danger btn-lg">Reset Season & Download Backup</button>
                             </div>
-                            </div>
-                            <div class="text-center mt-4">
-                                <button id="resetSeasonButton" class="btn btn-primary btn-lg">RESET SEASON</button>
                             </div>
                         </div>
                     </div>
@@ -132,7 +129,7 @@
         <script>
             // Reset Season Button Handler
             document.getElementById('resetSeasonBtn').addEventListener('click', function() {
-                if (confirm('Are you sure you want to reset the season? This will permanently delete all games for the season and reset player stats except for Name and Total.')) {
+                if (confirm('Are you sure you want to reset the season? This will permanently delete all games for the season and reset player stats except for Name and Total. A backup ZIP file will be downloaded.')) {
                     // User confirmed, proceed with reset
                     fetch('/stats/reset_season', {
                         method: 'POST',
@@ -140,14 +137,49 @@
                             'Content-Type': 'application/json',
                         }
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Season reset successfully!');
-                            // Reload the page to show updated stats
-                            window.location.reload();
+                    .then(response => {
+                        if (!response.ok) {
+                            // Try to parse error message
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to reset season');
+                            }).catch(() => {
+                                throw new Error('Failed to reset season');
+                            });
+                        }
+                        // Check if response is a file download (ZIP)
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/zip')) {
+                            // Handle file download
+                            return response.blob().then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = url;
+                                // Get filename from Content-Disposition header or use default
+                                const contentDisposition = response.headers.get('content-disposition');
+                                let filename = 'stats_backup.zip';
+                                if (contentDisposition) {
+                                    const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                                    if (filenameMatch && filenameMatch[1]) {
+                                        filename = filenameMatch[1].replace(/['"]/g, '');
+                                    }
+                                }
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                document.body.removeChild(a);
+                                
+                                alert('Season reset successfully! Backup downloaded.');
+                                // Reload the page to show updated stats
+                                setTimeout(() => window.location.reload(), 1000);
+                            });
                         } else {
-                            alert('Error: ' + data.message);
+                            // Handle JSON response
+                            return response.json().then(data => {
+                                alert('Season reset successfully!');
+                                window.location.reload();
+                            });
                         }
                     })
                     .catch(error => {
