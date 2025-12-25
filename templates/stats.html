@@ -72,6 +72,7 @@
                             <p>Last 10 matches:</p>
                             <div class="text-pre">
                             <p>
+                            {% if game_stats %}
                             <table>
                                     <tr>
                                         <th>Date</th>
@@ -86,9 +87,15 @@
                                     </tr>
                                     {% endfor %}
                             </table>
+                            {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No games found in the database.
+                            </div>
+                            {% endif %}
                             </p>
                             <h1>Player Stats:</h1>
                             <p>
+                            {% if player_game_stats %}
                             <table>
                                     <tr>
                                         <th>Name</th>
@@ -107,6 +114,11 @@
                                     </tr>
                                     {% endfor %}
                             </table>
+                            {% else %}
+                            <div class="alert alert-info" role="alert">
+                                No player stats available.
+                            </div>
+                            {% endif %}
                             </p>
                             <div style="margin-top: 30px;">
                                 <button id="resetSeasonBtn" class="btn btn-danger btn-lg">Reset Season & Download Backup</button>
