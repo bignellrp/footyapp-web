@@ -10432,7 +10432,7 @@ body {
 
 /* leaderboard */
 .leaderboard {
-  background: linear-gradient(135deg, var(--dark) 0%, #2d6a4f 50%, var(--dark) 100%);
+  background: linear-gradient(180deg, #1f7a3a 0%, #146c2e 100%);
 }
 
 /* head */
@@ -10470,22 +10470,37 @@ body {
   margin-right: 4px;
 }
 .leaderboard li:nth-child(1) {
-  background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
-  border-left: 5px solid #ffd700;
+  background-color: #2b7a3d;
+  border-left: 5px solid #ffd200;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 .leaderboard li:nth-child(2) {
-  background: linear-gradient(135deg, #40916c 0%, #2d6a4f 100%);
+  background-color: #2b7a3d;
   border-left: 5px solid #c0c0c0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 .leaderboard li:nth-child(3) {
-  background: linear-gradient(135deg, #2d6a4f 0%, #1a4d2e 100%);
+  background-color: #2b7a3d;
   border-left: 5px solid #cd7f32;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 .leaderboard li:nth-child(4) {
-  background: rgba(45, 106, 79, 0.7);
+  background-color: #2b7a3d;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 .leaderboard li:nth-child(5) {
-  background: rgba(26, 77, 46, 0.7);
+  background-color: #2b7a3d;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin-bottom: 8px;
 }
 
  /*https://www.w3schools.com/css/css3_borders.asp*/
@@ -10511,21 +10526,23 @@ img.center {
 }
 
 .form-control {
-  background-color: #3a3e47;
+  background-color: #2b7a3d;
   margin: auto;
   width: 50%;
   text-align:center;
   width: 300px;
   color: #e0e0e0;
+  border: 1px solid #1f7a3a;
 }
 
 .form-control:focus {
-  background-color: #4a4e57;
+  background-color: #35904a;
   margin: auto;
   width: 50%;
   text-align:center;
   width: 300px;
   color: #ffffff;
+  border-color: #ffd200;
 }
 
 /* Error Tool Tip Styles*/
@@ -10595,7 +10612,7 @@ img.center {
 }
 
 .slider-label {
-  border: 2px solid #52b788;
+  border: 2px solid #ffd200;
   border-radius: 20px;
   cursor: pointer;
   display: block;
@@ -10628,7 +10645,7 @@ img.center {
 /* Specific CSS for PLAYING/BENCHED slider */
 
 .slider-playing-benched .slider-inner:before {
-  background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
+  background-color: #2fa84f;
   color: #fff;
   content: "PLAYING";
   padding-left: .75em;
@@ -10657,7 +10674,7 @@ img.center {
 /* Specific CSS for ACTIVE/INACTIVE slider */
 
 .slider-active-inactive .slider-inner:before {
-  background: linear-gradient(135deg, #52b788 0%, #40916c 100%);
+  background-color: #2fa84f;
   color: #fff;
   content: "12";
   padding-left: .85em;
