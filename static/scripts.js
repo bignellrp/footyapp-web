@@ -148,12 +148,9 @@
         const error = urlParams.get('error');
         const success = urlParams.get('success');
         
-        if (error) {
-            alert(error);
-            // Clean URL to remove parameters
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else if (success) {
-            alert(success);
+        if (error || success) {
+            // Display the message
+            alert(error || success);
             // Clean URL to remove parameters
             window.history.replaceState({}, document.title, window.location.pathname);
         }

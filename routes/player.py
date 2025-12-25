@@ -68,29 +68,33 @@ def player():
         changed_rows = {}
         error = None
         success = None
+        has_row_updates = False
         ##Need to change the validation to be done before values come back to python
         
         for key, value in request.args.items():
             if key.startswith('row_'):
+                has_row_updates = True
                 name = key.replace('row_', '')
                 changed_rows[name] = value
                 match = re.match("(^(?:100|[1-9]?[0-9])$)", value)
                 if match == None:
                     print(name, "has an invalid total")
                     error = f"{name}'s total is not a valid input"
+                    break  # Stop processing on first error
                 else:
                     json_value = {"total": int(value)}
                     print(name, json_value)
                     update_player(name, json_value)
                     success = "Updated successfully"
     
-        # If we had updates, redirect to show message
-        if error:
-            params = urlencode({'error': error})
-            return redirect(url_for('player.player') + '?' + params)
-        elif success:
-            params = urlencode({'success': success})
-            return redirect(url_for('player.player') + '?' + params)
+        # If we had row updates, redirect to show message
+        if has_row_updates:
+            if error:
+                params = urlencode({'error': error})
+                return redirect(url_for('player.player') + '?' + params)
+            elif success:
+                params = urlencode({'success': success})
+                return redirect(url_for('player.player') + '?' + params)
             
         # Changes needed to the JS to send updated name
         # for key, value in request.args.items():
