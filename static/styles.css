@@ -10360,6 +10360,20 @@ body {
     border-left: 0.5rem solid #52b788;
   }
 }
+.projects-section .featured-text-plain {
+  padding: 2rem;
+  background: rgba(58, 62, 71, 0.7);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+@media (min-width: 992px) {
+  .projects-section .featured-text-plain {
+    padding: 2rem;
+    background: rgba(58, 62, 71, 0.7);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+  }
+}
 .projects-section .project-text {
   padding: 3rem;
   font-size: 90%;
