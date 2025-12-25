@@ -1,7 +1,6 @@
 from flask import render_template, Blueprint, send_file, jsonify
 from services.get_games_data import game_stats
 from services.get_player_data import player_stats
-from services.reset_season import reset_season
 from flask_login import login_required
 import json
 import zipfile
@@ -39,7 +38,7 @@ def stats():
 
 @stats_blueprint.route('/stats/reset_season', methods=['POST'])
 @login_required
-def reset_season():
+def reset_season_route():
     '''Reset the season and return a ZIP file with current stats as backup'''
     try:
         # Get current stats before reset
@@ -91,12 +90,23 @@ def reset_season():
         headers = {"Authorization": f"Bearer {access_token}"}
         
         # Call the API to reset games
-        games_reset_url = f"{api_url}/games/reset"
-        games_response = requests.delete(games_reset_url, headers=headers)
+        games_reset_url = f"{api_url}/games"
+        games_response = requests.delete(games_reset_url, headers=headers, timeout=30)
         
         # Call the API to reset player stats
-        players_reset_url = f"{api_url}/players/reset_stats"
-        players_response = requests.put(players_reset_url, headers=headers)
+        reset_data = {
+            "wins": 0,
+            "draws": 0,
+            "losses": 0,
+            "score": 0,
+            "playing": False,
+            "played": 0,
+            "percent": 0,
+            "winpercent": 0,
+            "goals": 0
+        }
+        players_reset_url = f"{api_url}/players/reset_season"
+        players_response = requests.put(players_reset_url, json=reset_data, headers=headers, timeout=30)
         
         # Check if reset was successful
         if games_response.status_code not in [200, 204]:
