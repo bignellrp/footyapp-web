@@ -50,7 +50,7 @@ This is a Flask-based web application for managing a 5-a-side football team. The
 ### Input Validation
 - Use regex patterns for validating user input (see `player.py` for examples)
 - Player names must match pattern: `^[A-Z][a-zA-Z]*$` (capitalized, letters only)
-- Numeric values use pattern: `^(?:100|[1-9]?[0-9])$` (0-100)
+- Player scores must match pattern: `^(?:100|[1-9]?[0-9])$` (validates scores from 0-100)
 - Always validate form data before processing
 
 ### Session Management
@@ -171,12 +171,18 @@ except discord.DiscordException as e:
 
 ## Testing
 - Currently no automated tests in the repository
+- When adding tests, consider using pytest or unittest for Python code
 - Manual testing should focus on:
   - Team balancing algorithm accuracy
   - Form validation
   - Session persistence
   - Discord notifications
   - Authentication flow
+- Future automated tests should cover:
+  - Unit tests for service layer functions (get_even_teams, data validation)
+  - Integration tests for route handlers
+  - API client tests (mocked external API calls)
+  - Form validation edge cases
 
 ## Deployment
 - CI/CD configured via `.github/workflows/docker-build.yml`
