@@ -141,4 +141,22 @@
         });
     }
 
+    // Display status messages from URL parameters
+    // This function is called automatically on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        const success = urlParams.get('success');
+        
+        if (error) {
+            alert(error);
+            // Clean URL to remove parameters
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (success) {
+            alert(success);
+            // Clean URL to remove parameters
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    });
+
 })(jQuery); // End of use strict

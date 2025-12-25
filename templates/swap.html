@@ -115,23 +115,6 @@
                 // Return true to submit the form if the user confirmed, or false otherwise
                 return userConfirmed;
             }
-            
-            // Display messages from URL parameters
-            document.addEventListener('DOMContentLoaded', function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const error = urlParams.get('error');
-                const success = urlParams.get('success');
-                
-                if (error) {
-                    alert(error);
-                    // Clean URL
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                } else if (success) {
-                    alert(success);
-                    // Clean URL
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
-            });
         </script>
     </body>
 </html>
