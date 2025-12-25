@@ -10268,7 +10268,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(135deg, var(--dark) 0%, #2d6a4f 20%, #40916c 40%, #2d6a4f 60%, var(--dark) 80%, var(--dark-green) 100%);
+  background: linear-gradient(180deg, #1f7a3a 0%, #146c2e 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -10313,7 +10313,7 @@ body {
 
 .about-section {
   padding-top: 10rem;
-  background: linear-gradient(to bottom, var(--dark) 0%, #2d6a4f 50%, var(--dark) 100%);
+  background: linear-gradient(180deg, #1f7a3a 0%, #146c2e 100%);
 }
 .about-section p {
   margin-bottom: 5rem;
@@ -10337,7 +10337,7 @@ body {
     background: rgba(26, 77, 46, 0.7);
     border-radius: 10px;
     backdrop-filter: blur(5px);
-    border-left: 0.5rem solid #52b788;
+    border-left: 0.5rem solid #ffd200;
   }
 }
 .projects-section .featured-text-plain {
@@ -10356,7 +10356,7 @@ body {
     padding: 5rem;
   }
   .projects-section .project-text hr {
-    border-color: #52b788;
+    border-color: #ffd200;
     border-width: 0.25rem;
     width: 30%;
   }
@@ -10364,7 +10364,7 @@ body {
 
 .signup-section {
   padding: 10rem 0;
-  background: linear-gradient(135deg, var(--dark-green) 0%, var(--dark) 25%, #2d6a4f 50%, var(--dark) 75%, var(--dark-green) 100%);
+  background: linear-gradient(180deg, #1f7a3a 0%, #146c2e 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -10386,7 +10386,7 @@ body {
 }
 .contact-section .card {
   border: 0;
-  border-bottom: 0.25rem solid #52b788;
+  border-bottom: 0.25rem solid #ffd200;
   background: rgba(26, 77, 46, 0.5);
 }
 .contact-section .card h4 {
@@ -10396,7 +10396,7 @@ body {
   letter-spacing: 0.15rem;
 }
 .contact-section .card hr {
-  border-color: #52b788;
+  border-color: #ffd200;
   border-width: 0.25rem;
   width: 3rem;
 }
@@ -10407,26 +10407,26 @@ body {
   text-align: center;
   height: 3rem;
   width: 3rem;
-  background: rgba(82, 183, 136, 0.3);
+  background: rgba(255, 210, 0, 0.2);
   border-radius: 100%;
   line-height: 3rem;
   color: #ffffff;
-  border: 2px solid #52b788;
+  border: 2px solid #ffd200;
   transition: all 0.3s ease;
 }
 .contact-section .social a:hover {
   color: #ffffff;
-  background: rgba(82, 183, 136, 0.6);
+  background: rgba(255, 210, 0, 0.4);
   transform: scale(1.1);
 }
 .contact-section .social a:active {
   color: #fff;
-  background: #52b788;
+  background: #ffd200;
 }
 
 .footer {
   padding: 5rem 0;
-  background: linear-gradient(135deg, var(--dark-green) 0%, var(--dark) 100%);
+  background: linear-gradient(180deg, #146c2e 0%, #0d3b2e 100%);
 }
 
 
