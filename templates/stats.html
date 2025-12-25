@@ -66,7 +66,7 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text-plain text-lg-left">
                             <h1>Game Stats:</h1>
                             <p>Last 10 matches:</p>
@@ -88,7 +88,7 @@
                                     {% endfor %}
                             </table>
                             {% else %}
-                            <div class="alert alert-info" role="alert" style="overflow-wrap: break-word;">
+                            <div class="alert alert-info" role="alert" style="overflow-wrap: break-word; word-break: break-word; max-width: 100%;">
                                 No games found in the database.
                             </div>
                             {% endif %}
@@ -115,7 +115,7 @@
                                     {% endfor %}
                             </table>
                             {% else %}
-                            <div class="alert alert-info" role="alert" style="overflow-wrap: break-word;">
+                            <div class="alert alert-info" role="alert" style="overflow-wrap: break-word; word-break: break-word; max-width: 100%;">
                                 No player stats available.
                             </div>
                             {% endif %}
