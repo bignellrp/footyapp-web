@@ -101,6 +101,13 @@
                             </table>
                             </p>
                             </div>
+                            <br>
+                            <div class="text-center">
+                                <button id="resetSeasonBtn" class="btn btn-danger js-scroll-trigger">
+                                    <i class="fas fa-sync-alt"></i> Reset Season & Download Data
+                                </button>
+                                <div id="statusMessage" style="margin-top: 10px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,5 +122,74 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+            document.getElementById('resetSeasonBtn').addEventListener('click', function() {
+                if (!confirm('Are you sure you want to reset the season? This will download the current season data and then reset all game records. This action cannot be undone.')) {
+                    return;
+                }
+                
+                const statusDiv = document.getElementById('statusMessage');
+                const btn = document.getElementById('resetSeasonBtn');
+                
+                // Disable button and show loading message
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                statusDiv.innerHTML = '<p style="color: #64a19d;">Downloading season data...</p>';
+                
+                // Step 1: Download the data
+                fetch('{{ url_for("stats.download_data") }}')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Download failed');
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        // Create a download link and trigger it
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = 'season_data.zip';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        
+                        statusDiv.innerHTML = '<p style="color: #64a19d;">Download complete. Resetting season...</p>';
+                        
+                        // Step 2: Reset the season
+                        return fetch('{{ url_for("stats.reset") }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Reset failed with status ' + response.status);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        statusDiv.innerHTML = '<p style="color: #64a19d;">✓ Season reset successfully! Data has been downloaded.</p>';
+                        btn.innerHTML = '<i class="fas fa-sync-alt"></i> Reset Season & Download Data';
+                        btn.disabled = false;
+                        
+                        // Reload the page after 2 seconds to show updated stats
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        statusDiv.innerHTML = '<p style="color: #dc3545;">✗ Error: ' + error.message + '</p>';
+                        btn.innerHTML = '<i class="fas fa-sync-alt"></i> Reset Season & Download Data';
+                        btn.disabled = false;
+                    });
+            });
+        </script>
     </body>
 </html>
