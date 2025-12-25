@@ -49,17 +49,6 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
                                 <h3>Lineup for {{ date }}:</h3>
                                 <br>
-                                <br>
-                                {% if error %}
-                                <p class="tool_tip tooltip-centered">{{ error }}</p>
-                                {% endif %}
-                                <br>
-                                {% if tooltip %}
-                                <p class="green_tool_tip tooltip-centered">{{ tooltip }}</p>
-                                {% endif %}
-                                <br>
-                                <br>
-                                <br>
                                 <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)">
                                 <p id="rcorners">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">

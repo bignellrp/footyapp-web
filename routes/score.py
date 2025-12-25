@@ -1,6 +1,7 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, redirect, url_for
 from services.post_games_data import *
 from services.get_games_data import *
+from urllib.parse import urlencode
 import re
 from flask_login import login_required
 
@@ -28,18 +29,8 @@ def score():
     
     # Handle empty games DB
     if get_date is None:
-        error = "No games found in the database. Please create a game first."
-        return render_template('score.html',
-                             teama = [],
-                             teamb = [],
-                             scorea = None,
-                             scoreb = None,
-                             totala = None,
-                             totalb = None,
-                             date = None,
-                             error = error,
-                             coloura = None,
-                             colourb = None)
+        params = urlencode({'error': 'No games found in the database. Please create a game first.'})
+        return redirect(url_for('score.score') + '?' + params)
     
     get_coloura = str(get_coloura)
     get_colourb = str(get_colourb)
@@ -55,8 +46,6 @@ def score():
         }
 
         ##Print the result to database with update enabled
-        error = None
-        tooltip = None
         ##Using re.match to check if score input is 2 digits
         match_a = re.match("(^[0-9]{1,2}$)",score_input_a)
         match_b = re.match("(^[0-9]{1,2}$)",score_input_b)
@@ -65,43 +54,18 @@ def score():
             isn't a dash in scorea so don't 
             update score and display error'''
             print("Score exists already")
-            error = "Score exists already"
+            params = urlencode({'error': 'Score exists already'})
+            return redirect(url_for('score.score') + '?' + params)
         elif match_a == None or match_b == None:
             '''If score is not numeric then error'''
             print("Score is not a valid input")
-            error = "Score is not a valid input"
+            params = urlencode({'error': 'Score is not a valid input'})
+            return redirect(url_for('score.score') + '?' + params)
         else:
             print("Updating score")
             update_score_result(get_date,score_output)
-            tooltip = "Updated successfully"
-            ##Refresh scores
-            get_scorea = scorea()
-            get_scoreb = scoreb()
-            ##If there is a dash then post is returned after running update
-            return render_template('score.html', 
-                               teama = get_teama, 
-                               teamb = get_teamb,
-                               scorea = get_scorea,
-                               scoreb = get_scoreb,
-                               totala = get_totala,
-                               totalb = get_totalb,
-                               date = get_date, 
-                               error = error,
-                               tooltip = tooltip,
-                               coloura = get_coloura,
-                               colourb = get_colourb)
-        ##If there was an error return the score page with error
-        return render_template('score.html', 
-                               teama = get_teama, 
-                               teamb = get_teamb,
-                               scorea = get_scorea,
-                               scoreb = get_scoreb,
-                               totala = get_totala,
-                               totalb = get_totalb,
-                               date = get_date, 
-                               error = error,
-                               coloura = get_coloura,
-                               colourb = get_colourb)
+            params = urlencode({'success': 'Updated successfully'})
+            return redirect(url_for('score.score') + '?' + params)
     ##If request method is not POST then it must be GET
     return render_template('score.html', 
                            teama = get_teama, 
