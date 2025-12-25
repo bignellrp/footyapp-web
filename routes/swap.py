@@ -36,17 +36,14 @@ def swap():
     get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
-    
-    # Handle empty games DB
-    if get_date is None:
-        params = urlencode({'error': 'No games found in the database. Please create a game first.'})
-        return redirect(url_for('swap.swap') + '?' + params)
-    
-    get_coloura = str(get_coloura)
-    get_colourb = str(get_colourb)
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Swap':
+            # Check if there are games in the database
+            if get_date is None:
+                params = urlencode({'error': 'No games found in the database. Please create a game first.'})
+                return redirect(url_for('swap.swap') + '?' + params)
+            
             ##Get vars
             use_player_names = names
             teams = get_teama + get_teamb
@@ -87,6 +84,11 @@ def swap():
                 params = urlencode({'success': 'Updated successfully'})
                 return redirect(url_for('swap.swap') + '?' + params)
         if request.form['submit_button'] == 'Shuffle':
+            # Check if there are games in the database
+            if get_date is None:
+                params = urlencode({'error': 'No games found in the database. Please create a game first.'})
+                return redirect(url_for('swap.swap') + '?' + params)
+            
             # Retrieve the value of the hidden input 'confirm_shuffle'
             confirm_shuffle_value = request.form.get('confirm_shuffle')
             if confirm_shuffle_value == 'on':
