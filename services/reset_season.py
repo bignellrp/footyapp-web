@@ -3,9 +3,10 @@ import json
 import os
 import tempfile
 import zipfile
+import shutil
 from dotenv import load_dotenv
 
-##Load the .env file
+# Load the .env file
 load_dotenv()
 
 # Create auth header
@@ -58,6 +59,11 @@ def download_season_data():
     
     except Exception as e:
         print(f"Error creating season data ZIP: {e}")
+        # Clean up temp directory on error
+        try:
+            shutil.rmtree(temp_dir)
+        except Exception:
+            pass
         raise
 
 def reset_season():
@@ -95,7 +101,7 @@ def reset_season():
                     if alt_response.status_code == 200 or alt_response.status_code == 204:
                         print(f"Season reset successfully using {alt_url}")
                         return {"message": "Season reset successfully", "status_code": 200}
-                except:
+                except requests.exceptions.RequestException:
                     continue
             
             # If none worked, return the error
@@ -108,7 +114,7 @@ def reset_season():
             try:
                 error_detail = response.json()
                 error_msg += f" Error: {error_detail}"
-            except:
+            except (json.JSONDecodeError, ValueError):
                 error_msg += f" Error: {response.text}"
             
             return {"error": error_msg, "status_code": response.status_code}

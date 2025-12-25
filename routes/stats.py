@@ -30,6 +30,9 @@ def download_data():
     '''Download season data as a ZIP file'''
     try:
         zip_path = download_season_data()
+        # Note: The temp directory is not cleaned up immediately as Flask needs
+        # to serve the file. The OS will eventually clean up temp files.
+        # Consider implementing a cleanup mechanism if this becomes an issue.
         return send_file(zip_path, 
                         as_attachment=True, 
                         download_name='season_data.zip',
