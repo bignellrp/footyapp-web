@@ -61,17 +61,47 @@ def download_season_data():
         raise
 
 def reset_season():
-    '''Reset the season data by calling the backend API'''
+    '''Reset the season data by calling the backend API
     
-    # URL for resetting season
-    reset_api_url = f"{api_url}/games/reset_season"
+    This function tries to reset the season by deleting all games data.
+    The API endpoint pattern follows the RESTful convention where DELETE /games
+    would delete all games (reset the season).
+    '''
+    
+    # URL for resetting season - using DELETE on /games collection to reset
+    games_api_url = f"{api_url}/games"
     
     try:
-        response = requests.post(reset_api_url, headers=access_headers)
+        # First try DELETE on the games collection (RESTful pattern for deleting all)
+        response = requests.delete(games_api_url, headers=access_headers)
         
-        if response.status_code == 200:
+        if response.status_code == 200 or response.status_code == 204:
             print("Season reset successfully")
             return {"message": "Season reset successfully", "status_code": 200}
+        elif response.status_code == 404:
+            # If DELETE returns 404, try alternative endpoint patterns
+            print(f"DELETE /games returned 404, trying alternative endpoints")
+            
+            # Try POST to a dedicated reset endpoint
+            alternative_urls = [
+                f"{api_url}/reset_season",
+                f"{api_url}/games/reset",
+                f"{api_url}/games/reset_season"
+            ]
+            
+            for alt_url in alternative_urls:
+                try:
+                    alt_response = requests.post(alt_url, headers=access_headers)
+                    if alt_response.status_code == 200 or alt_response.status_code == 204:
+                        print(f"Season reset successfully using {alt_url}")
+                        return {"message": "Season reset successfully", "status_code": 200}
+                except:
+                    continue
+            
+            # If none worked, return the error
+            error_msg = f"Failed to reset season data. All endpoints returned 404. Please check the backend API."
+            print(error_msg)
+            return {"error": error_msg, "status_code": 404}
         else:
             error_msg = f"Failed to reset season data. Status code: {response.status_code}"
             print(error_msg)
@@ -83,7 +113,12 @@ def reset_season():
             
             return {"error": error_msg, "status_code": response.status_code}
     
+    except requests.exceptions.RequestException as e:
+        error_msg = f"Network error occurred while resetting season: {str(e)}"
+        print(error_msg)
+        return {"error": error_msg, "status_code": 500}
     except Exception as e:
         error_msg = f"Exception occurred while resetting season: {str(e)}"
         print(error_msg)
         return {"error": error_msg, "status_code": 500}
+
