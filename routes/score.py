@@ -29,8 +29,17 @@ def score():
     
     # Handle empty games DB
     if get_date is None:
-        params = urlencode({'error': 'No games found in the database. Please create a game first.'})
-        return redirect(url_for('score.score') + '?' + params)
+        return render_template('score.html', 
+                               teama = None, 
+                               teamb = None, 
+                               scorea = None,
+                               scoreb = None,
+                               totala = None,
+                               totalb = None,
+                               date = None,
+                               coloura = None,
+                               colourb = None,
+                               error = 'No games found in the database. Please create a game first.')
     
     get_coloura = str(get_coloura)
     get_colourb = str(get_colourb)

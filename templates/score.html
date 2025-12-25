@@ -46,6 +46,12 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-white-50 text-center">
+                            {% if date is none %}
+                            <div class="alert alert-info" role="alert">
+                                <h4>No games found in the database.</h4>
+                                <p>Please create a game first using the Auto or Manual page.</p>
+                            </div>
+                            {% else %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
                                 <h3>Lineup for {{ date }}:</h3>
                                 <br>
@@ -66,6 +72,7 @@
                                 <h3><b>Save Scores:</b></h3>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
                             </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
