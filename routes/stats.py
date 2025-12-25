@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, send_file, jsonify
 from services.get_games_data import game_stats
 from services.get_player_data import player_stats
+from services.backup_stats import create_backup_zip
 from flask_login import login_required
 import json
 import zipfile
@@ -41,42 +42,12 @@ def stats():
 def reset_season_route():
     '''Reset the season and return a ZIP file with current stats as backup'''
     try:
-        # Get current stats before reset
-        get_game_stats = game_stats()
-        get_player_stats = player_stats()
+        # Create backup ZIP with complete game and player data
+        zip_buffer = create_backup_zip()
         
-        # Convert stats to JSON-serializable format
-        game_stats_data = [
-            {
-                "date": date,
-                "scoreTeamA": score_a,
-                "scoreTeamB": score_b
-            }
-            for date, score_a, score_b in get_game_stats
-        ]
-        
-        player_stats_data = [
-            {
-                "name": name,
-                "wins": wins,
-                "draws": draws,
-                "losses": losses,
-                "score": score,
-                "winpercent": winpercent
-            }
-            for name, wins, draws, losses, score, winpercent in get_player_stats
-        ]
-        
-        # Create ZIP file in memory
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-            # Add game stats JSON
-            game_stats_json = json.dumps(game_stats_data, indent=2)
-            zip_file.writestr('game_stats.json', game_stats_json)
-            
-            # Add player stats JSON
-            player_stats_json = json.dumps(player_stats_data, indent=2)
-            zip_file.writestr('player_stats.json', player_stats_json)
+        if zip_buffer is None:
+            logger.error("Failed to create backup ZIP")
+            return jsonify({"error": "Failed to create backup. Aborting reset to prevent data loss."}), 500
         
         # Reset the season via API
         access_token = os.getenv("API_TOKEN")
