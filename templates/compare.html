@@ -108,10 +108,6 @@
                                     {% endfor %}
                                 </table>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
-                                <br>
-                                {% if error %}
-                                <div class="tool_tip"><h2> {{ error }} </h2></div>
-                                {% endif %}
                                 </form>
                         </div>
                     </div>
@@ -127,5 +123,23 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+            // Display messages from URL parameters
+            document.addEventListener('DOMContentLoaded', function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const error = urlParams.get('error');
+                const success = urlParams.get('success');
+                
+                if (error) {
+                    alert(error);
+                    // Clean URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else if (success) {
+                    alert(success);
+                    // Clean URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            });
+        </script>
     </body>
 </html>

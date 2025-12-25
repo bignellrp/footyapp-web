@@ -1,6 +1,7 @@
-from flask import render_template, request, Blueprint, session
+from flask import render_template, request, Blueprint, session, redirect, url_for
 from services.get_player_data import *
 from services.get_post_tenant_data import *
+from urllib.parse import urlencode
 from flask_login import login_required
 from services.get_date import gameday
 from dotenv import load_dotenv
@@ -45,19 +46,13 @@ def compare():
         if len(available_players_a) < players or len(available_players_b) < players:
             '''If available players less than required'''
             print("Not enough players!")
-            error = "*ERROR*: Not enough players!"
-            return render_template('compare.html', 
-                                   player_names = get_player_names, 
-                                   error = error,
-                                   players = players)
+            params = urlencode({'error': 'Not enough players!'})
+            return redirect(url_for('compare.compare') + '?' + params)
         elif check is True:
             '''If Player from ListA is in ListB'''
             print("You cannot have a player in both teams!")
-            error = "*ERROR*: You cannot have a player in both teams!" 
-            return render_template('compare.html', 
-                                   player_names = get_player_names, 
-                                   error = error,
-                                   players = players)
+            params = urlencode({'error': 'You cannot have a player in both teams!'})
+            return redirect(url_for('compare.compare') + '?' + params)
         else:
             ##Build teams out of available players 
             ##from all_players using an if statement

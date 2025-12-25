@@ -1,9 +1,10 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, redirect, url_for
 from services.post_games_data import *
 from services.get_games_data import *
 from services.get_player_data import *
 from services.get_even_teams import get_even_teams
 from services.get_date import gameday
+from urllib.parse import urlencode
 import services.post_games_data as post
 import discord
 from dotenv import load_dotenv
@@ -23,8 +24,6 @@ swap_blueprint = Blueprint('swap',
 @login_required
 def swap():
     '''A function for adding a new player'''
-    error = None
-    tooltip = None
     get_all_players = all_players()
     names = [player["name"] for player in get_all_players]
 
@@ -40,19 +39,8 @@ def swap():
     
     # Handle empty games DB
     if get_date is None:
-        error = "No games found in the database. Please create a game first."
-        return render_template('swap.html',
-                             teama = [],
-                             teamb = [],
-                             scorea = None,
-                             scoreb = None,
-                             totala = None,
-                             totalb = None,
-                             date = None,
-                             error = error,
-                             tooltip = tooltip,
-                             coloura = None,
-                             colourb = None)
+        params = urlencode({'error': 'No games found in the database. Please create a game first.'})
+        return redirect(url_for('swap.swap') + '?' + params)
     
     get_coloura = str(get_coloura)
     get_colourb = str(get_colourb)
@@ -71,57 +59,33 @@ def swap():
             
             if get_scorea != None:
                 print('Game has already been played this week!')
-                error = 'Game has already been played this week!'
+                params = urlencode({'error': 'Game has already been played this week!'})
+                return redirect(url_for('swap.swap') + '?' + params)
             elif match_a == None or match_b == None:
                 '''If regex is wrong then error'''
                 print("Player name input is invalid")
-                error = "Player name is not a valid input"
+                params = urlencode({'error': 'Player name is not a valid input'})
+                return redirect(url_for('swap.swap') + '?' + params)
             elif current_player not in teams:
                 print(f'{current_player} is not in the teams list!')
-                error = f'{current_player} is not in the teams list!'
+                params = urlencode({'error': f'{current_player} is not in the teams list!'})
+                return redirect(url_for('swap.swap') + '?' + params)
             elif new_player not in use_player_names:
                 print(f'{new_player} is not in the player list!')
-                error = f'{new_player} is not in the player list!'
+                params = urlencode({'error': f'{new_player} is not in the player list!'})
+                return redirect(url_for('swap.swap') + '?' + params)
             elif all([current_player in get_teama, new_player in get_teama]):
                 print(f'{current_player} and {new_player} are in Team A: {teama}')
-                error = f'{current_player} and {new_player} are in Team A: {teama}'
+                params = urlencode({'error': f'{current_player} and {new_player} are in Team A: {teama}'})
+                return redirect(url_for('swap.swap') + '?' + params)
             elif all([current_player in get_teamb, new_player in get_teamb]):
                 print(f'{current_player} and {new_player} are in Team B: {teamb}')
-                error = f'{current_player} and {new_player} are in Team B: {teamb}'
+                params = urlencode({'error': f'{current_player} and {new_player} are in Team B: {teamb}'})
+                return redirect(url_for('swap.swap') + '?' + params)
             else:
                 swap_players(current_player, new_player)
-                tooltip = "Updated successfully"
-                ##Refresh the teams
-                get_teama = teama()
-                get_teamb = teamb()
-                get_totala = totala()
-                get_totalb = totalb()
-                ##If there is a dash then post is returned after running update
-                return render_template('swap.html', 
-                                teama = get_teama, 
-                                teamb = get_teamb,
-                                scorea = get_scorea,
-                                scoreb = get_scoreb,
-                                totala = get_totala,
-                                totalb = get_totalb,
-                                date = get_date, 
-                                error = error,
-                                tooltip = tooltip,
-                                coloura = get_coloura,
-                                colourb = get_colourb)
-            ##If there was an error return the score page with error
-            return render_template('swap.html', 
-                                teama = get_teama, 
-                                teamb = get_teamb,
-                                scorea = get_scorea,
-                                scoreb = get_scoreb,
-                                totala = get_totala,
-                                totalb = get_totalb,
-                                date = get_date, 
-                                error = error,
-                                tooltip = tooltip,
-                                coloura = get_coloura,
-                                colourb = get_colourb)
+                params = urlencode({'success': 'Updated successfully'})
+                return redirect(url_for('swap.swap') + '?' + params)
         if request.form['submit_button'] == 'Shuffle':
             # Retrieve the value of the hidden input 'confirm_shuffle'
             confirm_shuffle_value = request.form.get('confirm_shuffle')
@@ -194,40 +158,12 @@ def swap():
                 else:
                     post.append_result(game_json)
                     print("Running append function")
-                # Update the template variables
-                get_teama = get_newteama
-                get_teamb = get_newteamb
-                get_totala = get_newtotala
-                get_totalb = get_newtotalb
-                error = None
-                tooltip = "Teams Updated Successfully!"
-                return render_template('swap.html', 
-                                    teama = get_teama, 
-                                    teamb = get_teamb,
-                                    scorea = get_scorea,
-                                    scoreb = get_scoreb,
-                                    totala = get_totala,
-                                    totalb = get_totalb,
-                                    date = get_date, 
-                                    error = error,
-                                    tooltip = tooltip,
-                                    coloura = get_coloura,
-                                    colourb = get_colourb)
+                
+                params = urlencode({'success': 'Teams Updated Successfully!'})
+                return redirect(url_for('swap.swap') + '?' + params)
             #If not confirmed just return the original
-            error = "Problem running shuffle!"
-            tooltip = None
-            return render_template('swap.html', 
-                                teama = get_teama, 
-                                teamb = get_teamb,
-                                scorea = get_scorea,
-                                scoreb = get_scoreb,
-                                totala = get_totala,
-                                totalb = get_totalb,
-                                date = get_date, 
-                                error = error,
-                                tooltip = tooltip,
-                                coloura = get_coloura,
-                                colourb = get_colourb)
+            params = urlencode({'error': 'Problem running shuffle!'})
+            return redirect(url_for('swap.swap') + '?' + params)
     ##If request method is not POST then it must be GET
     elif request.method == 'GET':
         return render_template('swap.html', 
@@ -237,8 +173,6 @@ def swap():
                                scoreb = get_scoreb,
                                totala = get_totala,
                                totalb = get_totalb,
-                               date = get_date, 
-                               error = error,
-                               tooltip = tooltip,
+                               date = get_date,
                                coloura = get_coloura,
                                colourb = get_colourb)

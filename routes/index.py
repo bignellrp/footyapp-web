@@ -6,6 +6,7 @@ from services.get_games_data import *
 from services.get_post_tenant_data import *
 from services.get_date import gameday
 from services.get_even_teams import get_even_teams
+from urllib.parse import urlencode
 import discord
 from dotenv import load_dotenv
 import os
@@ -29,8 +30,6 @@ def index():
 
     # get_all_players = all_players_by_channel()
     # get_player_names = player_names_by_channel()
-    error = None
-    tooltip = None
     get_date = gameday()
     get_all_players = all_players()
     get_player_names = player_names()
@@ -55,13 +54,8 @@ def index():
             if len(available_players) < players:
                 '''If available players less than total'''
                 print("Not enough players!")
-                error = f"*ERROR*: Please select {players} players!"
-                return render_template('index.html', 
-                                        player_names = get_player_names, 
-                                        player_count = get_player_count, 
-                                        date = get_date,
-                                        error = error,
-                                        players = players)
+                params = urlencode({'error': f'Please select {players} players!'})
+                return redirect(url_for('index.index') + '?' + params)
             else:
                 ##Build list of game_players if 
                 ##name exists in available_players
@@ -169,6 +163,4 @@ def index():
                                 date = get_date,
                                 player_names = get_player_names, 
                                 player_count = get_player_count,
-                                players = players,
-                                error = error,
-                                tooltip = tooltip)
+                                players = players)
