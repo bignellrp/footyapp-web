@@ -72,49 +72,68 @@ def most_recent_game():
         # 'colourTeamA': 'red', 
         # 'colourTeamB': 'blue'}]
         data = response.json()
-        return data[0] #Output only 1 game
+        if data:
+            return data[0] #Output only 1 game
+        else:
+            return None #No games in DB
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
-        return []
+        return None
 
 
 def date():
-    list = most_recent_game()["date"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["date"]
 
 def teama():
-    list = most_recent_game()["teamA"]
-    #list = ', '.join(map(str, list))
-    return list
+    game = most_recent_game()
+    if game is None:
+        return []
+    return game["teamA"]
 
 def teamb():
-    list = most_recent_game()["teamB"]
-    #list = ', '.join(map(str, list))
-    return list
+    game = most_recent_game()
+    if game is None:
+        return []
+    return game["teamB"]
 
 def scorea():
-    list = most_recent_game()["scoreTeamA"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["scoreTeamA"]
 
 def scoreb():
-    list = most_recent_game()["scoreTeamB"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["scoreTeamB"]
 
 def totala():
-    list = most_recent_game()["totalTeamA"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["totalTeamA"]
 
 def totalb():
-    list = most_recent_game()["totalTeamB"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["totalTeamB"]
 
 def coloura():
-    list = most_recent_game()["colourTeamA"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["colourTeamA"]
 
 def colourb():
-    list = most_recent_game()["colourTeamB"]
-    return list
+    game = most_recent_game()
+    if game is None:
+        return None
+    return game["colourTeamB"]
 
 
 #### TESTS #####
