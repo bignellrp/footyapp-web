@@ -51,11 +51,11 @@
                                 <b>This function allows you to swap a <br>
                                     player that may have dropped out.</b>
                                 <br><br>
-                                {% if date %}
+                                {% if date is not none %}
                                 <div class="date-container">
                                 <h1>{{ date }}:</h1>
                                 </div>
-                                {% if coloura %}
+                                {% if coloura is not none %}
                                 <p id="rcorners">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
                                     <b>Team A({{ totala }}):</b><br>
@@ -63,7 +63,7 @@
                                 </p>
                                 <br>
                                 {% endif %}
-                                {% if colourb %}
+                                {% if colourb is not none %}
                                 <p id="rcorners">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
                                     <b>Team B({{ totalb }}):</b><br>
@@ -95,7 +95,7 @@
                                 </div>
                                 {% endif %}
                             </form>
-                            {% if date %}
+                            {% if date is not none %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                 <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Shuffle">

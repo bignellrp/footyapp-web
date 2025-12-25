@@ -36,10 +36,6 @@ def swap():
     get_totalb = totalb()
     get_coloura = coloura()
     get_colourb = colourb()
-    
-    # Convert colours to strings only if they are not None
-    get_coloura = str(get_coloura) if get_coloura is not None else None
-    get_colourb = str(get_colourb) if get_colourb is not None else None
 
     if request.method == 'POST':
         if request.form['submit_button'] == 'Swap':
