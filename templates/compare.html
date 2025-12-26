@@ -46,8 +46,14 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text text-center text-center">
+                            {% if database_error %}
+                            <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                            </div>
+                            {% else %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/compare">
                                 <table class="mx-auto text-lg-left" style="width: 50%">
                                     <colgroup>
@@ -107,12 +113,9 @@
                                     </tr>
                                     {% endfor %}
                                 </table>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit">
-                                <br>
-                                {% if error %}
-                                <div class="tool_tip"><h2> {{ error }} </h2></div>
-                                {% endif %}
+                                <input class="btn-ghost-cyan" type="submit" value="Generate Teams">
                                 </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

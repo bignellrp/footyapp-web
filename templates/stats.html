@@ -19,12 +19,23 @@
               font-family: arial, sans-serif;
               border-collapse: collapse;
               width: 100%;
+              background-color: #3a3e47;
+              border-radius: 10px;
+              overflow: hidden;
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
             }
             
             td, th {
-              border: 1px solid #dddddd;
+              border: 1px solid #4a4e57;
               text-align: left;
               padding: 7px;
+              background-color: #3a3e47;
+              color: #e0e0e0;
+            }
+            
+            th {
+              font-weight: 600;
+              color: #ffffff;
             }
         
         </style>
@@ -58,12 +69,18 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-lg-left">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="featured-text-plain text-center">
+                            {% if database_error %}
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                            </div>
+                            {% else %}
                             <h1>Game Stats:</h1>
-                            <p>Last 10 matches:</p>
-                            <div class="text-pre">
-                            <p>
+                            <p style="margin-bottom: 5px;">Last 10 matches:</p>
+                            <div style="margin-top: 0;">
+                            {% if game_stats %}
                             <table>
                                     <tr>
                                         <th>Date</th>
@@ -78,16 +95,24 @@
                                     </tr>
                                     {% endfor %}
                             </table>
-                            </p>
-                            <h1>Player Stats:</h1>
-                            <p>
+                            {% else %}
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">⚠️ No games found!</h4>
+                                <p style="color: #e0e0e0;">Please create a game first.</p>
+                            </div>
+                            {% endif %}
+                            </div>
+                            
+                            <h1 style="margin-top: 30px; margin-bottom: 5px;">Player Stats:</h1>
+                            <div style="margin-top: 0;">
+                            {% if player_game_stats %}
                             <table>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Wins</th>
-                                        <th>Draws</th>
-                                        <th>Losses</th>
-                                        <th>Total</th>
+                                        <th>(W)</th>
+                                        <th>(D)</th>
+                                        <th>(L)</th>
+                                        <th>(T)</th>
                                     </tr>
                                     {% for a, b, c, d, e, f in player_game_stats %}
                                     <tr>
@@ -99,8 +124,18 @@
                                     </tr>
                                     {% endfor %}
                             </table>
-                            </p>
+                            {% else %}
+                            <div class="alert alert-info" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">
+                                No player stats available.
                             </div>
+                            {% endif %}
+                            </div>
+                            
+                            <!-- Reset Season Button -->
+                            <div class="text-center" style="margin-top: 30px; margin-bottom: 30px;">
+                                <button id="resetSeasonBtn" class="btn-ghost-danger btn-ghost-pulse">Reset Season</button>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -115,5 +150,68 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+            // Reset Season Button Handler
+            document.getElementById('resetSeasonBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset the season? This will permanently delete all games for the season and reset player stats except for Name and Total. A backup ZIP file will be downloaded.')) {
+                    // User confirmed, proceed with reset
+                    fetch('/stats/reset_season', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            // Try to parse error message
+                            return response.json().then(data => {
+                                throw new Error(data.error || 'Failed to reset season');
+                            }).catch(() => {
+                                throw new Error('Failed to reset season');
+                            });
+                        }
+                        // Check if response is a file download (ZIP)
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/zip')) {
+                            // Handle file download
+                            return response.blob().then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = url;
+                                // Get filename from Content-Disposition header or use default
+                                const contentDisposition = response.headers.get('content-disposition');
+                                let filename = 'stats_backup.zip';
+                                if (contentDisposition) {
+                                    const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                                    if (filenameMatch && filenameMatch[1]) {
+                                        filename = filenameMatch[1].replace(/['"]/g, '');
+                                    }
+                                }
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                document.body.removeChild(a);
+                                
+                                alert('Season reset successfully! Backup downloaded.');
+                                // Reload the page to show updated stats
+                                setTimeout(() => window.location.reload(), 1000);
+                            });
+                        } else {
+                            // Handle JSON response
+                            return response.json().then(data => {
+                                alert('Season reset successfully!');
+                                window.location.reload();
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error resetting season: ' + (error.message || error));
+                        console.error('Error:', error);
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

@@ -19,7 +19,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Swap Player</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Swap</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -44,58 +44,70 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-center">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/swap">
                                 <h1>Swap players:</h1>
                                 <b>This function allows you to swap a <br>
                                     player that may have dropped out.</b>
-                                {% if error %}
-                                <p class="tool_tip tooltip-centered">{{ error }}</p>
-                                {% endif %}
-                                <br><br><br>
-                                {% if tooltip %}
-                                <p class="green_tool_tip tooltip-centered">{{ tooltip }}</p>
-                                {% endif %}
                                 <br><br>
+                                {% if database_error %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                    <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                    <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                                </div>
+                                {% elif date is not none %}
                                 <div class="date-container">
                                 <h1>{{ date }}:</h1>
                                 </div>
+                                {% if coloura is not none %}
                                 <p id="rcorners">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
                                     <b>Team A({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
+                                {% endif %}
+                                {% if colourb is not none %}
                                 <p id="rcorners">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
                                     <b>Team B({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
-                                <b>Current Player Name:</b>
-                                <br>
-                                Please use one name <br>
+                                {% endif %}
+                                <h1>Current Player:</h1>
+                                <b>Please use one name <br>
                                 with no spaces, <br>
-                                starting with a capital. 
+                                starting with a capital. </b>
                                 <br>
-                                <input class="form-control" type="text" id="cur_player_input" name="cur_player_input">
+                                <input class="form-control" type="text" id="cur_player_input" name="cur_player_input" style="border: 2px solid white;">
                                 <br>
-                                <b>New Player Name:</b>
-                                <br>
-                                Please use one name <br>
+                                <h1>New Player:</h1>
+                                <b>Please use one name <br>
                                 with no spaces, <br>
-                                starting with a capital. 
+                                starting with a capital. </b>
                                 <br>
-                                <input class="form-control" type="text" id="new_player_input" name="new_player_input">
+                                <input class="form-control" type="text" id="new_player_input" name="new_player_input" style="border: 2px solid white;">
                                 <br>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Swap">
-                                
+                                <input class="btn-ghost-white" type="submit" name="submit_button" value="Swap">
+                                {% else %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                    <h4 style="color: #e0e0e0;">⚠️ No games found!</h4>
+                                    <p style="color: #e0e0e0;">Please create a game first.</p>
+                                </div>
+                                {% endif %}
                             </form>
+                            {% if date is not none %}
+                            <b>To completely reshuffle <br>
+                                    teams instead, <br>
+                                    use this shuffle button.</b>
+                                <br>
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                 <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Shuffle">
+                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle">
                             </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

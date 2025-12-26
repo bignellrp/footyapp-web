@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
 from services.get_date import gameday
+from urllib.parse import urlencode
 import services.post_games_data as post
 from services.get_games_data import *
 import discord
@@ -108,32 +109,9 @@ def result():
             else:
                 post.append_result(game_json)
                 print("Running append function")
-            get_teama = teama()
-            get_teamb = teamb()
-            get_date = date()
-            get_scorea = scorea()
-            get_scoreb = scoreb()
-            get_totala = totala()
-            get_totalb = totalb()
-            error = None
-            tooltip = "Teams Saved Successfully!"
-            get_coloura = coloura()
-            get_colourb = colourb()
-            get_coloura = str(get_coloura)
-            get_colourb = str(get_colourb)
-            ##Return Team A and Team B to the results template
-            return render_template('score.html', 
-                               teama = get_teama, 
-                               teamb = get_teamb,
-                               scorea = get_scorea,
-                               scoreb = get_scoreb,
-                               totala = get_totala,
-                               totalb = get_totalb,
-                               date = get_date, 
-                               error = error,
-                               tooltip = tooltip,
-                               coloura = get_coloura,
-                               colourb = get_colourb)
+            
+            params = urlencode({'success': 'Teams Saved Successfully!'})
+            return redirect(url_for('score.score') + '?' + params)
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
             try:

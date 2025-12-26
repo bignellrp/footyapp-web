@@ -44,12 +44,12 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                                 <h1>Lineup:</h1>
                                 <br>
-                                <select class="form-control" name="ImageA" id="changeImageA">
+                                <select class="form-control" name="ImageA" id="changeImageA" style="border: 2px solid white;">
                                     <option value="teama">teama</option>
                                     <option value="blue">blue</option>
                                     <option value="white">white</option>
@@ -68,7 +68,7 @@
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
-                                <select class="form-control" name="ImageB" id="changeImageB">
+                                <select class="form-control" name="ImageB" id="changeImageB" style="border: 2px solid white;">
                                     <option value="teamb">teamb</option>
                                     <option value="blue">blue</option>
                                     <option value="white">white</option>

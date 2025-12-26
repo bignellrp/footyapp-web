@@ -126,17 +126,34 @@
 
     const postButton = document.getElementById('postButton');
 
-    postButton.addEventListener('click', function() {
-    const confirmation = confirm("Are you sure you want to delete this player. There is no recovery option for their stats?");
+    if (postButton) {
+        postButton.addEventListener('click', function() {
+        const confirmation = confirm("Are you sure you want to delete this player. There is no recovery option for their stats?");
 
-    if (confirmation) {
-        // user clicked OK, proceed with posting
-        // insert your code here for posting the data
-        console.log("Posting...");
-    } else {
-        // user clicked Cancel, do nothing
-        console.log("Cancelled.");
+        if (confirmation) {
+            // user clicked OK, proceed with posting
+            // insert your code here for posting the data
+            console.log("Posting...");
+        } else {
+            // user clicked Cancel, do nothing
+            console.log("Cancelled.");
+        }
+        });
     }
+
+    // Display status messages from URL parameters
+    // This function is called automatically on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        const success = urlParams.get('success');
+        
+        if (error || success) {
+            // Display the message
+            alert(error || success);
+            // Clean URL to remove parameters
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
     });
 
 })(jQuery); // End of use strict

@@ -46,7 +46,7 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text text-center text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST">
                                 <h1>Welcome to Footyapp{{ env_suffix }}!</h1>
@@ -57,10 +57,6 @@
                                 <label for="password">Password:</label>
                                 <input type="password" id="password" name="password" required><br><br>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" value="Login">
-                                <br>
-                                {% if error %}
-                                <div class="tool_tip"><h2> {{ error }} </h2></div>
-                                {% endif %}
                                 </form>
                         </div>
                     </div>

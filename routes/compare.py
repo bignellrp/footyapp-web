@@ -1,6 +1,7 @@
-from flask import render_template, request, Blueprint, session
+from flask import render_template, request, Blueprint, session, redirect, url_for
 from services.get_player_data import *
 from services.get_post_tenant_data import *
+from urllib.parse import urlencode
 from flask_login import login_required
 from services.get_date import gameday
 from dotenv import load_dotenv
@@ -21,87 +22,94 @@ def compare():
     Takes in available players from a flask form 
     and returns player names and total score for each team'''
 
-    get_all_players = all_players()
-    get_player_names = player_names()
-    get_gameday = gameday()
     try:
-        players = playernum
-        players = players / 2
-        players = int(players)
-    except:
-        print("Cannot get player count from database for compare!")
-        # Default to 5 players per team
-        players = 5
-    
-    if request.method == 'POST':
+        get_all_players = all_players()
+        get_player_names = player_names()
+        get_gameday = gameday()
+        try:
+            players = playernum
+            players = players / 2
+            players = int(players)
+        except:
+            print("Cannot get player count from database for compare!")
+            # Default to 5 players per team
+            players = 5
+        
+        if request.method == 'POST':
+            ##Use GetList to put the data 
+            ##from the index template into the array
+            available_players_a = request.form.getlist('available_players_a')
+            available_players_b = request.form.getlist('available_players_b')
+            check = any(player in available_players_a for player 
+                                                in available_players_b)
 
-        ##Use GetList to put the data 
-        ##from the index template into the array
-        available_players_a = request.form.getlist('available_players_a')
-        available_players_b = request.form.getlist('available_players_b')
-        check = any(player in available_players_a for player 
-                                            in available_players_b)
+            if len(available_players_a) < players or len(available_players_b) < players:
+                '''If available players less than required'''
+                print("Not enough players!")
+                params = urlencode({'error': 'Not enough players!'})
+                return redirect(url_for('compare.compare') + '?' + params)
+            elif check is True:
+                '''If Player from ListA is in ListB'''
+                print("You cannot have a player in both teams!")
+                params = urlencode({'error': 'You cannot have a player in both teams!'})
+                return redirect(url_for('compare.compare') + '?' + params)
+            else:
+                ##Build teams out of available players 
+                ##from all_players using an if statement
 
-        if len(available_players_a) < players or len(available_players_b) < players:
-            '''If available players less than required'''
-            print("Not enough players!")
-            error = "*ERROR*: Not enough players!"
-            return render_template('compare.html', 
-                                   player_names = get_player_names, 
-                                   error = error,
-                                   players = players)
-        elif check is True:
-            '''If Player from ListA is in ListB'''
-            print("You cannot have a player in both teams!")
-            error = "*ERROR*: You cannot have a player in both teams!" 
-            return render_template('compare.html', 
-                                   player_names = get_player_names, 
-                                   error = error,
-                                   players = players)
-        else:
-            ##Build teams out of available players 
-            ##from all_players using an if statement
+                ##Example input:
+                # get_all_players = [
+                #     {'name': 'Amy', 'total': 77},
+                #     {'name': 'Cal', 'total': 77},
+                #     {'name': 'Joe', 'total': 77},
+                #     {'name': 'Rik', 'total': 77}
+                # ]
+                # available_players = ["Amy", "Joe"]
 
-            ##Example input:
-            # get_all_players = [
-            #     {'name': 'Amy', 'total': 77},
-            #     {'name': 'Cal', 'total': 77},
-            #     {'name': 'Joe', 'total': 77},
-            #     {'name': 'Rik', 'total': 77}
-            # ]
-            # available_players = ["Amy", "Joe"]
+                ##Example ouptput:
+                #[('Amy', 77), ('Joe', 77)]
 
-            ##Example ouptput:
-            #[('Amy', 77), ('Joe', 77)]
+                team_a = []
+                team_b = []
+                for player in get_all_players:
+                    if player['name'] in available_players_a:
+                        team_a.append((player['name'], player['total']))
+                    elif player['name'] in available_players_b:
+                        team_b.append((player['name'], player['total']))
 
-            team_a = []
-            team_b = []
-            for player in get_all_players:
-                if player['name'] in available_players_a:
-                    team_a.append((player['name'], player['total']))
-                elif player['name'] in available_players_b:
-                    team_b.append((player['name'], player['total']))
+                ##Take the first column and put names into team_a and team_b
+                team_a_names = sorted([row[0] for row in team_a])
+                team_b_names = sorted([row[0] for row in team_b])
 
-            ##Take the first column and put names into team_a and team_b
-            team_a_names = sorted([row[0] for row in team_a])
-            team_b_names = sorted([row[0] for row in team_b])
+                ##Take the second element of the tuple and sum
+                team_a_total = sum([row[1] for row in team_a])
+                team_b_total = sum([row[1] for row in team_b])
+                
+                ##Add vars to a session to carry into results page
+                session['team_a'] = team_a_names
+                session['team_b'] = team_b_names
+                session['team_a_total'] = team_a_total
+                session['team_b_total'] = team_b_total
 
-            ##Take the second element of the tuple and sum
-            team_a_total = sum([row[1] for row in team_a])
-            team_b_total = sum([row[1] for row in team_b])
-            
-            ##Add vars to a session to carry into results page
-            session['team_a'] = team_a_names
-            session['team_b'] = team_b_names
-            session['team_a_total'] = team_a_total
-            session['team_b_total'] = team_b_total
-
-            ##Return Team A and Team B to the results template
-            return render_template('result.html', 
-                                   teama = team_a_names, 
-                                   teamb = team_b_names, 
-                                   scorea = team_a_total, 
-                                   scoreb = team_b_total)
-    ##If request method is not POST then it must be GET 
-    ##so render compare.html including player_names
-    return render_template('compare.html', player_names = get_player_names, date = get_gameday, players = players)
+                ##Return Team A and Team B to the results template
+                return render_template('result.html', 
+                                       teama = team_a_names, 
+                                       teamb = team_b_names, 
+                                       scorea = team_a_total, 
+                                       scoreb = team_b_total)
+        ##If request method is not POST then it must be GET 
+        ##so render compare.html including player_names
+        return render_template('compare.html', 
+                               player_names = get_player_names, 
+                               date = get_gameday, 
+                               players = players,
+                               database_error = False)
+    except Exception as e:
+        # Database is unreachable
+        print(f"Database error in compare route: {str(e)}")
+        return render_template('compare.html', 
+                               player_names = None, 
+                               date = None, 
+                               players = 5,
+                               database_error = True,
+                               error_message = "Unable to connect to database. Please check your connection and try again.")
