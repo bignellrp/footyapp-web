@@ -85,7 +85,7 @@
                                 <br>
                                 <input class="form-control" type="text" id="new_player_input" name="new_player_input" style="border: 2px solid white;">
                                 <br>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Swap">
+                                <input class="btn-ghost-white" type="submit" name="submit_button" value="Swap">
                                 {% else %}
                                 <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
                                     <h4 style="color: #e0e0e0;">⚠️ No games found in the database.</h4>
@@ -100,7 +100,7 @@
                             {% if date is not none %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                 <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Shuffle">
+                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle">
                             </form>
                             {% endif %}
                         </div>
