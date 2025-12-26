@@ -39,7 +39,6 @@ def swap():
         get_colourb = colourb()
 
         if request.method == 'POST':
-            # ... existing POST logic remains the same ...
             if request.form['submit_button'] == 'Swap':
                 # Check if there are games in the database
                 if get_date is None:
@@ -74,18 +73,100 @@ def swap():
                     params = urlencode({'error': f'{new_player} is not in the player list!'})
                     return redirect(url_for('swap.swap') + '?' + params)
                 elif all([current_player in get_teama, new_player in get_teama]):
-                    print(f'{current_player} and {new_player} are in Team A: {teama}')
-                    params = urlencode({'error': f'{current_player} and {new_player} are in Team A: {teama}'})
+                    print(f'{current_player} and {new_player} are in Team A: {get_teama}')
+                    params = urlencode({'error': f'{current_player} and {new_player} are in Team A'})
                     return redirect(url_for('swap.swap') + '?' + params)
                 elif all([current_player in get_teamb, new_player in get_teamb]):
-                    print(f'{current_player} and {new_player} are in Team B: {teamb}')
-                    params = urlencode({'error': f'{current_player} and {new_player} are in Team B: {teamb}'})
+                    print(f'{current_player} and {new_player} are in Team B: {get_teamb}')
+                    params = urlencode({'error': f'{current_player} and {new_player} are in Team B'})
                     return redirect(url_for('swap.swap') + '?' + params)
                 else:
                     swap_players(current_player, new_player)
                     params = urlencode({'success': 'Updated successfully'})
                     return redirect(url_for('swap.swap') + '?' + params)
-            # ... rest of POST logic for Shuffle remains the same ...
+            elif request.form['submit_button'] == 'Shuffle':
+                # Check if there are games in the database
+                if get_date is None:
+                    params = urlencode({'error': 'No games found in the database. Please create a game first.'})
+                    return redirect(url_for('swap.swap') + '?' + params)
+                
+                # Retrieve the value of the hidden input 'confirm_shuffle'
+                confirm_shuffle_value = request.form.get('confirm_shuffle')
+                if confirm_shuffle_value == 'on':
+                    available_players = get_teama + get_teamb
+                    game_players = []
+                    for player in get_all_players:
+                        if player['name'] in available_players:
+                            game_players.append((player['name'], player['total']))
+                    # Run the even teams command with the existing players        
+                    get_newteama,get_newteamb,get_newtotala,get_newtotalb = get_even_teams(game_players)
+
+                    get_gameday = gameday()
+
+                    game_json = {
+                        "date": get_gameday,
+                        "teamA": get_newteama,
+                        "teamB": get_newteamb,
+                        "scoreTeamA": None,
+                        "scoreTeamB": None,
+                        "totalTeamA": get_newtotala,
+                        "totalTeamB": get_newtotalb,
+                        "colourTeamA": get_coloura,
+                        "colourTeamB": get_colourb
+                    }
+                    ##Send Discord Message
+                    try:
+                        ##Send the teams to discord
+                        fileA = discord.File("static/"+get_coloura+".png")
+                        fileB = discord.File("static/"+get_colourb+".png")
+                        url = os.getenv("DISCORD_WEBHOOK")
+                        teama_json = "\n".join(item for item in get_newteama)
+                        teamb_json = "\n".join(item for item in get_newteamb)
+                        webhook = discord.Webhook.from_url(url, 
+                                                        adapter=discord.RequestsWebhookAdapter())
+                        ##Embed Message
+                        embed1=discord.Embed(title="TEAM A:",
+                                            color=discord.Color.dark_green())
+                        embed1.set_author(name="footyapp")
+                        embed1.add_field(name="TeamA (" 
+                                        + str(get_newtotala) 
+                                        + "):", value=teama_json, 
+                                        inline=True)
+                        embed1.set_thumbnail(url="attachment://"+get_coloura+".png")
+                        webhook.send(file = fileA, embed = embed1)
+
+                        embed2=discord.Embed(title="TEAM B:",
+                                            color=discord.Color.dark_green())
+                        embed2.set_author(name="footyapp")
+                        embed2.add_field(name="TeamB (" 
+                                        + str(get_newtotalb) 
+                                        + "):", value=teamb_json, 
+                                        inline=True)
+                        embed2.set_thumbnail(url="attachment://"+get_colourb+".png")
+                        webhook.send(file = fileB, embed = embed2)
+                    except:
+                        print("Discord Webhook not set")
+
+                    ##Gets Result data for validation
+                    get_scorea = scorea()
+                    get_date = date()
+
+                    ##Run Update Functions, either update or append
+                    if get_date == get_gameday and get_scorea == None:
+                        '''If the last row has next wednesdays date 
+                        then replace the results.
+                        Else append results on a new line'''
+                        post.update_result(game_json)
+                        print("Running update function")
+                    else:
+                        post.append_result(game_json)
+                        print("Running append function")
+                    
+                    params = urlencode({'success': 'Teams Updated Successfully!'})
+                    return redirect(url_for('swap.swap') + '?' + params)
+                #If not confirmed just return the original
+                params = urlencode({'error': 'Problem running shuffle!'})
+                return redirect(url_for('swap.swap') + '?' + params)
         
         ##If request method is not POST then it must be GET
         return render_template('swap.html', 

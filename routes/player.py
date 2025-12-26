@@ -21,7 +21,7 @@ def player():
         get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
 
         if request.method == 'POST':
-            if request.form['submit_button'] == 'Post':
+            if request.form['submit_button'] == 'Add Player':
                 ##Get player from form user input
                 player_input = request.form.get('player_input')
 
@@ -41,7 +41,7 @@ def player():
                     add_player(player_input)
                     params = urlencode({'success': 'Updated successfully'})
                     return redirect(url_for('player.player') + '?' + params)
-            elif request.form['submit_button'] == 'Delete':
+            elif request.form['submit_button'] == 'Delete Player':
                 ##Get player from form user input
                 player_delete = request.form.get('player_delete')
 
