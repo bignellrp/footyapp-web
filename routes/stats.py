@@ -27,12 +27,22 @@ def stats():
     Takes in game stats from google sheets 
     and return them to stats page'''
 
-    get_game_stats = game_stats()
-    get_player_stats = player_stats()
-    
-    return render_template('stats.html', 
-                           game_stats = get_game_stats, 
-                           player_game_stats = get_player_stats)
+    try:
+        get_game_stats = game_stats()
+        get_player_stats = player_stats()
+        
+        return render_template('stats.html', 
+                               game_stats = get_game_stats, 
+                               player_game_stats = get_player_stats,
+                               database_error = False)
+    except Exception as e:
+        # Database is unreachable
+        logger.error(f"Database error in stats route: {str(e)}")
+        return render_template('stats.html', 
+                               game_stats = None, 
+                               player_game_stats = None,
+                               database_error = True,
+                               error_message = "Unable to connect to database. Please try again later.")
 
 @stats_blueprint.route('/stats/reset_season', methods=['POST'])
 @login_required

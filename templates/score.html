@@ -51,10 +51,15 @@
                                 <b>This function allows you to record <br>
                                     the final scores for each team.</b>
                                 <br><br>
-                                {% if date is none %}
+                                {% if database_error %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                    <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                    <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                                </div>
+                                {% elif date is none %}
                                 <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
-                                    <h4 style="color: #e0e0e0;">⚠️ No games found in the database.</h4>
-                                    <p style="color: #e0e0e0;">Please create a game first using the Auto or Manual page.</p>
+                                    <h4 style="color: #e0e0e0;">⚠️ No games found!</h4>
+                                    <p style="color: #e0e0e0;">Please create a game first.</p>
                                 </div>
                                 {% else %}
                                 <h3>Lineup for {{ date }}:</h3>

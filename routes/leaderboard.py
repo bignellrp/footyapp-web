@@ -14,12 +14,19 @@ def leaderboard():
     Takes in leaderboard from players table 
     and returns top10 player names and scores'''
 
-    #Example output:
-
-    leaderboard = get_leaderboard()
-    
-    # Sorting the leaderboard by score (in descending order) and name (in ascending order)
-    sorted_leaderboard = sorted(leaderboard, key=lambda x: (-x[1], -x[2], x[0]))
-    
-    return render_template('leaderboard.html', 
-                            game_stats = sorted_leaderboard)
+    try:
+        leaderboard = get_leaderboard()
+        
+        # Sorting the leaderboard by score (in descending order) and name (in ascending order)
+        sorted_leaderboard = sorted(leaderboard, key=lambda x: (-x[1], -x[2], x[0]))
+        
+        return render_template('leaderboard.html', 
+                                game_stats = sorted_leaderboard,
+                                database_error = False)
+    except Exception as e:
+        # Database is unreachable
+        print(f"Database error in leaderboard route: {str(e)}")
+        return render_template('leaderboard.html', 
+                                game_stats = None,
+                                database_error = True,
+                                error_message = "Unable to connect to database. Please check your connection and try again.")

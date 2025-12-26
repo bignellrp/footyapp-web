@@ -48,6 +48,12 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text-plain text-center text-center">
+                            {% if database_error %}
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                            </div>
+                            {% else %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
                                 <h3>Choose <span class="indextotalchecked">{{ player_count }}</span> out of <span id='players'>{{ players }}</span> for {{ date }}:</h3>
                                 <table class="mx-auto text-lg-left" width="50%">
@@ -83,7 +89,7 @@
                                     </tr>
                                     {% endfor %}
                                 </table>
-                                <div class="text-center">
+                                <div class="text-center" style="margin-top: 20px;">
                                     <input class="btn-ghost btn-ghost-sm mx-1" type="submit" name="submit_button" value="Post">
                                     <input class="btn-ghost btn-ghost-sm mx-1" type="submit" name="submit_button" value="Save">
                                     <input class="btn-ghost-danger btn-ghost-sm mx-1" type="submit" name="submit_button" value="Wipe">
@@ -91,6 +97,7 @@
                                 <br>
                                 <!--<input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Change Player Total">-->
                                 </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

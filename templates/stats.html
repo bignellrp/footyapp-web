@@ -71,9 +71,14 @@
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text-plain text-center">
+                            {% if database_error %}
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
+                                <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                            </div>
+                            {% else %}
                             <h1>Game Stats:</h1>
                             <p style="margin-bottom: 5px;">Last 10 matches:</p>
-                            <div class="text-pre">
                             <div style="margin-top: 0;">
                             {% if game_stats %}
                             <table>
@@ -104,10 +109,10 @@
                             <table>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Wins</th>
-                                        <th>Draws</th>
-                                        <th>Losses</th>
-                                        <th>Total</th>
+                                        <th>(W)</th>
+                                        <th>(D)</th>
+                                        <th>(L)</th>
+                                        <th>(T)</th>
                                     </tr>
                                     {% for a, b, c, d, e, f in player_game_stats %}
                                     <tr>
@@ -125,6 +130,12 @@
                             </div>
                             {% endif %}
                             </div>
+                            
+                            <!-- Reset Season Button -->
+                            <div class="text-center" style="margin-top: 30px; margin-bottom: 30px;">
+                                <button id="resetSeasonBtn" class="btn-ghost-danger btn-ghost-pulse">Reset Season</button>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
