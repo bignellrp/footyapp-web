@@ -20,6 +20,9 @@
               border-collapse: collapse;
               width: 100%;
               background-color: #3a3e47;
+              border-radius: 10px;
+              overflow: hidden;
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
             }
             
             td, th {
@@ -67,11 +70,11 @@
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
-                        <div class="featured-text-plain text-lg-left">
+                        <div class="featured-text-plain text-center">
                             <h1>Game Stats:</h1>
-                            <p>Last 10 matches:</p>
+                            <p style="margin-bottom: 5px;">Last 10 matches:</p>
                             <div class="text-pre">
-                            <p>
+                            <div style="margin-top: 0;">
                             {% if game_stats %}
                             <table>
                                     <tr>
@@ -88,13 +91,15 @@
                                     {% endfor %}
                             </table>
                             {% else %}
-                            <div class="alert alert-info" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">
-                                No games found in the database.
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                <h4 style="color: #e0e0e0;">⚠️ No games found in the database.</h4>
+                                <p style="color: #e0e0e0;">Please create a game first using the Auto or Manual page.</p>
                             </div>
                             {% endif %}
-                            </p>
-                            <h1>Player Stats:</h1>
-                            <p>
+                            </div>
+                            
+                            <h1 style="margin-top: 30px; margin-bottom: 5px;">Player Stats:</h1>
+                            <div style="margin-top: 0;">
                             {% if player_game_stats %}
                             <table>
                                     <tr>
@@ -119,10 +124,12 @@
                                 No player stats available.
                             </div>
                             {% endif %}
-                            </p>
-                            <div style="margin-top: 30px; text-align: center;">
-                                <button id="resetSeasonBtn" class="btn btn-danger btn-lg">Reset Season</button>
                             </div>
+                            </div>
+                            
+                            <!-- Reset Season Button -->
+                            <div class="text-center mt-4">
+                                <button id="resetSeasonBtn" class="btn btn-danger btn-lg" style="background-color: #dc3545; border-color: #dc3545;">Reset Season</button>
                             </div>
                         </div>
                     </div>

@@ -44,8 +44,8 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-center">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/swap">
                                 <h1>Swap players:</h1>
                                 <b>This function allows you to swap a <br>
@@ -71,30 +71,32 @@
                                 </p>
                                 <br>
                                 {% endif %}
-                                <b>Current Player Name:</b>
-                                <br>
-                                Please use one name <br>
+                                <h1>Current Player:</h1>
+                                <b>Please use one name <br>
                                 with no spaces, <br>
-                                starting with a capital. 
+                                starting with a capital. </b>
                                 <br>
-                                <input class="form-control" type="text" id="cur_player_input" name="cur_player_input">
+                                <input class="form-control" type="text" id="cur_player_input" name="cur_player_input" style="border: 2px solid white;">
                                 <br>
-                                <b>New Player Name:</b>
-                                <br>
-                                Please use one name <br>
+                                <h1>New Player:</h1>
+                                <b>Please use one name <br>
                                 with no spaces, <br>
-                                starting with a capital. 
+                                starting with a capital. </b>
                                 <br>
-                                <input class="form-control" type="text" id="new_player_input" name="new_player_input">
+                                <input class="form-control" type="text" id="new_player_input" name="new_player_input" style="border: 2px solid white;">
                                 <br>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Swap">
                                 {% else %}
-                                <div class="alert alert-info" role="alert">
-                                    <h4>No games found in the database.</h4>
-                                    <p>Please create a game first using the Auto or Manual page.</p>
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                    <h4 style="color: #e0e0e0;">⚠️ No games found in the database.</h4>
+                                    <p style="color: #e0e0e0;">Please create a game first using the Auto or Manual page.</p>
                                 </div>
                                 {% endif %}
                             </form>
+                            <b>To completely reshuffle <br>
+                                    teams instead, <br>
+                                    use this shuffle button.</b>
+                                <br>
                             {% if date is not none %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                 <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">

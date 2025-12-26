@@ -25,6 +25,25 @@
         <!-- Stylesheets -->
         <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
         <link href="/static/mindmup.css" rel="stylesheet" />
+        <style>
+            #mainTable {
+                background-color: #3a3e47;
+                border-radius: 10px;
+                overflow: hidden;
+                border-collapse: separate;
+                border-spacing: 0;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
+            }
+            #mainTable th, #mainTable td {
+                background-color: #3a3e47;
+                color: #e0e0e0;
+                border: 1px solid #4a4e57;
+            }
+            #mainTable th {
+                font-weight: 600;
+                color: #ffffff;
+            }
+        </style>
         <!-- JavaScript files -->
         <script src="/static/mindmup-editabletable.js"></script>
         <script src="/static/mindmup-changedvalues.js"></script>
@@ -59,10 +78,10 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
+                    <div class="col-xl-8 col-lg-7 mx-auto">
                         <div class="featured-text-plain text-lg-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
-                                <h1>Add a new player</h1>
+                                <h1>Add a new player:</h1>
                                 <br>
                                 <b>Please use one name <br>
                                     with no spaces, <br>
@@ -76,6 +95,10 @@
                                 </form>
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
                                 <p>
+                                <b>Edit the player totals <br>
+                                    in-line and use, <br>
+                                    the submit button below to save.</b>
+                                <br>
                                 <table id="mainTable" class="table table-striped text-pre text-white-50 text-lg-center">
                                     <thead><tr><th>Name</th><th>Total</th></tr></thead>
                                     <tbody>

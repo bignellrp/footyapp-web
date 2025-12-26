@@ -44,25 +44,29 @@
             <div class="container">
                 <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="text-white-50 text-center">
-                            {% if date is none %}
-                            <div class="alert alert-info" role="alert">
-                                <h4>No games found in the database.</h4>
-                                <p>Please create a game first using the Auto or Manual page.</p>
-                            </div>
-                            {% else %}
+                    <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="featured-text text-center">
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
+                                <h1>Record scores:</h1>
+                                <b>This function allows you to record <br>
+                                    the final scores for each team.</b>
+                                <br><br>
+                                {% if date is none %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                    <h4 style="color: #e0e0e0;">⚠️ No games found in the database.</h4>
+                                    <p style="color: #e0e0e0;">Please create a game first using the Auto or Manual page.</p>
+                                </div>
+                                {% else %}
                                 <h3>Lineup for {{ date }}:</h3>
                                 <br>
-                                <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)">
+                                <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" style="border: 2px solid white;">
                                 <p id="rcorners">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
                                     <b>Team A({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
-                                <input class="form-control" type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)">
+                                <input class="form-control" type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)" style="border: 2px solid white;">
                                 <p id="rcorners">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
                                     <b>Team B({{ totalb }}):</b><br>
@@ -71,8 +75,8 @@
                                 <br>
                                 <h3><b>Save Scores:</b></h3>
                                 <input class="btn btn-primary js-scroll-trigger" type="submit">
+                                {% endif %}
                             </form>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
