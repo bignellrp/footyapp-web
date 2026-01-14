@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 from flask_login import LoginManager
 from services.get_user import User
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 ##Load the .env file
 load_dotenv()
@@ -43,7 +43,6 @@ def format_date(date_string):
     if date_string is None:
         return None
     try:
-        from datetime import datetime
         date_obj = datetime.strptime(date_string, '%Y-%m-%d')
         return date_obj.strftime('%d-%m-%Y')
     except (ValueError, TypeError):
