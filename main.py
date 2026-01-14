@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 from flask_login import LoginManager
 from services.get_user import User
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 ##Load the .env file
 load_dotenv()
@@ -36,6 +36,17 @@ def inject_env_indicator():
     is_dev = git_branch == "dev"
     env_suffix = " Dev" if is_dev else ""
     return dict(env_suffix=env_suffix)
+
+@app.template_filter('format_date')
+def format_date(date_string):
+    """Convert date from YYYY-MM-DD to DD-MM-YYYY format"""
+    if date_string is None:
+        return None
+    try:
+        date_obj = datetime.strptime(date_string, '%Y-%m-%d')
+        return date_obj.strftime('%d-%m-%Y')
+    except (ValueError, TypeError):
+        return date_string
 
 ##Import Secret Key for Session Pop
 app.secret_key = os.getenv("SESSION")

@@ -62,7 +62,7 @@
                                     <p style="color: #e0e0e0;">Please create a game first.</p>
                                 </div>
                                 {% else %}
-                                <h3>Lineup for {{ date }}:</h3>
+                                <h3>Lineup: {{ date|format_date }}</h3>
                                 <br>
                                 <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" style="border: 2px solid white;">
                                 <p id="rcorners">
