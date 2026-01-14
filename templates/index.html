@@ -55,7 +55,7 @@
                             </div>
                             {% else %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
-                                <h3>Choose <span class="indextotalchecked">{{ player_count }}</span> out of <span id='players'>{{ players }}</span> for {{ date }}:</h3>
+                                <h3>Choose <span class="indextotalchecked">{{ player_count }}</span> out of <span id='players'>{{ players }}</span> for {{ date|format_date }}:</h3>
                                 <table class="mx-auto text-lg-left" width="50%">
                                     <colgroup>
                                         <col span="1" style="width: 20%;">

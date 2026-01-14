@@ -37,6 +37,18 @@ def inject_env_indicator():
     env_suffix = " Dev" if is_dev else ""
     return dict(env_suffix=env_suffix)
 
+@app.template_filter('format_date')
+def format_date(date_string):
+    """Convert date from YYYY-MM-DD to DD-MM-YYYY format"""
+    if date_string is None:
+        return None
+    try:
+        from datetime import datetime
+        date_obj = datetime.strptime(date_string, '%Y-%m-%d')
+        return date_obj.strftime('%d-%m-%Y')
+    except (ValueError, TypeError):
+        return date_string
+
 ##Import Secret Key for Session Pop
 app.secret_key = os.getenv("SESSION")
 app.config["DISCORD_CLIENT_ID"] = os.getenv("DISCORD_CLIENT_ID")
