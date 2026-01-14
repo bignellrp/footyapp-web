@@ -58,7 +58,7 @@
                                 </div>
                                 {% elif date is not none %}
                                 <div class="date-container">
-                                <h1>{{ date }}:</h1>
+                                <h1>{{ date|format_date }}:</h1>
                                 </div>
                                 {% if coloura is not none %}
                                 <p id="rcorners">
