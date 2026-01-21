@@ -7,6 +7,9 @@ import pytz
 # Load the .env file
 load_dotenv()
 
+# Cutoff time (hour in GMT) after which games are scheduled for next week
+GAME_CUTOFF_HOUR_GMT = 20  # 8pm GMT
+
 def gameday():
 
     weekday_mapping = {
@@ -27,12 +30,12 @@ def gameday():
         
         # If it's the same day as the game day
         if days_ahead == 0:
-            # Check if current time is before 8pm GMT (20:00)
-            if current_time_gmt.hour < 20:
+            # Check if current time is before the cutoff hour
+            if current_time_gmt.hour < GAME_CUTOFF_HOUR_GMT:
                 # Return today's date
                 return d
             else:
-                # After 8pm, return next week's game day
+                # After cutoff hour, return next week's game day
                 days_ahead = 7
         elif days_ahead < 0:
             # If the game day has passed this week, get next week's game day
