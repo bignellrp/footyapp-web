@@ -129,4 +129,5 @@ def result():
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET
-        return render_template('result.html')
+        get_gameday = gameday()
+        return render_template('result.html', date=get_gameday)
