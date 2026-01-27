@@ -92,11 +92,13 @@ def compare():
                 session['team_b_total'] = team_b_total
 
                 ##Return Team A and Team B to the results template
+                get_gameday = gameday()
                 return render_template('result.html', 
                                        teama = team_a_names, 
                                        teamb = team_b_names, 
                                        scorea = team_a_total, 
-                                       scoreb = team_b_total)
+                                       scoreb = team_b_total,
+                                       date = get_gameday)
         ##If request method is not POST then it must be GET 
         ##so render compare.html including player_names
         return render_template('compare.html', 
