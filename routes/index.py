@@ -122,11 +122,13 @@ def index():
                        print("Check .env DISCORD_WEBHOOK is set correctly!")
                         
                     # Return Team A and Team B to the results template
+                    get_gameday = gameday()
                     return render_template('result.html', 
                                             teama = team_a, 
                                             teamb = team_b, 
                                             scorea = team_a_total, 
-                                            scoreb = team_b_total)
+                                            scoreb = team_b_total,
+                                            date = get_gameday)
             elif request.form['submit_button'] == 'Save':
                 ##Use GetList to put the data 
                 ##from the index template into the array
