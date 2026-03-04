@@ -293,7 +293,7 @@
                     var row = this.closest('tr');
                     var playerName = row.getAttribute('data-row-id');
 
-                    if (confirm('Are you sure you want to delete ' + playerName + '? There is no recovery option for their stats.')) {
+                    if (confirm(`Are you sure you want to delete ${playerName}? There is no recovery option for their stats.`)) {
                         var form = document.createElement('form');
                         form.method = 'POST';
                         form.action = '/player';

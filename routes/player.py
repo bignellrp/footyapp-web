@@ -106,7 +106,7 @@ def player():
                         name = key.replace('row_', '')
                         changed_rows[name] = value
                         match = re.match("(^(?:100|[1-9]?[0-9])$)", value)
-                        if match == None:
+                        if match is None:
                             print(name, "has an invalid total")
                             error = f"{name}'s total is not a valid input"
                             break  # Stop processing on first error
