@@ -28,11 +28,12 @@
         <style>
             #mainTable {
                 background-color: #3a3e47;
-                border-radius: 10px;
+                border-radius: 10px 10px 0 0;
                 overflow: hidden;
                 border-collapse: separate;
                 border-spacing: 0;
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
+                margin-bottom: 0;
             }
             #mainTable th, #mainTable td {
                 background-color: #3a3e47;
@@ -42,6 +43,95 @@
             #mainTable th {
                 font-weight: 600;
                 color: #ffffff;
+            }
+
+            /* Delete cell: hidden by default, revealed on swipe (mobile) or hover (desktop) */
+            .delete-cell-td {
+                padding: 0 !important;
+                overflow: hidden;
+                border-left: none !important;
+                width: 0;
+            }
+            .delete-cell-inner {
+                max-width: 0;
+                overflow: hidden;
+                background-color: #dc3545;
+                transition: max-width 0.25s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+                height: 100%;
+                min-height: 38px;
+            }
+            .player-row.swipe-revealed .delete-cell-inner {
+                max-width: 70px;
+            }
+            /* Show delete on hover for desktop pointing devices */
+            @media (hover: hover) and (pointer: fine) {
+                .player-row:hover .delete-cell-inner {
+                    max-width: 70px;
+                }
+            }
+            .delete-player-btn {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1rem;
+                padding: 8px 14px;
+                cursor: pointer;
+                line-height: 1;
+            }
+            .delete-player-btn:hover {
+                background-color: rgba(255,255,255,0.15);
+            }
+
+            /* New player input row (tfoot) */
+            #mainTable tfoot tr td {
+                background-color: #2d3640 !important;
+                border: 1px dashed #52b788 !important;
+                padding: 6px 8px !important;
+            }
+            .new-player-input {
+                background: transparent;
+                border: none;
+                color: #e0e0e0;
+                width: 100%;
+                text-align: center;
+                font-size: inherit;
+                font-family: inherit;
+                outline: none;
+                padding: 0;
+            }
+            .new-player-input:focus {
+                border-bottom: 1px solid #52b788;
+                color: #ffffff;
+            }
+            .new-player-input::placeholder {
+                color: #6c757d;
+                font-style: italic;
+            }
+            /* Hide the tfoot delete cell td border to match the header */
+            #mainTable tfoot .delete-cell-td {
+                border: none !important;
+                background-color: #2d3640 !important;
+            }
+            /* Keep bottom border-radius on the new player row */
+            #mainTable tfoot tr:last-child td:first-child {
+                border-bottom-left-radius: 10px;
+            }
+            #mainTable tfoot tr:last-child td:last-child {
+                border-bottom-right-radius: 10px;
+            }
+            /* Remove shadow from table bottom since tfoot gives it a rounded bottom */
+            .table-wrapper {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .table-wrapper #mainTable {
+                box-shadow: none;
+                border-radius: 0;
             }
         </style>
         <!-- JavaScript files -->
@@ -86,53 +176,53 @@
                                 <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
                             </div>
                             {% else %}
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
-                                <h1>Add a new player:</h1>
-                                <br>
-                                <b>Please use one name <br>
-                                    with no spaces, <br>
-                                    starting with a capital.</b>
-                                <br>
-                                <input class="form-control" type="text" id="player_input" name="player_input">
-                                <br>
-                                <div class="button-container">
-                                    <input class="btn-ghost" type="submit" name="submit_button" value="Add Player">
-                                </div>
-                                </form>
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
                                 <p>
-                                <b>Edit the player totals <br>
-                                    in-line and use, <br>
-                                    the submit button below to save.</b>
+                                <b>Edit player totals inline.<br>
+                                    Swipe left (or hover) on a name to delete.<br>
+                                    Add a new player in the row below.</b>
                                 <br>
+                                <div class="table-wrapper">
                                 <table id="mainTable" class="table table-striped text-pre text-white-50 text-lg-center">
-                                    <thead><tr><th>Name</th><th>Total</th></tr></thead>
+                                    <thead><tr><th>Name</th><th>Total</th><th style="width:0; padding:0; border:none;"></th></tr></thead>
                                     <tbody>
                                     {% for player in all_players %}
-                                      <tr data-row-id="{{ player.name }}"><td>{{ player.name }}</td><td>{{ player.total }}</td></tr>
+                                      <tr data-row-id="{{ player.name }}" class="player-row">
+                                        <td>{{ player.name }}</td>
+                                        <td>{{ player.total }}</td>
+                                        <td class="delete-cell-td">
+                                            <div class="delete-cell-inner">
+                                                <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                      </tr>
                                     {% endfor %}
                                     </tbody>
+                                    <tfoot>
+                                      <tr>
+                                        <td>
+                                            <input type="text" id="newPlayerName" class="new-player-input"
+                                                   value="NewPlayer" autocomplete="off" autocapitalize="words"
+                                                   title="Tap to enter a new player name">
+                                        </td>
+                                        <td>
+                                            <input type="number" id="newPlayerTotal" class="new-player-input"
+                                                   value="77" min="0" max="100"
+                                                   title="Set starting score (0-100)">
+                                        </td>
+                                        <td class="delete-cell-td"></td>
+                                      </tr>
+                                    </tfoot>
                                 </table>
+                                </div>
                                 <br>
                                 <div class="button-container">
                                     <button class="btn-ghost-cyan" id="submit-button">Update Totals</button>
                                 </div>
                                 <br>
                                 </p>
-                            </form>
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/player">
-                                <h1>Delete a player</h1>
-                                <br>
-                                <b>Please use one name <br>
-                                    with no spaces, <br>
-                                    starting with a capital.</b>
-                                <br>
-                                <input class="form-control" type="text" id="player_delete" name="player_delete">
-                                <br>
-                                <!--id postButton is for a JS are you sure on the delete-->
-                                <div class="button-container">
-                                    <input class="btn-ghost-danger" id="postButton" type="submit" name="submit_button" value="Delete Player">
-                                </div>
                             </form>
                             {% endif %}
                         </div>
@@ -147,5 +237,87 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+        // Swipe-to-delete for player rows
+        (function () {
+            'use strict';
+
+            var touchStartX = 0;
+            var touchStartY = 0;
+            var revealedRow = null;
+
+            function revealRow(row) {
+                if (revealedRow && revealedRow !== row) {
+                    revealedRow.classList.remove('swipe-revealed');
+                }
+                row.classList.add('swipe-revealed');
+                revealedRow = row;
+            }
+
+            function hideRow(row) {
+                row.classList.remove('swipe-revealed');
+                if (revealedRow === row) revealedRow = null;
+            }
+
+            document.querySelectorAll('.player-row').forEach(function (row) {
+                row.addEventListener('touchstart', function (e) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                row.addEventListener('touchend', function (e) {
+                    var dx = touchStartX - e.changedTouches[0].clientX;
+                    var dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
+
+                    if (dy > 30) return; // Mostly vertical — ignore
+
+                    if (dx > 50) {
+                        revealRow(row); // Swipe left → reveal delete
+                    } else if (dx < -30) {
+                        hideRow(row);   // Swipe right → hide delete
+                    }
+                }, { passive: true });
+            });
+
+            // Tap anywhere outside the revealed row to hide it
+            document.addEventListener('touchstart', function (e) {
+                if (revealedRow && !revealedRow.contains(e.target)) {
+                    hideRow(revealedRow);
+                }
+            }, { passive: true });
+
+            // Handle delete button clicks (swipe-revealed or hover)
+            document.querySelectorAll('.delete-player-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var row = this.closest('tr');
+                    var playerName = row.getAttribute('data-row-id');
+
+                    if (confirm(`Are you sure you want to delete ${playerName}? There is no recovery option for their stats.`)) {
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/player';
+
+                        var deleteInput = document.createElement('input');
+                        deleteInput.type = 'hidden';
+                        deleteInput.name = 'player_delete';
+                        deleteInput.value = playerName;
+
+                        var submitInput = document.createElement('input');
+                        submitInput.type = 'hidden';
+                        submitInput.name = 'submit_button';
+                        submitInput.value = 'Delete Player';
+
+                        form.appendChild(deleteInput);
+                        form.appendChild(submitInput);
+                        document.body.appendChild(form);
+                        form.submit();
+                    } else {
+                        if (revealedRow) hideRow(revealedRow);
+                    }
+                });
+            });
+        }());
+        </script>
     </body>
 </html>

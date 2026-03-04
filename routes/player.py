@@ -70,23 +70,51 @@ def player():
             error = None
             success = None
             has_row_updates = False
-            ##Need to change the validation to be done before values come back to python
-            
-            for key, value in request.args.items():
-                if key.startswith('row_'):
-                    has_row_updates = True
-                    name = key.replace('row_', '')
-                    changed_rows[name] = value
-                    match = re.match("(^(?:100|[1-9]?[0-9])$)", value)
-                    if match == None:
-                        print(name, "has an invalid total")
-                        error = f"{name}'s total is not a valid input"
-                        break  # Stop processing on first error
+
+            ##Check for new player addition submitted via the inline table row
+            new_player_name = request.args.get('new_player')
+            new_player_total = request.args.get('new_player_total', '77')
+
+            if new_player_name:
+                has_row_updates = True
+                match = re.match("(^[A-Z][a-zA-Z]*$)", new_player_name)
+                if new_player_name in names:
+                    print("Player exists already")
+                    error = 'Player exists already'
+                elif match is None:
+                    print("Player name input is invalid")
+                    error = 'Player name is not a valid input'
+                else:
+                    total_match = re.match("(^(?:100|[1-9]?[0-9])$)", new_player_total)
+                    if total_match is None:
+                        print("New player total is invalid")
+                        error = 'Player total is not a valid input'
                     else:
-                        json_value = {"total": int(value)}
-                        print(name, json_value)
-                        update_player(name, json_value)
-                        success = "Updated successfully"
+                        print(f"Adding new player {new_player_name} with score {new_player_total}")
+                        add_player(new_player_name)
+                        total_value = int(new_player_total)
+                        if total_value != 77:
+                            update_player(new_player_name, {"total": total_value})
+                        success = f"Player {new_player_name} added successfully"
+                        names.append(new_player_name)
+
+            ##Need to change the validation to be done before values come back to python
+            if not error:
+                for key, value in request.args.items():
+                    if key.startswith('row_'):
+                        has_row_updates = True
+                        name = key.replace('row_', '')
+                        changed_rows[name] = value
+                        match = re.match("(^(?:100|[1-9]?[0-9])$)", value)
+                        if match is None:
+                            print(name, "has an invalid total")
+                            error = f"{name}'s total is not a valid input"
+                            break  # Stop processing on first error
+                        else:
+                            json_value = {"total": int(value)}
+                            print(name, json_value)
+                            update_player(name, json_value)
+                            success = "Updated successfully"
         
             # If we had row updates, redirect to show message
             if has_row_updates:
