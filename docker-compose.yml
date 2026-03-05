@@ -10,7 +10,7 @@ services:
       - "2${PORT}:80"
     restart: always
     env_file:
-      - /data/footyapp-web-${BRANCH}/.env
+      - /files/footyapp-web-${BRANCH}/.env
     environment:
       - TZ=Europe/London
 
