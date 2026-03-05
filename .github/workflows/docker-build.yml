@@ -29,8 +29,12 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "STACK_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "BRANCH=main" >> $GITHUB_ENV
+            echo "PORT=${{ vars.PORTAINER_PORT_MAIN }}" >> $GITHUB_ENV
           else
             echo "STACK_NAME=${{ github.event.repository.name }}-dev" >> $GITHUB_ENV
+            echo "BRANCH=dev" >> $GITHUB_ENV
+            echo "PORT=${{ vars.PORTAINER_PORT_DEV }}" >> $GITHUB_ENV
           fi
 
       - name: Deploy to Portainer
@@ -43,3 +47,4 @@ jobs:
           endpoint_id: 2
           action: redeploy
           prune: true
+          env_vars: '{"BRANCH":"${{ env.BRANCH }}","PORT":"${{ env.PORT }}"}'
