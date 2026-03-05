@@ -39,51 +39,51 @@
                 background-color: #3a3e47;
                 color: #e0e0e0;
                 border: 1px solid #4a4e57;
+                vertical-align: middle;
+                white-space: normal;
             }
             #mainTable th {
                 font-weight: 600;
                 color: #ffffff;
             }
+            #mainTable tbody td {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
 
-            /* Delete cell: hidden by default, revealed on swipe (mobile) or hover (desktop) */
+            /* Delete button column */
+            #mainTable th.delete-header,
             .delete-cell-td {
-                padding: 0 !important;
-                overflow: hidden;
-                border-left: none !important;
-                width: 0;
+                width: 78px;
+                min-width: 78px;
+                text-align: center;
             }
-            .delete-cell-inner {
-                max-width: 0;
-                overflow: hidden;
-                background-color: #dc3545;
-                transition: max-width 0.25s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                white-space: nowrap;
-                height: 100%;
-                min-height: 38px;
+            #mainTable td.no-edit {
+                cursor: default;
             }
-            .player-row.swipe-revealed .delete-cell-inner {
-                max-width: 70px;
-            }
-            /* Show delete on hover for desktop pointing devices */
-            @media (hover: hover) and (pointer: fine) {
-                .player-row:hover .delete-cell-inner {
-                    max-width: 70px;
-                }
+            #mainTable td.delete-cell-td {
+                padding: 8px !important;
+                vertical-align: middle;
+                text-align: center !important;
             }
             .delete-player-btn {
-                background: none;
-                border: none;
+                background: #dc3545;
+                border: 1px solid #dc3545;
+                border-radius: 4px;
                 color: white;
-                font-size: 1rem;
-                padding: 8px 14px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                padding: 0.3rem 0.55rem;
                 cursor: pointer;
                 line-height: 1;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.25rem;
             }
             .delete-player-btn:hover {
-                background-color: rgba(255,255,255,0.15);
+                background-color: #c82333;
+                border-color: #c82333;
             }
 
             /* New player input row (tfoot) */
@@ -97,23 +97,39 @@
                 border: none;
                 color: #e0e0e0;
                 width: 100%;
+                display: block;
+                margin: 0;
                 text-align: center;
                 font-size: inherit;
                 font-family: inherit;
                 outline: none;
                 padding: 0;
+                box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                -moz-box-shadow: none !important;
+                appearance: none;
+                -webkit-appearance: none;
+                height: 1.6rem;
+                line-height: 1.6rem;
+            }
+            #newPlayerTotal {
+                text-align: right;
+                padding-right: 0.25rem;
+                box-sizing: border-box;
             }
             .new-player-input:focus {
                 border-bottom: 1px solid #52b788;
                 color: #ffffff;
+                box-shadow: none !important;
+                outline: none !important;
             }
             .new-player-input::placeholder {
                 color: #6c757d;
                 font-style: italic;
             }
-            /* Hide the tfoot delete cell td border to match the header */
+            /* Keep tfoot delete cell visually consistent */
             #mainTable tfoot .delete-cell-td {
-                border: none !important;
+                border: 1px dashed #52b788 !important;
                 background-color: #2d3640 !important;
             }
             /* Keep bottom border-radius on the new player row */
@@ -177,25 +193,24 @@
                             </div>
                             {% else %}
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
-                                <p>
+                                <h1>Player Totals:</h1>
                                 <b>Edit player totals inline.<br>
-                                    Swipe left (or hover) on a name to delete.<br>
+                                                                        Use the delete button to remove a player.<br>
                                     Add a new player in the row below.</b>
                                 <br>
                                 <div class="table-wrapper">
-                                <table id="mainTable" class="table table-striped text-pre text-white-50 text-lg-center">
-                                    <thead><tr><th>Name</th><th>Total</th><th style="width:0; padding:0; border:none;"></th></tr></thead>
+                                <table id="mainTable" class="table table-striped text-white-50 text-lg-center">
+                                                                        <thead><tr><th>Name</th><th>Total</th><th class="delete-header">Delete</th></tr></thead>
                                     <tbody>
                                     {% for player in all_players %}
-                                      <tr data-row-id="{{ player.name }}" class="player-row">
-                                        <td>{{ player.name }}</td>
+                                                                            <tr data-row-id="{{ player.name }}" class="player-row">
+                                                                                <td class="no-edit">{{ player.name }}</td>
                                         <td>{{ player.total }}</td>
-                                        <td class="delete-cell-td">
-                                            <div class="delete-cell-inner">
-                                                <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </div>
+                                                                                <td class="delete-cell-td no-edit">
+                                                                                        <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
+                                                                                                <i class="fas fa-trash-alt"></i>
+                                                                                            <span>Delete</span>
+                                                                                        </button>
                                         </td>
                                       </tr>
                                     {% endfor %}
@@ -208,8 +223,8 @@
                                                    title="Tap to enter a new player name">
                                         </td>
                                         <td>
-                                            <input type="number" id="newPlayerTotal" class="new-player-input"
-                                                   value="77" min="0" max="100"
+                                              <input type="text" id="newPlayerTotal" class="new-player-input"
+                                                  value="77" inputmode="numeric" pattern="^(100|[1-9]?[0-9])$" autocomplete="off"
                                                    title="Set starting score (0-100)">
                                         </td>
                                         <td class="delete-cell-td"></td>
@@ -238,55 +253,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/static/scripts.js"></script>
         <script>
-        // Swipe-to-delete for player rows
+        // Delete player button actions
         (function () {
             'use strict';
-
-            var touchStartX = 0;
-            var touchStartY = 0;
-            var revealedRow = null;
-
-            function revealRow(row) {
-                if (revealedRow && revealedRow !== row) {
-                    revealedRow.classList.remove('swipe-revealed');
-                }
-                row.classList.add('swipe-revealed');
-                revealedRow = row;
-            }
-
-            function hideRow(row) {
-                row.classList.remove('swipe-revealed');
-                if (revealedRow === row) revealedRow = null;
-            }
-
-            document.querySelectorAll('.player-row').forEach(function (row) {
-                row.addEventListener('touchstart', function (e) {
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                }, { passive: true });
-
-                row.addEventListener('touchend', function (e) {
-                    var dx = touchStartX - e.changedTouches[0].clientX;
-                    var dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
-
-                    if (dy > 30) return; // Mostly vertical — ignore
-
-                    if (dx > 50) {
-                        revealRow(row); // Swipe left → reveal delete
-                    } else if (dx < -30) {
-                        hideRow(row);   // Swipe right → hide delete
-                    }
-                }, { passive: true });
-            });
-
-            // Tap anywhere outside the revealed row to hide it
-            document.addEventListener('touchstart', function (e) {
-                if (revealedRow && !revealedRow.contains(e.target)) {
-                    hideRow(revealedRow);
-                }
-            }, { passive: true });
-
-            // Handle delete button clicks (swipe-revealed or hover)
+            // Handle delete button clicks
             document.querySelectorAll('.delete-player-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
@@ -312,8 +282,6 @@
                         form.appendChild(submitInput);
                         document.body.appendChild(form);
                         form.submit();
-                    } else {
-                        if (revealedRow) hideRow(revealedRow);
                     }
                 });
             });

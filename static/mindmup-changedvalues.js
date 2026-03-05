@@ -1,16 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
   const changedRows = [];
+  const totalPattern = /^(100|[1-9]?[0-9])$/;
+
+  function isValidTotal(value) {
+    return totalPattern.test(value);
+  }
 
   // Add the editableTableWidget plugin to your table
   $('#mainTable').editableTableWidget();
 
-  // Remove tabindex from delete cells and new player row cells so the
-  // editable widget does not treat them as editable cells
-  $('#mainTable .delete-cell-td, #mainTable tfoot td').prop('tabindex', -1);
+  // Mark non-editable cells (name column, delete column, new player row)
+  // so the editable widget does not treat them as editable cells
+  $('#mainTable tbody td:nth-child(1), #mainTable .delete-cell-td, #mainTable tfoot td')
+    .prop('tabindex', -1)
+    .addClass('no-edit');
 
   // Listen for the change event on table cells
   $('#mainTable').on('change', 'td', function () {
     const cell = $(this);
+    if (cell.hasClass('no-edit')) return;
+
     const row = cell.closest('tr');
     const rowId = row.attr('data-row-id');
     const value = cell.text().trim(); // Get the edited cell value
@@ -47,12 +56,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // New player name input: clear placeholder on focus, restore on blur
   const newPlayerNameInput = document.getElementById('newPlayerName');
+  const newPlayerTotalInput = document.getElementById('newPlayerTotal');
+
   if (newPlayerNameInput) {
     newPlayerNameInput.addEventListener('focus', function () {
       if (this.value === 'NewPlayer') this.value = '';
     });
     newPlayerNameInput.addEventListener('blur', function () {
       if (this.value.trim() === '') this.value = 'NewPlayer';
+    });
+  }
+
+  if (newPlayerTotalInput) {
+    newPlayerTotalInput.addEventListener('focus', function () {
+      if (this.value === '77') this.value = '';
+    });
+
+    newPlayerTotalInput.addEventListener('input', function () {
+      const digitsOnly = this.value.replace(/[^0-9]/g, '');
+      this.value = digitsOnly;
+    });
+
+    newPlayerTotalInput.addEventListener('blur', function () {
+      const value = this.value.trim();
+      if (value === '') {
+        this.value = '77';
+        return;
+      }
+      if (!isValidTotal(value)) {
+        window.alert("Please enter a valid number between 0 and 100 for the new player total.");
+        this.value = '77';
+      }
     });
   }
 
@@ -69,6 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const newTotal = newPlayerTotal ? newPlayerTotal.value.trim() : '77';
 
     if (newName && newName !== 'NewPlayer') {
+      if (!isValidTotal(newTotal)) {
+        window.alert("Please enter a valid number between 0 and 100 for the new player total.");
+        return;
+      }
       queryParams.set('new_player', newName);
       if (newTotal && newTotal !== '77') {
         queryParams.set('new_player_total', newTotal);
