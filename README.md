@@ -60,3 +60,4 @@ GAMEDAY=WEDNESDAY
 API_TOKEN={apitoken}
 API_URL=http://{api_ipv4}
 ```
+
