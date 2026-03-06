@@ -21,3 +21,6 @@ Thumbs.db
 
 # Test files
 test_reset_season.py
+test_portainer_update.py
+.gitignore
+test_portainer_api.py
