@@ -2,6 +2,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from services.post_player_data import *
+from services.cache_service import invalidate_stats
 
 ##Load the .env file
 load_dotenv()
@@ -64,6 +65,7 @@ def update_result(game_data):
     if response.status_code == 200:
         print("Game updated successfully")
         wipe_tally()
+        invalidate_stats()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
@@ -99,6 +101,7 @@ def append_result(game_data):
     if response.status_code == 200:
         print("Game added successfully")
         wipe_tally()
+        invalidate_stats()
     else:
         print(f"Failed to add record. Status code: {response.status_code}")
 
@@ -116,6 +119,7 @@ def update_score_result(date, score):
     if response.status_code == 200:
         print("Game updated successfully")
         wipe_tally()
+        invalidate_stats()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
@@ -134,6 +138,7 @@ def swap_players(current_player, new_player):
 
     if response.status_code == 200:
         print("Players swapped and totals updated successfully")
+        invalidate_stats()
     else:
         print(f"Failed to swap players. Status code: {response.status_code}")
 

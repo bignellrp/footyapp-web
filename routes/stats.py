@@ -2,6 +2,7 @@ from flask import render_template, Blueprint, send_file, jsonify
 from services.get_games_data import game_stats
 from services.get_player_data import player_stats
 from services.backup_stats import create_backup_zip
+from services.cache_service import invalidate_stats
 from flask_login import login_required
 import os
 import requests
@@ -94,6 +95,9 @@ def reset_season_route():
         if players_response.status_code not in [200, 204]:
             logger.error(f"Failed to reset player stats. Status: {players_response.status_code}")
             return jsonify({"error": "Failed to reset player statistics"}), 500
+        
+        # Invalidate the stats cache so the next page load reflects the reset
+        invalidate_stats()
         
         # Prepare ZIP file for download
         zip_buffer.seek(0)

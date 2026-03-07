@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from requests.exceptions import RequestException, ConnectionError, Timeout
 from services.database_error_handler import DatabaseError
+from services.cache_service import get_cached, set_cached, CACHE_KEY_GAME_STATS
 
 ##Load the .env file
 load_dotenv()
@@ -17,11 +18,15 @@ api_url = os.getenv("API_URL")
 games_api_url = f"{api_url}/games"
 
 def game_stats():
+    cached = get_cached(CACHE_KEY_GAME_STATS)
+    if cached is not None:
+        return cached
     try:
         response = requests.get(games_api_url + "/" + "game_stats", headers=access_headers, timeout=10)
         if response.status_code == 200:
             data = response.json()
             data = [(game["date"], game["scoreTeamA"], game["scoreTeamB"]) for game in data]
+            set_cached(CACHE_KEY_GAME_STATS, data)
             return data
         else:
             print(f"Failed to fetch data. Status code: {response.status_code}")

@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 import os
+from services.cache_service import invalidate_stats
 
 ##Load the .env file
 load_dotenv()
@@ -71,6 +72,7 @@ def update_player(player,data):
 
     if response.status_code == 200:
         print("Player updated successfully")
+        invalidate_stats()
     else:
         print(f"Failed to update records. Status code: {response.status_code}")
 
@@ -96,6 +98,7 @@ def add_player(name):
         response_data = response.json()
         print("Player added successfully")
         print("Player ID:", response_data["_id"])
+        invalidate_stats()
     else:
         print(f"Failed to add player. Status code: {response.status_code}")
 
@@ -106,5 +109,6 @@ def delete_player(player):
 
     if response.status_code == 200:
         print("Player deleted successfully")
+        invalidate_stats()
     else:
         print(f"Failed to modify db. Status code: {response.status_code}")
