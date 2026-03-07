@@ -2,6 +2,9 @@ import requests
 from dotenv import load_dotenv
 import os
 from services.get_post_tenant_data import get_channelid
+from services.cache_service import (get_cached, set_cached,
+                                     CACHE_KEY_PLAYER_STATS,
+                                     CACHE_KEY_LEADERBOARD)
 
 ##Load the .env file
 load_dotenv()
@@ -76,6 +79,9 @@ def all_players():
         return []
 
 def player_stats():
+    cached = get_cached(CACHE_KEY_PLAYER_STATS)
+    if cached is not None:
+        return cached
     response = requests.get(player_api_url + "/" + "player_stats", headers=access_headers)
     if response.status_code == 200:
         #Example output:
@@ -90,18 +96,23 @@ def player_stats():
                  player["losses"], 
                  player["score"], 
                  player["winpercent"]) for player in data]
+        set_cached(CACHE_KEY_PLAYER_STATS, data)
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
         return []
 
 def get_leaderboard():
+    cached = get_cached(CACHE_KEY_LEADERBOARD)
+    if cached is not None:
+        return cached
     response = requests.get(player_api_url + "/" + "leaderboard", headers=access_headers)
     if response.status_code == 200:
         #Example output:
         #[('Rik', 0, 0), ('Cal', 0, 0), ('Amy', 0, 0), ('Joe', 0, 0)]
         data = response.json()
         data = [(player["name"], player["score"], player["goals"]) for player in data]
+        set_cached(CACHE_KEY_LEADERBOARD, data)
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")
