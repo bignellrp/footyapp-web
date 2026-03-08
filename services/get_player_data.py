@@ -5,6 +5,7 @@ from services.get_post_tenant_data import get_channelid
 from services.cache_service import (get_cached, set_cached,
                                      CACHE_KEY_PLAYER_STATS,
                                      CACHE_KEY_LEADERBOARD)
+from services.get_games_data import all_games
 
 ##Load the .env file
 load_dotenv()
@@ -78,45 +79,94 @@ def all_players():
         print(f"Failed to fetch data. Status code: {response.status_code}")
         return []
 
+def _compute_player_stats(games):
+    '''Calculate per-player stats from all game history.
+
+    Points system:
+    - Win:  3 points for each player on the winning team
+    - Draw: 1 point for each player who participated
+    - Loss: 0 points
+
+    Returns a dict mapping player name to {wins, draws, losses}.
+    Only games with valid scores are counted.
+    '''
+    stats = {}
+    for game in games:
+        score_a = game.get('scoreTeamA')
+        score_b = game.get('scoreTeamB')
+        team_a = game.get('teamA', [])
+        team_b = game.get('teamB', [])
+
+        ## Skip games that haven't had a score entered yet
+        if score_a is None or score_b is None:
+            continue
+
+        try:
+            score_a = int(score_a)
+            score_b = int(score_b)
+        except (ValueError, TypeError):
+            continue
+
+        if score_a > score_b:
+            winners, losers = team_a, team_b
+        elif score_b > score_a:
+            winners, losers = team_b, team_a
+        else:
+            ## Draw – all participants get 1 point
+            for player in list(team_a) + list(team_b):
+                stats.setdefault(player, {'wins': 0, 'draws': 0, 'losses': 0})
+                stats[player]['draws'] += 1
+            continue
+
+        for player in winners:
+            stats.setdefault(player, {'wins': 0, 'draws': 0, 'losses': 0})
+            stats[player]['wins'] += 1
+        for player in losers:
+            stats.setdefault(player, {'wins': 0, 'draws': 0, 'losses': 0})
+            stats[player]['losses'] += 1
+
+    return stats
+
+
 def player_stats():
     cached = get_cached(CACHE_KEY_PLAYER_STATS)
     if cached is not None:
         return cached
-    response = requests.get(player_api_url + "/" + "player_stats", headers=access_headers)
-    if response.status_code == 200:
-        #Example output:
-        #{'name': 'Amy', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}, 
-        #{'name': 'Cal', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}, 
-        #{'name': 'Joe', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}, 
-        #{'name': 'Rik', 'wins': 0, 'draws': 0, 'losses': 0, 'score': 0, 'winpercent': 0}
-        data = response.json()
-        data = [(player["name"], 
-                 player["wins"], 
-                 player["draws"], 
-                 player["losses"], 
-                 player["score"], 
-                 player["winpercent"]) for player in data]
-        set_cached(CACHE_KEY_PLAYER_STATS, data)
-        return data
-    else:
-        print(f"Failed to fetch data. Status code: {response.status_code}")
-        return []
+
+    ## Fetch all games and calculate stats from game history
+    games = all_games()
+    calculated = _compute_player_stats(games)
+
+    ## Get all player names so players with zero games still appear
+    players = all_players()
+
+    data = []
+    for player in players:
+        name = player['name']
+        pstats = calculated.get(name, {'wins': 0, 'draws': 0, 'losses': 0})
+        wins = pstats['wins']
+        draws = pstats['draws']
+        losses = pstats['losses']
+        played = wins + draws + losses
+        score = wins * 3 + draws
+        winpercent = round((wins / played) * 100, 1) if played > 0 else 0
+        data.append((name, wins, draws, losses, score, winpercent))
+
+    set_cached(CACHE_KEY_PLAYER_STATS, data)
+    return data
 
 def get_leaderboard():
     cached = get_cached(CACHE_KEY_LEADERBOARD)
     if cached is not None:
         return cached
-    response = requests.get(player_api_url + "/" + "leaderboard", headers=access_headers)
-    if response.status_code == 200:
-        #Example output:
-        #[('Rik', 0, 0), ('Cal', 0, 0), ('Amy', 0, 0), ('Joe', 0, 0)]
-        data = response.json()
-        data = [(player["name"], player["score"], player["goals"]) for player in data]
-        set_cached(CACHE_KEY_LEADERBOARD, data)
-        return data
-    else:
-        print(f"Failed to fetch data. Status code: {response.status_code}")
-        return []
+
+    ## Derive leaderboard from locally calculated player stats.
+    ## Goals are not individually tracked per player so default to 0.
+    stats = player_stats()
+    data = [(name, score, 0) for name, wins, draws, losses, score, winpercent in stats]
+
+    set_cached(CACHE_KEY_LEADERBOARD, data)
+    return data
 
 def winpercentage():
     response = requests.get(player_api_url + "/" + "winpercentage", headers=access_headers)

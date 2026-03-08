@@ -35,6 +35,20 @@ def game_stats():
         print(f"Database connection error in game_stats: {str(e)}")
         raise DatabaseError(f"Database unreachable: {str(e)}")
 
+def all_games():
+    '''Fetch all game data including team player lists for stats calculation.
+    Returns the full game records needed to compute per-player statistics.'''
+    try:
+        response = requests.get(games_api_url, headers=access_headers, timeout=10)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Failed to fetch data. Status code: {response.status_code}")
+            return []
+    except (ConnectionError, Timeout, RequestException) as e:
+        print(f"Database connection error in all_games: {str(e)}")
+        raise DatabaseError(f"Database unreachable: {str(e)}")
+
 def most_recent_game():
     try:
         response = requests.get(games_api_url + "/" + "most_recent_game", headers=access_headers, timeout=10)
