@@ -5,6 +5,7 @@ import os
 from flask_login import LoginManager
 from services.get_user import User
 from datetime import timedelta, datetime
+import subprocess
 
 ##Load the .env file
 load_dotenv()
@@ -29,13 +30,48 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=30)
 
+def get_build_info():
+    """Get git commit hash and timestamp for the current build"""
+    try:
+        # Try to get the short commit hash
+        commit_hash = subprocess.check_output(
+            ['git', 'rev-parse', '--short', 'HEAD'],
+            cwd=os.path.dirname(__file__),
+            stderr=subprocess.DEVNULL,
+            text=True
+        ).strip()
+        
+        # Try to get the commit timestamp in ISO format
+        commit_timestamp = subprocess.check_output(
+            ['git', 'log', '-1', '--format=%cI'],
+            cwd=os.path.dirname(__file__),
+            stderr=subprocess.DEVNULL,
+            text=True
+        ).strip()
+        
+        # Convert +00:00 timezone to Z for UTC
+        if commit_timestamp.endswith('+00:00'):
+            commit_timestamp = commit_timestamp[:-6] + 'Z'
+        
+        return commit_hash, commit_timestamp
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # Fallback if git is not available
+        return "unknown", datetime.utcnow().isoformat() + "Z"
+
 @app.context_processor
 def inject_env_indicator():
-    """Make environment indicator available to all templates"""
+    """Make environment indicator and build info available to all templates"""
     git_branch = os.getenv("GIT_BRANCH", "main").lower()
     is_dev = git_branch == "dev"
     env_suffix = " Dev" if is_dev else ""
-    return dict(env_suffix=env_suffix)
+    
+    build_hash, build_timestamp = get_build_info()
+    
+    return dict(
+        env_suffix=env_suffix,
+        build_hash=build_hash,
+        build_timestamp=build_timestamp
+    )
 
 @app.template_filter('format_date')
 def format_date(date_string):

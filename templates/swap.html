@@ -77,18 +77,27 @@
                                 <br>
                                 {% endif %}
                                 <h1>Current Player:</h1>
-                                <b>Please use one name <br>
-                                with no spaces, <br>
-                                starting with a capital. </b>
+                                <b>Select a player currently in this week's teams.</b>
                                 <br>
-                                <input class="form-control" type="text" id="cur_player_input" name="cur_player_input" style="border: 2px solid white;">
+                                <select class="form-control" id="cur_player_input" name="cur_player_input" style="border: 2px solid white;" required>
+                                    <option value="" selected disabled>Select current player</option>
+                                    {% for player in teama %}
+                                    <option value="{{ player }}">{{ player }} (Team A)</option>
+                                    {% endfor %}
+                                    {% for player in teamb %}
+                                    <option value="{{ player }}">{{ player }} (Team B)</option>
+                                    {% endfor %}
+                                </select>
                                 <br>
                                 <h1>New Player:</h1>
-                                <b>Please use one name <br>
-                                with no spaces, <br>
-                                starting with a capital. </b>
+                                <b>Select any player from the full player list.</b>
                                 <br>
-                                <input class="form-control" type="text" id="new_player_input" name="new_player_input" style="border: 2px solid white;">
+                                <select class="form-control" id="new_player_input" name="new_player_input" style="border: 2px solid white;" required>
+                                    <option value="" selected disabled>Select new player</option>
+                                    {% for player in all_player_names %}
+                                    <option value="{{ player }}">{{ player }}</option>
+                                    {% endfor %}
+                                </select>
                                 <br>
                                 <input class="btn-ghost-white" type="submit" name="submit_button" value="Swap">
                                 {% else %}
@@ -115,7 +124,10 @@
         </section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50">
-            <div class="container">Copyright © RichardBignell.co.uk 2023</div>
+            <div class="container">
+                <div>Copyright © RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+            </div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
