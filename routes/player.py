@@ -16,9 +16,42 @@ def player():
     '''A function for adding a new player'''
 
     try:
+        def to_int(value):
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return 0
+
+        def build_player_stats_map(stats_rows):
+            return {
+                stat[0]: {
+                    'wins': to_int(stat[1]),
+                    'draws': to_int(stat[2]),
+                    'losses': to_int(stat[3]),
+                    'score': to_int(stat[4])
+                }
+                for stat in stats_rows
+            }
+
+        def is_empty_player(player_name, player_stats_by_name):
+            stats = player_stats_by_name.get(
+                player_name,
+                {'wins': 0, 'draws': 0, 'losses': 0, 'score': 0}
+            )
+            return stats['wins'] == 0 and stats['draws'] == 0 and stats['losses'] == 0 and stats['score'] == 0
+
         get_all_players = all_players()
+        get_player_stats = player_stats()
         names = [player["name"] for player in get_all_players]
-        get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
+        player_stats_by_name = build_player_stats_map(get_player_stats)
+        get_all_player_totals = [
+            {
+                'name': player['name'],
+                'total': player['total'],
+                'empty': 'Yes' if is_empty_player(player['name'], player_stats_by_name) else 'No'
+            }
+            for player in get_all_players
+        ]
 
         if request.method == 'POST':
             if request.form['submit_button'] == 'Add Player':
@@ -127,7 +160,16 @@ def player():
                 
             # Refresh the players
             get_all_players = all_players()
-            get_all_player_totals = [{"name": player["name"], "total": player["total"]} for player in get_all_players]
+            get_player_stats = player_stats()
+            player_stats_by_name = build_player_stats_map(get_player_stats)
+            get_all_player_totals = [
+                {
+                    'name': player['name'],
+                    'total': player['total'],
+                    'empty': 'Yes' if is_empty_player(player['name'], player_stats_by_name) else 'No'
+                }
+                for player in get_all_players
+            ]
                         
             return render_template('player.html', 
                                    all_players = get_all_player_totals,

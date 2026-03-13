@@ -31,9 +31,22 @@ def stats():
         get_game_stats = game_stats()
         get_player_stats = player_stats()
         
+        def to_int(value):
+            '''Convert stat values to int safely for filtering.'''
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return 0
+
+        # Hide players whose W/D/L/T stats are all zero.
+        filtered_player_stats = [
+            player for player in get_player_stats
+            if any(to_int(stat) != 0 for stat in player[1:5])
+        ]
+        
         return render_template('stats.html', 
                                game_stats = get_game_stats, 
-                               player_game_stats = get_player_stats,
+                               player_game_stats = filtered_player_stats,
                                database_error = False)
     except Exception as e:
         # Database is unreachable
