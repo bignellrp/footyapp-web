@@ -63,37 +63,38 @@ def result():
             session.pop('team_b_total', None)
 
             ##Send Discord Message
-            try:
-                ##Send the teams to discord
-                fileA = discord.File("static/"+teama_colour+".png")
-                fileB = discord.File("static/"+teamb_colour+".png")
-                url = os.getenv("DISCORD_WEBHOOK")
-                teama_json = "\n".join(item for item in teama_passback)
-                teamb_json = "\n".join(item for item in teamb_passback)
-                webhook = discord.Webhook.from_url(url, 
-                                                adapter=discord.RequestsWebhookAdapter())
-                ##Embed Message
-                embed1=discord.Embed(title="TEAM A:",
-                                    color=discord.Color.dark_green())
-                embed1.set_author(name="footyapp")
-                embed1.add_field(name="TeamA (" 
-                                + str(scorea_passback) 
-                                + "):", value=teama_json, 
-                                inline=True)
-                embed1.set_thumbnail(url="attachment://"+teama_colour+".png")
-                webhook.send(file = fileA, embed = embed1)
+            if os.getenv('DISCORD_ENABLED', 'false').lower() == 'true':
+                try:
+                    ##Send the teams to discord
+                    fileA = discord.File("static/"+teama_colour+".png")
+                    fileB = discord.File("static/"+teamb_colour+".png")
+                    url = os.getenv("DISCORD_WEBHOOK")
+                    teama_json = "\n".join(item for item in teama_passback)
+                    teamb_json = "\n".join(item for item in teamb_passback)
+                    webhook = discord.Webhook.from_url(url, 
+                                                    adapter=discord.RequestsWebhookAdapter())
+                    ##Embed Message
+                    embed1=discord.Embed(title="TEAM A:",
+                                        color=discord.Color.dark_green())
+                    embed1.set_author(name="footyapp")
+                    embed1.add_field(name="TeamA (" 
+                                    + str(scorea_passback) 
+                                    + "):", value=teama_json, 
+                                    inline=True)
+                    embed1.set_thumbnail(url="attachment://"+teama_colour+".png")
+                    webhook.send(file = fileA, embed = embed1)
 
-                embed2=discord.Embed(title="TEAM B:",
-                                    color=discord.Color.dark_green())
-                embed2.set_author(name="footyapp")
-                embed2.add_field(name="TeamB (" 
-                                + str(scoreb_passback) 
-                                + "):", value=teamb_json, 
-                                inline=True)
-                embed2.set_thumbnail(url="attachment://"+teamb_colour+".png")
-                webhook.send(file = fileB, embed = embed2)
-            except:
-                print("Discord Webhook not set")
+                    embed2=discord.Embed(title="TEAM B:",
+                                        color=discord.Color.dark_green())
+                    embed2.set_author(name="footyapp")
+                    embed2.add_field(name="TeamB (" 
+                                    + str(scoreb_passback) 
+                                    + "):", value=teamb_json, 
+                                    inline=True)
+                    embed2.set_thumbnail(url="attachment://"+teamb_colour+".png")
+                    webhook.send(file = fileB, embed = embed2)
+                except:
+                    print("Discord Webhook not set")
 
             ##Gets Result data for validation
             get_scorea = scorea()
@@ -114,18 +115,19 @@ def result():
             return redirect(url_for('score.score') + '?' + params)
         if request.form['submit_button'] == 'Rerun':
             print("Rerun button pressed!")
-            try:
-                ##Send Rerun message to discord
-                url = os.getenv("DISCORD_WEBHOOK")
-                webhook = discord.Webhook.from_url(url, 
-                                                adapter=discord.RequestsWebhookAdapter())
-                ##Embed Message
-                embed=discord.Embed(title="Rerun button pressed",
-                                    color=discord.Color.dark_green())
-                embed.set_author(name="footyapp")
-                webhook.send(embed = embed)
-            except:
-                print("Discord Webhook not set")
+            if os.getenv('DISCORD_ENABLED', 'false').lower() == 'true':
+                try:
+                    ##Send Rerun message to discord
+                    url = os.getenv("DISCORD_WEBHOOK")
+                    webhook = discord.Webhook.from_url(url, 
+                                                    adapter=discord.RequestsWebhookAdapter())
+                    ##Embed Message
+                    embed=discord.Embed(title="Rerun button pressed",
+                                        color=discord.Color.dark_green())
+                    embed.set_author(name="footyapp")
+                    webhook.send(embed = embed)
+                except:
+                    print("Discord Webhook not set")
             return redirect(url_for('index.index'))
     elif request.method == 'GET':
         ##If request method is not POST then it must be GET
