@@ -58,6 +58,12 @@
                 min-width: 78px;
                 text-align: center;
             }
+            #mainTable th.empty-header,
+            .empty-cell-td {
+                width: 78px;
+                min-width: 78px;
+                text-align: center;
+            }
             #mainTable td.no-edit {
                 cursor: default;
             }
@@ -200,12 +206,13 @@
                                 <br>
                                 <div class="table-wrapper">
                                 <table id="mainTable" class="table table-striped text-white-50 text-lg-center">
-                                                                        <thead><tr><th>Name</th><th>Total</th><th class="delete-header">Delete</th></tr></thead>
+                                                                                                                                                <thead><tr><th>Name</th><th>Total</th><th class="empty-header">Empty</th><th class="delete-header">Delete</th></tr></thead>
                                     <tbody>
                                     {% for player in all_players %}
                                                                             <tr data-row-id="{{ player.name }}" class="player-row">
                                                                                 <td class="no-edit">{{ player.name }}</td>
                                         <td>{{ player.total }}</td>
+                                                                                <td class="empty-cell-td no-edit">{{ player.empty }}</td>
                                                                                 <td class="delete-cell-td no-edit">
                                                                                         <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
                                                                                                 <i class="fas fa-trash-alt"></i>
@@ -227,7 +234,8 @@
                                                   value="77" inputmode="numeric" pattern="^(100|[1-9]?[0-9])$" autocomplete="off"
                                                    title="Set starting score (0-100)">
                                         </td>
-                                        <td class="delete-cell-td"></td>
+                                                                                <td class="empty-cell-td"></td>
+                                                                                <td class="delete-cell-td"></td>
                                       </tr>
                                     </tfoot>
                                 </table>

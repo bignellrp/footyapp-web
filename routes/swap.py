@@ -115,37 +115,38 @@ def swap():
                         "colourTeamB": get_colourb
                     }
                     ##Send Discord Message
-                    try:
-                        ##Send the teams to discord
-                        fileA = discord.File("static/"+get_coloura+".png")
-                        fileB = discord.File("static/"+get_colourb+".png")
-                        url = os.getenv("DISCORD_WEBHOOK")
-                        teama_json = "\n".join(item for item in get_newteama)
-                        teamb_json = "\n".join(item for item in get_newteamb)
-                        webhook = discord.Webhook.from_url(url, 
-                                                        adapter=discord.RequestsWebhookAdapter())
-                        ##Embed Message
-                        embed1=discord.Embed(title="TEAM A:",
-                                            color=discord.Color.dark_green())
-                        embed1.set_author(name="footyapp")
-                        embed1.add_field(name="TeamA (" 
-                                        + str(get_newtotala) 
-                                        + "):", value=teama_json, 
-                                        inline=True)
-                        embed1.set_thumbnail(url="attachment://"+get_coloura+".png")
-                        webhook.send(file = fileA, embed = embed1)
+                    if os.getenv('DISCORD_ENABLED', 'false').lower() == 'true':
+                        try:
+                            ##Send the teams to discord
+                            fileA = discord.File("static/"+get_coloura+".png")
+                            fileB = discord.File("static/"+get_colourb+".png")
+                            url = os.getenv("DISCORD_WEBHOOK")
+                            teama_json = "\n".join(item for item in get_newteama)
+                            teamb_json = "\n".join(item for item in get_newteamb)
+                            webhook = discord.Webhook.from_url(url, 
+                                                            adapter=discord.RequestsWebhookAdapter())
+                            ##Embed Message
+                            embed1=discord.Embed(title="TEAM A:",
+                                                color=discord.Color.dark_green())
+                            embed1.set_author(name="footyapp")
+                            embed1.add_field(name="TeamA (" 
+                                            + str(get_newtotala) 
+                                            + "):", value=teama_json, 
+                                            inline=True)
+                            embed1.set_thumbnail(url="attachment://"+get_coloura+".png")
+                            webhook.send(file = fileA, embed = embed1)
 
-                        embed2=discord.Embed(title="TEAM B:",
-                                            color=discord.Color.dark_green())
-                        embed2.set_author(name="footyapp")
-                        embed2.add_field(name="TeamB (" 
-                                        + str(get_newtotalb) 
-                                        + "):", value=teamb_json, 
-                                        inline=True)
-                        embed2.set_thumbnail(url="attachment://"+get_colourb+".png")
-                        webhook.send(file = fileB, embed = embed2)
-                    except:
-                        print("Discord Webhook not set")
+                            embed2=discord.Embed(title="TEAM B:",
+                                                color=discord.Color.dark_green())
+                            embed2.set_author(name="footyapp")
+                            embed2.add_field(name="TeamB (" 
+                                            + str(get_newtotalb) 
+                                            + "):", value=teamb_json, 
+                                            inline=True)
+                            embed2.set_thumbnail(url="attachment://"+get_colourb+".png")
+                            webhook.send(file = fileB, embed = embed2)
+                        except:
+                            print("Discord Webhook not set")
 
                     ##Gets Result data for validation
                     get_scorea = scorea()
