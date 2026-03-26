@@ -96,30 +96,31 @@ def index():
                     print("Posting to results page")
 
                     ##Send the teams to discord presave (only for main)
-                    try:
-                        file = discord.File("static/football.png")
-                        url = os.getenv("DISCORD_WEBHOOK")
-                        teama_json = "\n".join(item for item in team_a)
-                        teamb_json = "\n".join(item for item in team_b)
-                        webhook = discord.Webhook.from_url(url, 
-                                                        adapter=discord.RequestsWebhookAdapter())
-                        ##Embed Message
-                        embed=discord.Embed(title="PRE-SAVE:",
-                                            color=discord.Color.dark_green())
-                        embed.set_author(name="footyapp")
-                        embed.add_field(name="TeamA (" 
-                                        + str(team_a_total) 
-                                        + "):", value=teama_json, 
-                                        inline=True)
-                        embed.add_field(name="TeamB (" 
-                                        + str(team_b_total) 
-                                        + "):", value=teamb_json, 
-                                        inline=True)
-                        embed.set_thumbnail(url="attachment://football.png")
-                        webhook.send(file = file, embed = embed)
-                    except discord.DiscordException as e:
-                       print("Discord Webhook Error!", e)
-                       print("Check .env DISCORD_WEBHOOK is set correctly!")
+                    if os.getenv('DISCORD_ENABLED', 'false').lower() == 'true':
+                        try:
+                            file = discord.File("static/football.png")
+                            url = os.getenv("DISCORD_WEBHOOK")
+                            teama_json = "\n".join(item for item in team_a)
+                            teamb_json = "\n".join(item for item in team_b)
+                            webhook = discord.Webhook.from_url(url, 
+                                                            adapter=discord.RequestsWebhookAdapter())
+                            ##Embed Message
+                            embed=discord.Embed(title="PRE-SAVE:",
+                                                color=discord.Color.dark_green())
+                            embed.set_author(name="footyapp")
+                            embed.add_field(name="TeamA (" 
+                                            + str(team_a_total) 
+                                            + "):", value=teama_json, 
+                                            inline=True)
+                            embed.add_field(name="TeamB (" 
+                                            + str(team_b_total) 
+                                            + "):", value=teamb_json, 
+                                            inline=True)
+                            embed.set_thumbnail(url="attachment://football.png")
+                            webhook.send(file = file, embed = embed)
+                        except discord.DiscordException as e:
+                           print("Discord Webhook Error!", e)
+                           print("Check .env DISCORD_WEBHOOK is set correctly!")
                         
                     # Return Team A and Team B to the results template
                     get_gameday = gameday()

@@ -48,6 +48,7 @@ networks:
 ```
 SESSION={random string}
 GIT_BRANCH=main
+DISCORD_ENABLED=false
 DISCORD_WEBHOOK=https://discord.com/api/webhooks/{generatewebhook}
 DISCORD_WEBHOOK_DEV=https://discord.com/api/webhooks/{generatewebhook}
 DISCORD_CLIENT_ID={generatetoken}
