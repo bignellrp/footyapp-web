@@ -49,18 +49,24 @@
                             <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
                                 <h3>Lineup: {{ date|format_date }}</h3>
                                 <br>
+                                {% if colour_error %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                    <p style="color: #e0e0e0; margin-bottom: 0;">{{ colour_error }}</p>
+                                </div>
+                                <br>
+                                {% endif %}
                                 <select class="form-control" name="ImageA" id="changeImageA" style="border: 2px solid white;">
-                                    <option value="teama">teama</option>
-                                    <option value="blue">blue</option>
-                                    <option value="white">white</option>
-                                    <option value="black">black</option>
-                                    <option value="red">red</option>
-                                    <option value="green">green</option>
-                                    <option value="pink">pink</option>
-                                    <option value="stripes">stripes</option>
-                                    <option value="yellow">yellow</option>
-                                    <option value="multicoloured">multicoloured</option>
-                                    <option value="darrenschoice">darrenschoice</option>
+                                    <option value="teama" {% if selected_coloura == 'teama' or selected_coloura is not defined %}selected{% endif %}>teama</option>
+                                    <option value="blue" {% if selected_coloura == 'blue' %}selected{% endif %}>blue</option>
+                                    <option value="white" {% if selected_coloura == 'white' %}selected{% endif %}>white</option>
+                                    <option value="black" {% if selected_coloura == 'black' %}selected{% endif %}>black</option>
+                                    <option value="red" {% if selected_coloura == 'red' %}selected{% endif %}>red</option>
+                                    <option value="green" {% if selected_coloura == 'green' %}selected{% endif %}>green</option>
+                                    <option value="pink" {% if selected_coloura == 'pink' %}selected{% endif %}>pink</option>
+                                    <option value="stripes" {% if selected_coloura == 'stripes' %}selected{% endif %}>stripes</option>
+                                    <option value="yellow" {% if selected_coloura == 'yellow' %}selected{% endif %}>yellow</option>
+                                    <option value="multicoloured" {% if selected_coloura == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                    <option value="darrenschoice" {% if selected_coloura == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
                                 </select>
                                 <p id="rcorners">
                                     <img id="imageA" src='/static/teama.png' width="90" height="100" class="center">
@@ -69,17 +75,17 @@
                                 </p>
                                 <br>
                                 <select class="form-control" name="ImageB" id="changeImageB" style="border: 2px solid white;">
-                                    <option value="teamb">teamb</option>
-                                    <option value="blue">blue</option>
-                                    <option value="white">white</option>
-                                    <option value="black">black</option>
-                                    <option value="red">red</option>
-                                    <option value="green">green</option>
-                                    <option value="pink">pink</option>
-                                    <option value="stripes">stripes</option>
-                                    <option value="yellow">yellow</option>
-                                    <option value="multicoloured">multicoloured</option>
-                                    <option value="darrenschoice">darrenschoice</option>
+                                    <option value="teamb" {% if selected_colourb == 'teamb' or selected_colourb is not defined %}selected{% endif %}>teamb</option>
+                                    <option value="blue" {% if selected_colourb == 'blue' %}selected{% endif %}>blue</option>
+                                    <option value="white" {% if selected_colourb == 'white' %}selected{% endif %}>white</option>
+                                    <option value="black" {% if selected_colourb == 'black' %}selected{% endif %}>black</option>
+                                    <option value="red" {% if selected_colourb == 'red' %}selected{% endif %}>red</option>
+                                    <option value="green" {% if selected_colourb == 'green' %}selected{% endif %}>green</option>
+                                    <option value="pink" {% if selected_colourb == 'pink' %}selected{% endif %}>pink</option>
+                                    <option value="stripes" {% if selected_colourb == 'stripes' %}selected{% endif %}>stripes</option>
+                                    <option value="yellow" {% if selected_colourb == 'yellow' %}selected{% endif %}>yellow</option>
+                                    <option value="multicoloured" {% if selected_colourb == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                    <option value="darrenschoice" {% if selected_colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
                                 </select>
                                 <p id="rcorners">
                                     <img id="imageB" src='/static/teamb.png' width="90" height="100" class="center">

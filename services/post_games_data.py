@@ -67,6 +67,16 @@ def update_result(game_data):
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
+
+def update_result_keep_tally(game_data):
+    '''Update an existing game without wiping player tally.'''
+    response = requests.put(games_api_url + "/" + game_data["date"], json=game_data, headers=access_headers)
+
+    if response.status_code == 200:
+        print("Game updated successfully")
+    else:
+        print(f"Failed to update record. Status code: {response.status_code}")
+
 def append_result(game_data):
     '''Add a new game to the database'''
     # Send a POST request to update all records

@@ -42,6 +42,20 @@ def result():
             tooltip = None
             get_gameday = gameday()
 
+            invalid_colour_values = {None, '', 'None', 'teama', 'teamb'}
+            if teama_colour in invalid_colour_values or teamb_colour in invalid_colour_values:
+                return render_template(
+                    'result.html',
+                    teama=teama_passback,
+                    teamb=teamb_passback,
+                    scorea=scorea_passback,
+                    scoreb=scoreb_passback,
+                    date=get_gameday,
+                    colour_error='Please select both team colours before storing the lineup.',
+                    selected_coloura=teama_colour,
+                    selected_colourb=teamb_colour,
+                )
+
             game_json = {
                 "date": get_gameday,
                 "teamA": teama_passback,
