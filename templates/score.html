@@ -108,13 +108,14 @@
                                     <option value="darrenschoice" {% if colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
                                 </select>
                                 <br>
-                                <input class="btn-ghost-white" type="submit" name="submit_button" value="Change Colours">
+                                <div style="margin-bottom: 1rem;">
+                                    <input class="btn-ghost-white" type="submit" name="submit_button" value="Change Colours">
+                                </div>
                                 {% else %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px; margin-bottom: 1rem;">
                                     <p style="color: #e0e0e0; margin-bottom: 0;">Colour changes are locked after 8pm on game day.</p>
                                 </div>
                                 {% endif %}
-                                <br>
                                 <h3><b>Save Scores:</b></h3>
                                 <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Save Scores">
                                 {% endif %}
