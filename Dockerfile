@@ -1,6 +1,9 @@
 # Use the official Python 3.9 image
 FROM python:3.9
 
+ARG BUILD_SHA=unknown
+ARG BUILD_TIMESTAMP=unknown
+
 # Set the working directory
 WORKDIR /app
 
@@ -17,6 +20,8 @@ COPY . /app
 # Set environment variables
 ENV WEB_CONCURRENCY=1
 ENV PYTHONUNBUFFERED=1
+ENV APP_BUILD_SHA=${BUILD_SHA}
+ENV APP_BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
 
 # Expose port 80 for Flask
 EXPOSE 80
