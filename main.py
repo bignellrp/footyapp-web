@@ -32,6 +32,11 @@ def make_session_permanent():
 
 def get_build_info():
     """Get git commit hash and timestamp for the current build"""
+    env_hash = os.getenv('APP_BUILD_SHA')
+    env_timestamp = os.getenv('APP_BUILD_TIMESTAMP')
+    if env_hash and env_timestamp and env_hash != 'unknown' and env_timestamp != 'unknown':
+        return env_hash[:7], env_timestamp
+
     try:
         # Try to get the short commit hash
         commit_hash = subprocess.check_output(

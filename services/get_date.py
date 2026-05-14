@@ -10,6 +10,31 @@ load_dotenv()
 # Cutoff time (hour in GMT) after which games are scheduled for next week
 GAME_CUTOFF_HOUR_GMT = 20  # 8pm GMT
 
+
+def can_change_colours(game_date):
+    '''Return True when colour changes are still allowed before 8pm GMT on game day.'''
+    if game_date is None:
+        return False
+
+    gmt = pytz.timezone('GMT')
+    current_time_gmt = datetime.now(gmt)
+
+    try:
+        game_datetime = datetime.strptime(game_date, '%Y-%m-%d')
+    except ValueError:
+        return False
+
+    colour_cutoff = gmt.localize(
+        game_datetime.replace(
+            hour=GAME_CUTOFF_HOUR_GMT,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+    )
+
+    return current_time_gmt < colour_cutoff
+
 def gameday():
 
     weekday_mapping = {

@@ -78,8 +78,46 @@
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
+                                <h3><b>Change Colours:</b></h3>
+                                {% if allow_colour_change %}
+                                <select class="form-control" name="ImageA" id="changeImageA" style="border: 2px solid white;">
+                                    <option value="None">None</option>
+                                    <option value="blue" {% if coloura == 'blue' %}selected{% endif %}>blue</option>
+                                    <option value="white" {% if coloura == 'white' %}selected{% endif %}>white</option>
+                                    <option value="black" {% if coloura == 'black' %}selected{% endif %}>black</option>
+                                    <option value="red" {% if coloura == 'red' %}selected{% endif %}>red</option>
+                                    <option value="green" {% if coloura == 'green' %}selected{% endif %}>green</option>
+                                    <option value="pink" {% if coloura == 'pink' %}selected{% endif %}>pink</option>
+                                    <option value="stripes" {% if coloura == 'stripes' %}selected{% endif %}>stripes</option>
+                                    <option value="yellow" {% if coloura == 'yellow' %}selected{% endif %}>yellow</option>
+                                    <option value="multicoloured" {% if coloura == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                    <option value="darrenschoice" {% if coloura == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
+                                </select>
+                                <br>
+                                <select class="form-control" name="ImageB" id="changeImageB" style="border: 2px solid white;">
+                                    <option value="None">None</option>
+                                    <option value="blue" {% if colourb == 'blue' %}selected{% endif %}>blue</option>
+                                    <option value="white" {% if colourb == 'white' %}selected{% endif %}>white</option>
+                                    <option value="black" {% if colourb == 'black' %}selected{% endif %}>black</option>
+                                    <option value="red" {% if colourb == 'red' %}selected{% endif %}>red</option>
+                                    <option value="green" {% if colourb == 'green' %}selected{% endif %}>green</option>
+                                    <option value="pink" {% if colourb == 'pink' %}selected{% endif %}>pink</option>
+                                    <option value="stripes" {% if colourb == 'stripes' %}selected{% endif %}>stripes</option>
+                                    <option value="yellow" {% if colourb == 'yellow' %}selected{% endif %}>yellow</option>
+                                    <option value="multicoloured" {% if colourb == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                    <option value="darrenschoice" {% if colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
+                                </select>
+                                <br>
+                                <div style="margin-bottom: 1rem;">
+                                    <input class="btn-ghost-white" type="submit" name="submit_button" value="Change Colours">
+                                </div>
+                                {% else %}
+                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px; margin-bottom: 1rem;">
+                                    <p style="color: #e0e0e0; margin-bottom: 0;">Colour changes are locked after 8pm on game day.</p>
+                                </div>
+                                {% endif %}
                                 <h3><b>Save Scores:</b></h3>
-                                <input class="btn-ghost-cyan" type="submit" value="Save Scores">
+                                <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Save Scores">
                                 {% endif %}
                             </form>
                         </div>
@@ -106,6 +144,30 @@
                 input.value = ""; // Set the value to an empty string
               }
             }
+
+                        function setupColourPreview(selectId, imageId) {
+                            const select = document.getElementById(selectId);
+                            const image = document.getElementById(imageId);
+
+                            if (!select || !image) {
+                                return;
+                            }
+
+                            const originalSrc = image.getAttribute('src');
+
+                            select.addEventListener('change', function () {
+                                if (select.value && select.value !== 'None') {
+                                    image.setAttribute('src', '/static/' + select.value + '.png');
+                                } else {
+                                    image.setAttribute('src', originalSrc);
+                                }
+                            });
+                        }
+
+                        document.addEventListener('DOMContentLoaded', function () {
+                            setupColourPreview('changeImageA', 'imageA');
+                            setupColourPreview('changeImageB', 'imageB');
+                        });
         </script>
     </body>
 </html>
