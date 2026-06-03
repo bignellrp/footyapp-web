@@ -180,3 +180,23 @@ def index():
                                 players = 10,
                                 database_error = True,
                                 error_message = "Unable to connect to database. Please check your connection and try again.")
+
+@index_blueprint.route('/autosave', methods=['POST'])
+@login_required
+def autosave():
+    """A route to auto-save checked players as they change."""
+    try:
+        data = request.get_json()
+        if not data:
+            return {'status': 'error', 'message': 'No data provided'}, 400
+        
+        available_players = data.get('available_players', [])
+        
+        # Save the tally of available players
+        wipe_tally()
+        update_tally(available_players)
+        print("Autosaved playing tally via API route")
+        return {'status': 'success', 'message': 'Tally autosaved successfully'}
+    except Exception as e:
+        print(f"Error in autosave: {e}")
+        return {'status': 'error', 'message': str(e)}, 500

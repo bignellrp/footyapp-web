@@ -89,6 +89,30 @@ def format_date(date_string):
     except (ValueError, TypeError):
         return date_string
 
+@app.template_filter('format_custom_date')
+def format_custom_date(date_string):
+    """Convert date from YYYY-MM-DD or DD-MM-YYYY to 'Day Month' format (e.g. 10th June)"""
+    if date_string is None:
+        return None
+    date_obj = None
+    for fmt in ('%Y-%m-%d', '%d-%m-%Y', '%d-%m-%y'):
+        try:
+            date_obj = datetime.strptime(date_string, fmt)
+            break
+        except (ValueError, TypeError):
+            continue
+            
+    if date_obj is None:
+        return date_string
+        
+    day = date_obj.day
+    if 11 <= day <= 13:
+        suffix = 'th'
+    else:
+        suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
+        
+    return f"{day}{suffix} {date_obj.strftime('%B')}"
+
 ##Import Secret Key for Session Pop
 app.secret_key = os.getenv("SESSION")
 app.config["DISCORD_CLIENT_ID"] = os.getenv("DISCORD_CLIENT_ID")

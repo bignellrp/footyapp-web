@@ -56,7 +56,7 @@
     
     // Custom Validation Code
 
-    // Index Checkbox Limit
+    // Index Checkbox Limit & Autosave
     let indlimit = $('#players').text();
     indlimit = parseInt(indlimit);
     $('input.slider-checkbox').on('change', function() {
@@ -64,6 +64,30 @@
         if( $('input.slider-checkbox:checked:not([data-limit="exclude"])').length > indlimit) {
             this.checked = false;
         }
+
+        // Count Index Checkboxes that are checked
+        var indexnumber = $('input.slider-checkbox:checked:not([data-limit="exclude"])').length;
+        $('.indextotalchecked').html(indlimit - indexnumber);
+
+        // Collect all checked checkbox values for autosave
+        var checkedPlayers = [];
+        $('input.slider-checkbox:checked').each(function() {
+            checkedPlayers.push($(this).val());
+        });
+
+        // Send AJAX POST request to /autosave
+        $.ajax({
+            url: '/autosave',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ available_players: checkedPlayers }),
+            success: function(response) {
+                console.log('Autosaved successfully:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Autosave failed:', error);
+            }
+        });
     });
 
     // Compare Team A Checkbox Limit
@@ -86,14 +110,6 @@
         if( $('input.slider-checkbox-b:checked').length > compblimit) {
             this.checked = false;
         }
-    });
-
-    // Count Index Checkboxes that are checked
-
-    $('input.slider-checkbox').on('change', function() {
-        // use :checked:not([data-limit="exclude"]) to exclude checkboxes with data-limit="exclude"
-        var indexnumber = $('input.slider-checkbox:checked:not([data-limit="exclude"])').length;
-        $('.indextotalchecked').html(indlimit - indexnumber);
     });
 
     // Count Compare A Checkboxes that are checked
