@@ -3,75 +3,94 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
+        <meta name="description" content="FootyApp — Login" />
         <meta name="author" content="" />
-        <title>Footy Team App</title>
+        <title>FootyApp — Login</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
+        <!-- Font Awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Tita Toggle CSS-->
+        <!-- Inter font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <!-- Tita Toggle CSS -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/titatoggle/2.1.2/titatoggle-dist-min.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Core theme CSS -->
         <link href="/static/styles.css" rel="stylesheet" />
+        <!-- V2 Design Override -->
+        <link href="/static/styles-v2.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Login</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <span class="brand-icon">⚽</span>
+                    FootyApp<span class="brand-env">{{ env_suffix }}</span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}">Player</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}">Swap</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Projects-->
+
+        <!-- Login Section -->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
-                <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-                    <div class="col-xl-8 col-lg-7 mx-auto">
-                        <div class="featured-text text-center text-center">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST">
-                                <h1>Welcome to Footyapp{{ env_suffix }}!</h1>
-                                <h2>Please login:</h2>
-                                <br><br><br>
-                                <label for="username">Username:</label>
-                                <input type="text" id="username" name="username" required><br><br>
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" required><br><br>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" value="Login">
-                                </form>
+                    <div class="col-xl-6 col-lg-7 mx-auto">
+                        <div class="text-center" style="margin-bottom: 2rem;">
+                            <div style="display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; background: linear-gradient(135deg, #7c3aed, #ec4899); border-radius: 20px; font-size: 2rem; margin-bottom: 1.25rem; box-shadow: 0 8px 30px rgba(124,58,237,0.5);">⚽</div>
+                            <h1 style="font-size: 1.8rem; margin-bottom: 0.25rem;">Welcome to FootyApp<span style="color: var(--purple-300); font-size: 0.9rem; vertical-align: super;">{{ env_suffix }}</span></h1>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to manage your teams</p>
+                        </div>
+                        <div class="featured-text text-center">
+                            <form class="mx-auto mt-2 mb-2" method="POST">
+                                <div style="margin-bottom: 1.25rem; text-align: left;">
+                                    <label for="username">Username</label>
+                                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                                </div>
+                                <div style="margin-bottom: 1.5rem; text-align: left;">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                                </div>
+                                <input class="btn btn-primary js-scroll-trigger" type="submit" value="Sign In">
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+
+        <!-- Footer -->
         <footer class="footer bg-black small text-center text-white-50">
             <div class="container">
-                <div>Copyright © RichardBignell.co.uk 2023</div>
-                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+                <div>Copyright &copy; RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.5;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
             </div>
         </footer>
-        <!-- Javascript Footer-->
-        <!-- Bootstrap core JS-->
+
+        <!-- Mobile bottom nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i><span>Auto</span></a>
+            <a href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i><span>Top 10</span></a>
+            <a href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i><span>Stats</span></a>
+            <a href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i><span>Score</span></a>
+            <a href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i><span>Swap</span></a>
+        </nav>
+
+        <!-- Bootstrap core JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>

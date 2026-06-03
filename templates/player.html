@@ -8,54 +8,29 @@
         <!-- Viewport settings -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <!-- Description of the page -->
-        <meta name="description" content="" />
+        <meta name="description" content="FootyApp — Player Management" />
         <!-- Author of the page -->
         <meta name="author" content="" />
         <!-- Title of the page -->
-        <title>Footy Team Player</title>
+        <title>FootyApp — Players</title>
         <!-- Favicon of the page -->
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- jQuery library -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <!-- Font Awesome library -->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <!-- Inter font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <!-- jQuery library -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <!-- Stylesheets -->
         <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
+        <link href="/static/styles-v2.css" rel="stylesheet" />
         <link href="/static/mindmup.css" rel="stylesheet" />
         <style>
-            #mainTable {
-                background-color: #3a3e47;
-                border-radius: 10px 10px 0 0;
-                overflow: hidden;
-                border-collapse: separate;
-                border-spacing: 0;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
-                margin-bottom: 0;
-            }
-            #mainTable th, #mainTable td {
-                background-color: #3a3e47;
-                color: #e0e0e0;
-                border: 1px solid #4a4e57;
-                vertical-align: middle;
-                white-space: normal;
-            }
-            #mainTable th {
-                font-weight: 600;
-                color: #ffffff;
-            }
-            #mainTable tbody td {
-                padding-top: 0.75rem;
-                padding-bottom: 0.75rem;
-            }
-
-            /* Delete button column */
+            /* Keep delete button column sizing from original */
             #mainTable th.delete-header,
             .delete-cell-td {
-                width: 78px;
-                min-width: 78px;
+                width: 90px;
+                min-width: 90px;
                 text-align: center;
             }
             #mainTable th.empty-header,
@@ -72,88 +47,11 @@
                 vertical-align: middle;
                 text-align: center !important;
             }
-            .delete-player-btn {
-                background: #dc3545;
-                border: 1px solid #dc3545;
-                border-radius: 4px;
-                color: white;
-                font-size: 0.9rem;
-                font-weight: 600;
-                padding: 0.3rem 0.55rem;
-                cursor: pointer;
-                line-height: 1;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.25rem;
-            }
-            .delete-player-btn:hover {
-                background-color: #c82333;
-                border-color: #c82333;
-            }
-
             /* New player input row (tfoot) */
-            #mainTable tfoot tr td {
-                background-color: #2d3640 !important;
-                border: 1px dashed #52b788 !important;
-                padding: 6px 8px !important;
-            }
-            .new-player-input {
-                background: transparent;
-                border: none;
-                color: #e0e0e0;
-                width: 100%;
-                display: block;
-                margin: 0;
-                text-align: center;
-                font-size: inherit;
-                font-family: inherit;
-                outline: none;
-                padding: 0;
-                box-shadow: none !important;
-                -webkit-box-shadow: none !important;
-                -moz-box-shadow: none !important;
-                appearance: none;
-                -webkit-appearance: none;
-                height: 1.6rem;
-                line-height: 1.6rem;
-            }
             #newPlayerTotal {
                 text-align: right;
                 padding-right: 0.25rem;
                 box-sizing: border-box;
-            }
-            .new-player-input:focus {
-                border-bottom: 1px solid #52b788;
-                color: #ffffff;
-                box-shadow: none !important;
-                outline: none !important;
-            }
-            .new-player-input::placeholder {
-                color: #6c757d;
-                font-style: italic;
-            }
-            /* Keep tfoot delete cell visually consistent */
-            #mainTable tfoot .delete-cell-td {
-                border: 1px dashed #52b788 !important;
-                background-color: #2d3640 !important;
-            }
-            /* Keep bottom border-radius on the new player row */
-            #mainTable tfoot tr:last-child td:first-child {
-                border-bottom-left-radius: 10px;
-            }
-            #mainTable tfoot tr:last-child td:last-child {
-                border-bottom-right-radius: 10px;
-            }
-            /* Remove shadow from table bottom since tfoot gives it a rounded bottom */
-            .table-wrapper {
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
-                border-radius: 10px;
-                overflow: hidden;
-            }
-            .table-wrapper #mainTable {
-                box-shadow: none;
-                border-radius: 0;
             }
         </style>
         <!-- JavaScript files -->
@@ -162,90 +60,103 @@
     </head>
 
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Player</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <span class="brand-icon">⚽</span>
+                    FootyApp<span class="brand-env">{{ env_suffix }}</span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}">Player</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}">Swap</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Projects-->
+
+        <!-- Projects -->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
-                <!-- Featured Project Row-->
+                <!-- Featured Project Row -->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="page-header-banner">
+                            <div class="page-icon">👥</div>
+                            <div>
+                                <h1>Player Totals</h1>
+                                <p>Edit inline · Delete players · Add new</p>
+                            </div>
+                        </div>
                         <div class="featured-text-plain text-lg-center">
                             {% if database_error %}
-                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%; background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
-                                <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
-                                <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                            <div class="alert text-center" role="alert" style="word-wrap: break-word; overflow-wrap: break-word; max-width: 100%;">
+                                <h4 style="color: #f472b6;">🔌 Database Connection Error</h4>
+                                <p style="color: #a0a8c8;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
                             </div>
                             {% else %}
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
-                                <h1>Player Totals:</h1>
-                                <b>Edit player totals inline.<br>
-                                                                        Use the delete button to remove a player.<br>
-                                    Add a new player in the row below.</b>
-                                <br>
+                            <form class="mx-auto mt-2 mb-5" method="POST" action="" id="mainForm" onsubmit="return false;">
                                 <div class="table-wrapper">
-                                <table id="mainTable" class="table table-striped text-white-50 text-lg-center">
-                                                                                                                                                <thead><tr><th>Name</th><th>Total</th><th class="empty-header">Empty</th><th class="delete-header">Delete</th></tr></thead>
-                                    <tbody>
-                                    {% for player in all_players %}
-                                                                            <tr data-row-id="{{ player.name }}" class="player-row">
-                                                                                <td class="no-edit">{{ player.name }}</td>
-                                        <td>{{ player.total }}</td>
-                                                                                <td class="empty-cell-td no-edit">{{ player.empty }}</td>
-                                                                                <td class="delete-cell-td no-edit">
-                                                                                        <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
-                                                                                                <i class="fas fa-trash-alt"></i>
-                                                                                            <span>Delete</span>
-                                                                                        </button>
-                                        </td>
-                                      </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                      <tr>
-                                        <td>
-                                            <input type="text" id="newPlayerName" class="new-player-input"
-                                                   value="NewPlayer" autocomplete="off" autocapitalize="words"
-                                                   title="Tap to enter a new player name">
-                                        </td>
-                                        <td>
-                                              <input type="text" id="newPlayerTotal" class="new-player-input"
-                                                  value="77" inputmode="numeric" pattern="^(100|[1-9]?[0-9])$" autocomplete="off"
-                                                   title="Set starting score (0-100)">
-                                        </td>
-                                                                                <td class="empty-cell-td"></td>
-                                                                                <td class="delete-cell-td"></td>
-                                      </tr>
-                                    </tfoot>
-                                </table>
+                                    <table id="mainTable" class="table table-striped text-white-50 text-lg-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Total</th>
+                                                <th class="empty-header">Empty</th>
+                                                <th class="delete-header">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for player in all_players %}
+                                            <tr data-row-id="{{ player.name }}" class="player-row">
+                                                <td class="no-edit">{{ player.name }}</td>
+                                                <td>{{ player.total }}</td>
+                                                <td class="empty-cell-td no-edit">{{ player.empty }}</td>
+                                                <td class="delete-cell-td no-edit">
+                                                    <button type="button" class="delete-player-btn" title="Delete {{ player.name }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        <span>Delete</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" id="newPlayerName" class="new-player-input"
+                                                           value="NewPlayer" autocomplete="off" autocapitalize="words"
+                                                           title="Tap to enter a new player name">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="newPlayerTotal" class="new-player-input"
+                                                           value="77" inputmode="numeric" pattern="^(100|[1-9]?[0-9])$" autocomplete="off"
+                                                           title="Set starting score (0-100)">
+                                                </td>
+                                                <td class="empty-cell-td"></td>
+                                                <td class="delete-cell-td"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                                 <br>
-                                <div class="button-container">
-                                    <button class="btn-ghost-cyan" id="submit-button">Update Totals</button>
+                                <div class="button-container" style="text-align: center;">
+                                    <button class="btn-ghost-cyan" id="submit-button">
+                                        <i class="fas fa-save"></i> Update Totals
+                                    </button>
                                 </div>
                                 <br>
-                                </p>
                             </form>
                             {% endif %}
                         </div>
@@ -253,21 +164,31 @@
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+
+        <!-- Footer -->
         <footer class="footer bg-black small text-center text-white-50">
             <div class="container">
-                <div>Copyright © RichardBignell.co.uk 2023</div>
-                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+                <div>Copyright &copy; RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.5;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
+
+        <!-- Mobile bottom nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i><span>Auto</span></a>
+            <a href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i><span>Top 10</span></a>
+            <a href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i><span>Stats</span></a>
+            <a href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i><span>Score</span></a>
+            <a href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i><span>Swap</span></a>
+        </nav>
+
+        <!-- Bootstrap core JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/static/scripts.js"></script>
         <script>
         // Delete player button actions
         (function () {
             'use strict';
-            // Handle delete button clicks
             document.querySelectorAll('.delete-player-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
