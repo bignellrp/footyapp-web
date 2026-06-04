@@ -335,16 +335,24 @@ a:hover {
 .section-label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
+  gap: 10px;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--purple-300);
   background: rgba(124,58,237,0.15);
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 8px 18px;
+  border-radius: 999px;
   margin-bottom: 1rem;
+}
+
+.manual-team-heading {
+  color: var(--text-primary) !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin-bottom: 1rem !important;
 }
 
 /* ── Tables ──────────────────────────────────────────────── */

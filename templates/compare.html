@@ -67,13 +67,10 @@
                             <form class="mx-auto mt-2 mb-5" method="POST" action="/compare">
 
                                 <!-- Team A -->
-                                <div class="section-label" style="margin-bottom: 0.5rem;">
+                                <div class="section-label">
                                     <i class="fas fa-shield-alt"></i> Team A
-                                    <span style="margin-left: 4px; background: rgba(124,58,237,0.3); border-radius: 20px; padding: 2px 8px; font-size: 0.65rem;">
-                                        <span class="compatotalchecked">{{ players }}</span> more
-                                    </span>
                                 </div>
-                                <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">for {{ date|format_custom_date }}</p>
+                                <h3 class="manual-team-heading"><span class="compatotalchecked">{{ players }}</span> more for {{ date|format_custom_date }}:</h3>
                                 <span id="compplayers" style="display: none;">{{ players }}</span>
 
                                 <table class="mx-auto text-lg-left" style="width: 100%; max-width: 360px; margin-bottom: 1.5rem;">
@@ -106,13 +103,10 @@
                                 </table>
 
                                 <!-- Team B -->
-                                <div class="section-label" style="margin-bottom: 0.5rem;">
+                                <div class="section-label">
                                     <i class="fas fa-shield-alt"></i> Team B
-                                    <span style="margin-left: 4px; background: rgba(236,72,153,0.2); border-radius: 20px; padding: 2px 8px; font-size: 0.65rem; color: var(--pink-400);">
-                                        <span class="compbtotalchecked">{{ players }}</span> more
-                                    </span>
                                 </div>
-                                <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">for {{ date|format_custom_date }}</p>
+                                <h3 class="manual-team-heading"><span class="compbtotalchecked">{{ players }}</span> more for {{ date|format_custom_date }}:</h3>
 
                                 <table class="mx-auto text-lg-left" style="width: 100%; max-width: 360px; margin-bottom: 1.5rem;">
                                     <colgroup>
