@@ -3,116 +3,163 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
+        <meta name="description" content="FootyApp — Store Lineup" />
         <meta name="author" content="" />
-        <title>Footy Team App</title>
+        <title>FootyApp — Results</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
+        <!-- Font Awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Inter font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <!-- Core theme CSS -->
         <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
+        <!-- V2 Design Override -->
+        <link href="/static/styles-v2.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Results</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <span class="brand-icon">⚽</span>
+                    FootyApp<span class="brand-env">{{ env_suffix }}</span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}">Player</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}">Swap</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Projects-->
+
+        <!-- Projects -->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
-                <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="page-header-banner">
+                            <div class="page-icon">📋</div>
+                            <div>
+                                <h1>Save Lineup</h1>
+                                <p>Lineup: {{ date|format_date }}</p>
+                            </div>
+                        </div>
                         <div class="featured-text text-center">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/result">
-                                <h3>Lineup: {{ date|format_date }}</h3>
-                                <br>
+                            <form class="mx-auto mt-2 mb-5" method="POST" action="/result">
                                 {% if colour_error %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
-                                    <p style="color: #e0e0e0; margin-bottom: 0;">{{ colour_error }}</p>
+                                <div class="alert text-center" role="alert" style="margin-bottom: 1rem;">
+                                    <p style="margin-bottom: 0; color: var(--text-secondary);">{{ colour_error }}</p>
                                 </div>
                                 <br>
                                 {% endif %}
-                                <select class="form-control" name="ImageA" id="changeImageA" style="border: 2px solid white;">
-                                    <option value="teama" {% if selected_coloura == 'teama' or selected_coloura is not defined %}selected{% endif %}>teama</option>
-                                    <option value="blue" {% if selected_coloura == 'blue' %}selected{% endif %}>blue</option>
-                                    <option value="white" {% if selected_coloura == 'white' %}selected{% endif %}>white</option>
-                                    <option value="black" {% if selected_coloura == 'black' %}selected{% endif %}>black</option>
-                                    <option value="red" {% if selected_coloura == 'red' %}selected{% endif %}>red</option>
-                                    <option value="green" {% if selected_coloura == 'green' %}selected{% endif %}>green</option>
-                                    <option value="pink" {% if selected_coloura == 'pink' %}selected{% endif %}>pink</option>
-                                    <option value="stripes" {% if selected_coloura == 'stripes' %}selected{% endif %}>stripes</option>
-                                    <option value="yellow" {% if selected_coloura == 'yellow' %}selected{% endif %}>yellow</option>
-                                    <option value="multicoloured" {% if selected_coloura == 'multicoloured' %}selected{% endif %}>multicoloured</option>
-                                    <option value="darrenschoice" {% if selected_coloura == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
-                                </select>
-                                <p id="rcorners">
+
+                                <div class="section-label"><i class="fas fa-shield-alt"></i> Team A Kit</div>
+                                <div style="margin-bottom: 12px;">
+                                    <select class="form-control" name="ImageA" id="changeImageA">
+                                        <option value="teama" {% if selected_coloura == 'teama' or selected_coloura is not defined %}selected{% endif %}>teama</option>
+                                        <option value="blue" {% if selected_coloura == 'blue' %}selected{% endif %}>blue</option>
+                                        <option value="white" {% if selected_coloura == 'white' %}selected{% endif %}>white</option>
+                                        <option value="black" {% if selected_coloura == 'black' %}selected{% endif %}>black</option>
+                                        <option value="red" {% if selected_coloura == 'red' %}selected{% endif %}>red</option>
+                                        <option value="green" {% if selected_coloura == 'green' %}selected{% endif %}>green</option>
+                                        <option value="pink" {% if selected_coloura == 'pink' %}selected{% endif %}>pink</option>
+                                        <option value="stripes" {% if selected_coloura == 'stripes' %}selected{% endif %}>stripes</option>
+                                        <option value="yellow" {% if selected_coloura == 'yellow' %}selected{% endif %}>yellow</option>
+                                        <option value="multicoloured" {% if selected_coloura == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                        <option value="darrenschoice" {% if selected_coloura == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
+                                    </select>
+                                </div>
+                                <p id="rcorners" style="margin: 0 auto 1.25rem;">
                                     <img id="imageA" src='/static/teama.png' width="90" height="100" class="center">
-                                    <b>Team A({{ scorea }}):</b><br>
+                                    <b>Team A ({{ scorea }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
-                                <br>
-                                <select class="form-control" name="ImageB" id="changeImageB" style="border: 2px solid white;">
-                                    <option value="teamb" {% if selected_colourb == 'teamb' or selected_colourb is not defined %}selected{% endif %}>teamb</option>
-                                    <option value="blue" {% if selected_colourb == 'blue' %}selected{% endif %}>blue</option>
-                                    <option value="white" {% if selected_colourb == 'white' %}selected{% endif %}>white</option>
-                                    <option value="black" {% if selected_colourb == 'black' %}selected{% endif %}>black</option>
-                                    <option value="red" {% if selected_colourb == 'red' %}selected{% endif %}>red</option>
-                                    <option value="green" {% if selected_colourb == 'green' %}selected{% endif %}>green</option>
-                                    <option value="pink" {% if selected_colourb == 'pink' %}selected{% endif %}>pink</option>
-                                    <option value="stripes" {% if selected_colourb == 'stripes' %}selected{% endif %}>stripes</option>
-                                    <option value="yellow" {% if selected_colourb == 'yellow' %}selected{% endif %}>yellow</option>
-                                    <option value="multicoloured" {% if selected_colourb == 'multicoloured' %}selected{% endif %}>multicoloured</option>
-                                    <option value="darrenschoice" {% if selected_colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
-                                </select>
-                                <p id="rcorners">
+
+                                <div class="section-label"><i class="fas fa-shield-alt"></i> Team B Kit</div>
+                                <div style="margin-bottom: 12px;">
+                                    <select class="form-control" name="ImageB" id="changeImageB">
+                                        <option value="teamb" {% if selected_colourb == 'teamb' or selected_colourb is not defined %}selected{% endif %}>teamb</option>
+                                        <option value="blue" {% if selected_colourb == 'blue' %}selected{% endif %}>blue</option>
+                                        <option value="white" {% if selected_colourb == 'white' %}selected{% endif %}>white</option>
+                                        <option value="black" {% if selected_colourb == 'black' %}selected{% endif %}>black</option>
+                                        <option value="red" {% if selected_colourb == 'red' %}selected{% endif %}>red</option>
+                                        <option value="green" {% if selected_colourb == 'green' %}selected{% endif %}>green</option>
+                                        <option value="pink" {% if selected_colourb == 'pink' %}selected{% endif %}>pink</option>
+                                        <option value="stripes" {% if selected_colourb == 'stripes' %}selected{% endif %}>stripes</option>
+                                        <option value="yellow" {% if selected_colourb == 'yellow' %}selected{% endif %}>yellow</option>
+                                        <option value="multicoloured" {% if selected_colourb == 'multicoloured' %}selected{% endif %}>multicoloured</option>
+                                        <option value="darrenschoice" {% if selected_colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
+                                    </select>
+                                </div>
+                                <p id="rcorners" style="margin: 0 auto 1.5rem;">
                                     <img id="imageB" src='/static/teamb.png' width="90" height="100" class="center">
-                                    <b>Team B({{ scoreb }}):</b><br>
+                                    <b>Team B ({{ scoreb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
-                                <br>
-                                <h3><b>Save lineup?</b></h3>
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Store">
-                                <input class="btn btn-primary js-scroll-trigger" type="submit" name="submit_button" value="Rerun">
+
+                                <div class="section-label"><i class="fas fa-database"></i> Confirm</div>
+                                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px;">
+                                    <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Store">
+                                    <input class="btn-ghost-white" type="submit" name="submit_button" value="Rerun">
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+
+        <!-- Footer -->
         <footer class="footer bg-black small text-center text-white-50">
             <div class="container">
-                <div>Copyright © RichardBignell.co.uk 2023</div>
-                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+                <div>Copyright &copy; RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.5;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
+
+        <!-- Mobile bottom nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i><span>Auto</span></a>
+            <a href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i><span>Top 10</span></a>
+            <a href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i><span>Stats</span></a>
+            <a href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i><span>Score</span></a>
+            <a href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i><span>Swap</span></a>
+        </nav>
+
+        <!-- Bootstrap core JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
+        <script>
+            function setupColourPreview(selectId, imageId) {
+                const select = document.getElementById(selectId);
+                const image = document.getElementById(imageId);
+                if (!select || !image) return;
+                const originalSrc = image.getAttribute('src');
+                select.addEventListener('change', function () {
+                    if (select.value && select.value !== 'None') {
+                        image.setAttribute('src', '/static/' + select.value + '.png');
+                    } else {
+                        image.setAttribute('src', originalSrc);
+                    }
+                });
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                setupColourPreview('changeImageA', 'imageA');
+                setupColourPreview('changeImageB', 'imageB');
+            });
+        </script>
     </body>
 </html>

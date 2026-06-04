@@ -3,147 +3,157 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
+        <meta name="description" content="FootyApp — Swap Players" />
         <meta name="author" content="" />
-        <title>Footy Team Swap</title>
+        <title>FootyApp — Swap</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
+        <!-- Font Awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Inter font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <!-- Core theme CSS -->
         <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
+        <!-- V2 Design Override -->
+        <link href="/static/styles-v2.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Swap</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <span class="brand-icon">⚽</span>
+                    FootyApp<span class="brand-env">{{ env_suffix }}</span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}">Player</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}">Swap</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Projects-->
+
+        <!-- Projects -->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
-                <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="page-header-banner">
+                            <div class="page-icon">🔄</div>
+                            <div>
+                                <h1>Swap Players</h1>
+                                <p>Replace a player who has dropped out</p>
+                            </div>
+                        </div>
                         <div class="featured-text text-center">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/swap">
-                                <h1>Swap players:</h1>
-                                <b>This function allows you to swap a <br>
-                                    player that may have dropped out.</b>
-                                <br><br>
+                            <form class="mx-auto mt-2 mb-5" method="POST" action="/swap">
                                 {% if database_error %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
-                                    <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
-                                    <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                                <div class="alert text-center" role="alert">
+                                    <h4 style="color: #f472b6;">🔌 Database Connection Error</h4>
+                                    <p style="color: #a0a8c8;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
                                 </div>
                                 {% elif date is not none %}
-                                <div class="date-container">
-                                <h1>{{ date|format_date }}:</h1>
-                                </div>
+                                <h3 style="margin-bottom: 1.25rem;">{{ date|format_date }}</h3>
                                 {% if coloura is not none %}
-                                <p id="rcorners">
+                                <p id="rcorners" style="margin: 0 auto 1rem;">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
-                                    <b>Team A({{ totala }}):</b><br>
+                                    <b>Team A ({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
-                                <br>
                                 {% endif %}
                                 {% if colourb is not none %}
-                                <p id="rcorners">
+                                <p id="rcorners" style="margin: 0 auto 1.25rem;">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
-                                    <b>Team B({{ totalb }}):</b><br>
+                                    <b>Team B ({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
-                                <br>
                                 {% endif %}
-                                <h1>Current Player:</h1>
-                                <b>Select a player currently in this week's teams.</b>
-                                <br>
-                                <select class="form-control" id="cur_player_input" name="cur_player_input" style="border: 2px solid white;" required>
-                                    <option value="" selected disabled>Select current player</option>
-                                    {% for player in teama %}
-                                    <option value="{{ player }}">{{ player }} (Team A)</option>
-                                    {% endfor %}
-                                    {% for player in teamb %}
-                                    <option value="{{ player }}">{{ player }} (Team B)</option>
-                                    {% endfor %}
-                                </select>
-                                <br>
-                                <h1>New Player:</h1>
-                                <b>Select any player from the full player list.</b>
-                                <br>
-                                <select class="form-control" id="new_player_input" name="new_player_input" style="border: 2px solid white;" required>
-                                    <option value="" selected disabled>Select new player</option>
-                                    {% for player in all_player_names %}
-                                    <option value="{{ player }}">{{ player }}</option>
-                                    {% endfor %}
-                                </select>
-                                <br>
-                                <input class="btn-ghost-white" type="submit" name="submit_button" value="Swap">
+
+                                <div class="section-label"><i class="fas fa-user-minus"></i> Current Player</div>
+                                <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 8px;">Select a player currently in this week's teams.</p>
+                                <div style="margin-bottom: 1.25rem;">
+                                    <select class="form-control" id="cur_player_input" name="cur_player_input" required>
+                                        <option value="" selected disabled>Select current player</option>
+                                        {% for player in teama %}
+                                        <option value="{{ player }}">{{ player }} (Team A)</option>
+                                        {% endfor %}
+                                        {% for player in teamb %}
+                                        <option value="{{ player }}">{{ player }} (Team B)</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="section-label"><i class="fas fa-user-plus"></i> New Player</div>
+                                <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 8px;">Select any player from the full player list.</p>
+                                <div style="margin-bottom: 1.5rem;">
+                                    <select class="form-control" id="new_player_input" name="new_player_input" required>
+                                        <option value="" selected disabled>Select new player</option>
+                                        {% for player in all_player_names %}
+                                        <option value="{{ player }}">{{ player }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Swap Player">
                                 {% else %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
-                                    <h4 style="color: #e0e0e0;">⚠️ No games found!</h4>
-                                    <p style="color: #e0e0e0;">Please create a game first.</p>
+                                <div class="alert text-center" role="alert">
+                                    <h4>⚠️ No games found!</h4>
+                                    <p>Please create a game first.</p>
                                 </div>
                                 {% endif %}
                             </form>
+
                             {% if date is not none %}
-                            <b>To completely reshuffle <br>
-                                    teams instead, <br>
-                                    use this shuffle button.</b>
-                                <br>
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
-                                <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
-                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle">
-                            </form>
+                            <div style="margin-top: 1rem;">
+                                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">To completely reshuffle the teams instead, use the shuffle button.</p>
+                                <form class="mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
+                                    <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
+                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle Teams">
+                                </form>
+                            </div>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+
+        <!-- Footer -->
         <footer class="footer bg-black small text-center text-white-50">
             <div class="container">
-                <div>Copyright © RichardBignell.co.uk 2023</div>
-                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+                <div>Copyright &copy; RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.5;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
+
+        <!-- Mobile bottom nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i><span>Auto</span></a>
+            <a href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i><span>Top 10</span></a>
+            <a href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i><span>Stats</span></a>
+            <a href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i><span>Score</span></a>
+            <a href="{{ url_for('swap.swap') }}" class="active"><i class="fas fa-exchange-alt"></i><span>Swap</span></a>
+        </nav>
+
+        <!-- Bootstrap core JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
         <script>
             function confirmShuffle() {
-                // Display a confirmation dialog
                 var userConfirmed = confirm("Are you sure you want to shuffle the teams?");
-        
-                // Update the value of the hidden input based on user confirmation
                 var confirmInput = document.getElementById("confirm_shuffle_input");
                 confirmInput.value = userConfirmed ? "on" : "off";
-        
-                // Return true to submit the form if the user confirmed, or false otherwise
                 return userConfirmed;
             }
         </script>

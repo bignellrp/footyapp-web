@@ -3,120 +3,133 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
+        <meta name="description" content="FootyApp — Record Scores" />
         <meta name="author" content="" />
-        <title>Footy Team Score</title>
+        <title>FootyApp — Score</title>
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
+        <!-- Font Awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Inter font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <!-- Core theme CSS -->
         <link href="/static/styles.css?v=0.1.3" rel="stylesheet" />
+        <!-- V2 Design Override -->
+        <link href="/static/styles-v2.css" rel="stylesheet" />
     </head>
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Footy App{{ env_suffix }} - Score</a>
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                    <span class="brand-icon">⚽</span>
+                    FootyApp<span class="brand-env">{{ env_suffix }}</span>
+                </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}">Auto</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}">Manual</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}">Top10</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}">Stats</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}">Score</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}">Player</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}">Swap</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i> Stats</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Projects-->
+
+        <!-- Projects -->
         <section class="projects-section bg-light" id="projects">
             <div class="container">
-                <!-- Featured Project Row-->
                 <div class="row align-items-center no-gutters mb-4 mb-lg-5">
                     <div class="col-xl-8 col-lg-7 mx-auto">
+                        <div class="page-header-banner">
+                            <div class="page-icon">⚽</div>
+                            <div>
+                                <h1>Record Scores</h1>
+                                <p>Enter the final score for each team</p>
+                            </div>
+                        </div>
                         <div class="featured-text text-center">
-                            <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/score">
-                                <h1>Record scores:</h1>
-                                <b>This function allows you to record <br>
-                                    the final scores for each team.</b>
-                                <br><br>
+                            <form class="mx-auto mt-2 mb-5" method="POST" action="/score">
                                 {% if database_error %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #ff4757; border-radius: 8px;">
-                                    <h4 style="color: #e0e0e0;">🔌 Database Connection Error</h4>
-                                    <p style="color: #e0e0e0;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
+                                <div class="alert text-center" role="alert">
+                                    <h4 style="color: #f472b6;">🔌 Database Connection Error</h4>
+                                    <p style="color: #a0a8c8;">{{ error_message or "Unable to connect to database. Please check your connection and try again." }}</p>
                                 </div>
                                 {% elif date is none %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px;">
-                                    <h4 style="color: #e0e0e0;">⚠️ No games found!</h4>
-                                    <p style="color: #e0e0e0;">Please create a game first.</p>
+                                <div class="alert text-center" role="alert">
+                                    <h4>⚠️ No games found!</h4>
+                                    <p>Please create a game first.</p>
                                 </div>
                                 {% else %}
-                                <h3>Lineup: {{ date|format_date }}</h3>
-                                <br>
-                                <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" style="border: 2px solid white;">
-                                <p id="rcorners">
+                                <h3 style="margin-bottom: 1.5rem;">Lineup: {{ date|format_date }}</h3>
+
+                                <div class="section-label"><i class="fas fa-shield-alt"></i> Team A — Score</div>
+                                <input class="form-control" type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)">
+                                <p id="rcorners" style="margin: 1rem auto;">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
-                                    <b>Team A({{ totala }}):</b><br>
+                                    <b>Team A ({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
-                                <input class="form-control" type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)" style="border: 2px solid white;">
-                                <p id="rcorners">
+
+                                <div class="section-label"><i class="fas fa-shield-alt"></i> Team B — Score</div>
+                                <input class="form-control" type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)">
+                                <p id="rcorners" style="margin: 1rem auto;">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
-                                    <b>Team B({{ totalb }}):</b><br>
+                                    <b>Team B ({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
                                 <br>
-                                <h3><b>Change Colours:</b></h3>
+
+                                <div class="section-label"><i class="fas fa-palette"></i> Change Colours</div>
                                 {% if allow_colour_change %}
-                                <select class="form-control" name="ImageA" id="changeImageA" style="border: 2px solid white;">
-                                    <option value="None">None</option>
-                                    <option value="blue" {% if coloura == 'blue' %}selected{% endif %}>blue</option>
-                                    <option value="white" {% if coloura == 'white' %}selected{% endif %}>white</option>
-                                    <option value="black" {% if coloura == 'black' %}selected{% endif %}>black</option>
-                                    <option value="red" {% if coloura == 'red' %}selected{% endif %}>red</option>
-                                    <option value="green" {% if coloura == 'green' %}selected{% endif %}>green</option>
-                                    <option value="pink" {% if coloura == 'pink' %}selected{% endif %}>pink</option>
-                                    <option value="stripes" {% if coloura == 'stripes' %}selected{% endif %}>stripes</option>
-                                    <option value="yellow" {% if coloura == 'yellow' %}selected{% endif %}>yellow</option>
-                                    <option value="multicoloured" {% if coloura == 'multicoloured' %}selected{% endif %}>multicoloured</option>
-                                    <option value="darrenschoice" {% if coloura == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
-                                </select>
-                                <br>
-                                <select class="form-control" name="ImageB" id="changeImageB" style="border: 2px solid white;">
-                                    <option value="None">None</option>
-                                    <option value="blue" {% if colourb == 'blue' %}selected{% endif %}>blue</option>
-                                    <option value="white" {% if colourb == 'white' %}selected{% endif %}>white</option>
-                                    <option value="black" {% if colourb == 'black' %}selected{% endif %}>black</option>
-                                    <option value="red" {% if colourb == 'red' %}selected{% endif %}>red</option>
-                                    <option value="green" {% if colourb == 'green' %}selected{% endif %}>green</option>
-                                    <option value="pink" {% if colourb == 'pink' %}selected{% endif %}>pink</option>
-                                    <option value="stripes" {% if colourb == 'stripes' %}selected{% endif %}>stripes</option>
-                                    <option value="yellow" {% if colourb == 'yellow' %}selected{% endif %}>yellow</option>
-                                    <option value="multicoloured" {% if colourb == 'multicoloured' %}selected{% endif %}>multicoloured</option>
-                                    <option value="darrenschoice" {% if colourb == 'darrenschoice' %}selected{% endif %}>darrenschoice</option>
-                                </select>
-                                <br>
-                                <div style="margin-bottom: 1rem;">
+                                <div style="margin-bottom: 12px;">
+                                    <select class="form-control" name="ImageA" id="changeImageA">
+                                        <option value="None">None</option>
+                                        <option value="blue" {% if coloura == 'blue' %}selected{% endif %}>Blue</option>
+                                        <option value="white" {% if coloura == 'white' %}selected{% endif %}>White</option>
+                                        <option value="black" {% if coloura == 'black' %}selected{% endif %}>Black</option>
+                                        <option value="red" {% if coloura == 'red' %}selected{% endif %}>Red</option>
+                                        <option value="green" {% if coloura == 'green' %}selected{% endif %}>Green</option>
+                                        <option value="pink" {% if coloura == 'pink' %}selected{% endif %}>Pink</option>
+                                        <option value="stripes" {% if coloura == 'stripes' %}selected{% endif %}>Stripes</option>
+                                        <option value="yellow" {% if coloura == 'yellow' %}selected{% endif %}>Yellow</option>
+                                        <option value="multicoloured" {% if coloura == 'multicoloured' %}selected{% endif %}>Multicoloured</option>
+                                        <option value="darrenschoice" {% if coloura == 'darrenschoice' %}selected{% endif %}>Darren's Choice</option>
+                                    </select>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <select class="form-control" name="ImageB" id="changeImageB">
+                                        <option value="None">None</option>
+                                        <option value="blue" {% if colourb == 'blue' %}selected{% endif %}>Blue</option>
+                                        <option value="white" {% if colourb == 'white' %}selected{% endif %}>White</option>
+                                        <option value="black" {% if colourb == 'black' %}selected{% endif %}>Black</option>
+                                        <option value="red" {% if colourb == 'red' %}selected{% endif %}>Red</option>
+                                        <option value="green" {% if colourb == 'green' %}selected{% endif %}>Green</option>
+                                        <option value="pink" {% if colourb == 'pink' %}selected{% endif %}>Pink</option>
+                                        <option value="stripes" {% if colourb == 'stripes' %}selected{% endif %}>Stripes</option>
+                                        <option value="yellow" {% if colourb == 'yellow' %}selected{% endif %}>Yellow</option>
+                                        <option value="multicoloured" {% if colourb == 'multicoloured' %}selected{% endif %}>Multicoloured</option>
+                                        <option value="darrenschoice" {% if colourb == 'darrenschoice' %}selected{% endif %}>Darren's Choice</option>
+                                    </select>
+                                </div>
+                                <div style="margin-bottom: 1.5rem;">
                                     <input class="btn-ghost-white" type="submit" name="submit_button" value="Change Colours">
                                 </div>
                                 {% else %}
-                                <div class="alert text-center" role="alert" style="background-color: #3a3e47; color: #e0e0e0; border: 2px solid #dc3545; border-radius: 8px; margin-bottom: 1rem;">
-                                    <p style="color: #e0e0e0; margin-bottom: 0;">Colour changes are locked after 8pm on game day.</p>
+                                <div class="alert text-center" role="alert" style="margin-bottom: 1rem;">
+                                    <p style="margin-bottom: 0; color: var(--text-secondary);">Colour changes are locked after 8pm on game day.</p>
                                 </div>
                                 {% endif %}
-                                <h3><b>Save Scores:</b></h3>
+
+                                <div class="section-label"><i class="fas fa-save"></i> Save</div>
                                 <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Save Scores">
                                 {% endif %}
                             </form>
@@ -125,49 +138,52 @@
                 </div>
             </div>
         </section>
-        <!-- Footer-->
+
+        <!-- Footer -->
         <footer class="footer bg-black small text-center text-white-50">
             <div class="container">
-                <div>Copyright © RichardBignell.co.uk 2023</div>
-                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.6;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
+                <div>Copyright &copy; RichardBignell.co.uk 2023</div>
+                <div style="margin-top: 5px; font-size: 0.75em; opacity: 0.5;">Build: {{ build_hash }} ({{ build_timestamp }})</div>
             </div>
         </footer>
-        <!-- Bootstrap core JS-->
+
+        <!-- Mobile bottom nav -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i><span>Auto</span></a>
+            <a href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i><span>Top 10</span></a>
+            <a href="{{ url_for('stats.stats') }}"><i class="fas fa-chart-bar"></i><span>Stats</span></a>
+            <a href="{{ url_for('score.score') }}" class="active"><i class="fas fa-futbol"></i><span>Score</span></a>
+            <a href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i><span>Swap</span></a>
+        </nav>
+
+        <!-- Bootstrap core JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
         <script>
             function removeNoneValue(input) {
-              // Check if the current value is "None"
-              if (input.value === "None") {
-                input.value = ""; // Set the value to an empty string
-              }
+                if (input.value === "None") { input.value = ""; }
             }
 
-                        function setupColourPreview(selectId, imageId) {
-                            const select = document.getElementById(selectId);
-                            const image = document.getElementById(imageId);
+            function setupColourPreview(selectId, imageId) {
+                const select = document.getElementById(selectId);
+                const image = document.getElementById(imageId);
+                if (!select || !image) return;
+                const originalSrc = image.getAttribute('src');
+                select.addEventListener('change', function () {
+                    if (select.value && select.value !== 'None') {
+                        image.setAttribute('src', '/static/' + select.value + '.png');
+                    } else {
+                        image.setAttribute('src', originalSrc);
+                    }
+                });
+            }
 
-                            if (!select || !image) {
-                                return;
-                            }
-
-                            const originalSrc = image.getAttribute('src');
-
-                            select.addEventListener('change', function () {
-                                if (select.value && select.value !== 'None') {
-                                    image.setAttribute('src', '/static/' + select.value + '.png');
-                                } else {
-                                    image.setAttribute('src', originalSrc);
-                                }
-                            });
-                        }
-
-                        document.addEventListener('DOMContentLoaded', function () {
-                            setupColourPreview('changeImageA', 'imageA');
-                            setupColourPreview('changeImageB', 'imageB');
-                        });
+            document.addEventListener('DOMContentLoaded', function () {
+                setupColourPreview('changeImageA', 'imageA');
+                setupColourPreview('changeImageB', 'imageB');
+            });
         </script>
     </body>
 </html>
