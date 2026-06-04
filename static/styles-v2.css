@@ -685,6 +685,8 @@ button.btn-ghost-danger:hover {
   color: var(--text-primary) !important;
   font-family: 'Inter', sans-serif !important;
   font-size: 0.9rem !important;
+  line-height: 1.35 !important;
+  min-height: 46px !important;
   padding: 10px 16px !important;
   transition: all 0.2s ease !important;
   width: 100% !important;
@@ -707,7 +709,11 @@ select.form-control {
   background-repeat: no-repeat !important;
   background-position: right 12px center !important;
   background-size: 14px !important;
-  padding-right: 36px !important;
+  height: 54px !important;
+  line-height: 1.35 !important;
+  padding: 0 44px 0 18px !important;
+  text-align: center !important;
+  text-align-last: center !important;
 }
 
 select.form-control option {
