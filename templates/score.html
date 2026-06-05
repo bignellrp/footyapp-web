@@ -52,7 +52,7 @@
                             <div class="page-icon">⚽</div>
                             <div>
                                 <h1>Enter Score</h1>
-                                <p>For {{ date|format_custom_date }}</p>
+                                <p>Input the score for this weeks game</p>
                             </div>
                         </div>
                         <div class="featured-text text-center">
@@ -71,33 +71,35 @@
                                     <p>Please create a game first.</p>
                                 </div>
                                 {% else %}
-                                <h3 style="margin-bottom: 1.5rem;">Lineup: {{ date|format_date }}</h3>
+                                <h3 class="manual-team-heading">Score for {{ date|format_custom_date }}:</h3>
 
                                 <div id="rcorners" style="margin: 1rem auto; display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div style="flex: 1; min-width: 0; text-align: left;">
                                         <b>Team A ({{ totala }}):</b><br>
                                         {% for player in teama %}{{ player }}<br>{% endfor %}
                                     </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-left: 15px; flex-shrink: 0;">
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
                                         <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" style="border-radius: 15px; object-fit: contain;">
                                         <input type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" 
-                                               style="width: 60px; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
+                                               style="width: 90px !important; max-width: 90px !important; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
                                     </div>
                                 </div>
-                                <br>
 
                                 <div id="rcorners" style="margin: 1rem auto; display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div style="flex: 1; min-width: 0; text-align: left;">
                                         <b>Team B ({{ totalb }}):</b><br>
                                         {% for player in teamb %}{{ player }}<br>{% endfor %}
                                     </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-left: 15px; flex-shrink: 0;">
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
                                         <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" style="border-radius: 15px; object-fit: contain;">
                                         <input type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)"
-                                               style="width: 60px; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
+                                               style="width: 90px !important; max-width: 90px !important; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
                                     </div>
                                 </div>
-                                <br>
+
+                                <div style="text-align: center; margin: 1rem 0;">
+                                    <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Save Scores" style="min-width: 200px;">
+                                </div>
 
                                 <div class="section-label"><i class="fas fa-palette"></i> Change Colours</div>
                                 {% if allow_colour_change %}
@@ -132,16 +134,13 @@
                                     </select>
                                 </div>
                                 <div style="margin-bottom: 1.5rem;">
-                                    <input class="btn-ghost-white" type="submit" name="submit_button" value="Change Colours">
+                                    <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Change Colours">
                                 </div>
                                 {% else %}
                                 <div class="alert text-center" role="alert" style="margin-bottom: 1rem;">
                                     <p style="margin-bottom: 0; color: var(--text-secondary);">Colour changes are locked after 8pm on game day.</p>
                                 </div>
                                 {% endif %}
-
-                                <div class="section-label"><i class="fas fa-save"></i> Save</div>
-                                <input class="btn-ghost-cyan" type="submit" name="submit_button" value="Save Scores">
                                 {% endif %}
                             </form>
                         </div>
