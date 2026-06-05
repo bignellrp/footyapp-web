@@ -82,7 +82,10 @@
                         </div>
                         {% else %}
                         <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
-                            <h3 style="margin-bottom: 1.25rem;"><span class="indextotalchecked">{{ player_count
+                            <div class="section-label">
+                                <i class="fas fa-users"></i> Select Players
+                            </div>
+                            <h3 class="manual-team-heading"><span class="indextotalchecked">{{ player_count
                                     }}</span> more for {{ date|format_custom_date }}:</h3>
                             <span id="players" style="display: none;">{{ players }}</span>
                             <table class="mx-auto text-lg-left" width="50%">
