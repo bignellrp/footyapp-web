@@ -831,18 +831,7 @@ div[style*="border: 2px solid #dc3545"] {
 }
 
 /* ── Score input fields ──────────────────────────────────── */
-input#score_input_a,
-input#score_input_b {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  text-align: center !important;
-  background: var(--glass-bg) !important;
-  border: 2px solid var(--purple-400) !important;
-  border-radius: 14px !important;
-  color: var(--text-primary) !important;
-  max-width: 340px !important;
-  margin: 0 auto 16px !important;
-}
+/* Removed - now styled inline in template for smaller inputs in team panels */
 
 /* ── Slider name text ────────────────────────────────────── */
 .slider-name {

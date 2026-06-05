@@ -78,8 +78,10 @@
                                     <b>Team A ({{ totala }}):</b><br>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                     <br>
-                                    <input type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" 
-                                           style="width: 80px; text-align: center; padding: 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 1rem; font-weight: 700;">
+                                    <div style="display: flex; justify-content: center;">
+                                        <input type="text" id="score_input_a" name="score_input_a" value="{{ scorea }}" onclick="removeNoneValue(this)" 
+                                               style="width: 50px; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
+                                    </div>
                                 </p>
                                 <br>
 
@@ -88,8 +90,10 @@
                                     <b>Team B ({{ totalb }}):</b><br>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                     <br>
-                                    <input type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)"
-                                           style="width: 80px; text-align: center; padding: 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 1rem; font-weight: 700;">
+                                    <div style="display: flex; justify-content: center;">
+                                        <input type="text" id="score_input_b" name="score_input_b" value="{{ scoreb }}" onclick="removeNoneValue(this)"
+                                               style="width: 50px; text-align: center; padding: 4px 8px; border: 2px solid var(--purple-400); border-radius: 8px; background: rgba(255,255,255,0.1); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;">
+                                    </div>
                                 </p>
                                 <br>
 
