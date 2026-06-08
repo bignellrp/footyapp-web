@@ -106,7 +106,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Swap Player">
+                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Swap">
                                 {% else %}
                                 <div class="alert text-center" role="alert">
                                     <h4>⚠️ No games found!</h4>
@@ -120,7 +120,7 @@
                                 <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Completely Reshuffle Teams?</p>
                                 <form class="mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                     <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
-                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle Teams">
+                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle">
                                 </form>
                             </div>
                             {% endif %}
