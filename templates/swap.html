@@ -70,14 +70,14 @@
                                 {% if coloura is not none %}
                                 <p id="rcorners" style="margin: 0 auto 1rem;">
                                     <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
-                                    <b>Team A ({{ totala }}):</b><br>
+                                    <div class="section-label" style="margin: 0.5rem auto 0.5rem; justify-content: center;">Team A ({{ totala }})</div>
                                     {% for player in teama %}{{ player }}<br>{% endfor %}
                                 </p>
                                 {% endif %}
                                 {% if colourb is not none %}
                                 <p id="rcorners" style="margin: 0 auto 1.25rem;">
                                     <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
-                                    <b>Team B ({{ totalb }}):</b><br>
+                                    <div class="section-label" style="margin: 0.5rem auto 0.5rem; justify-content: center;">Team B ({{ totalb }})</div>
                                     {% for player in teamb %}{{ player }}<br>{% endfor %}
                                 </p>
                                 {% endif %}

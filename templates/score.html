@@ -75,7 +75,7 @@
 
                                 <div id="rcorners" style="margin: 1rem auto; display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div style="flex: 1; min-width: 0; text-align: left;">
-                                        <b>Team A ({{ totala }}):</b><br>
+                                        <div class="section-label" style="margin: 0 0 0.5rem; justify-content: flex-start;">Team A ({{ totala }})</div>
                                         {% for player in teama %}{{ player }}<br>{% endfor %}
                                     </div>
                                     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
@@ -87,7 +87,7 @@
 
                                 <div id="rcorners" style="margin: 1rem auto; display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div style="flex: 1; min-width: 0; text-align: left;">
-                                        <b>Team B ({{ totalb }}):</b><br>
+                                        <div class="section-label" style="margin: 0 0 0.5rem; justify-content: flex-start;">Team B ({{ totalb }})</div>
                                         {% for player in teamb %}{{ player }}<br>{% endfor %}
                                     </div>
                                     <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
