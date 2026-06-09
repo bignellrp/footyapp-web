@@ -10696,7 +10696,7 @@ img.center {
 
 .main-container {
   display: flex;
-  margin-left: calc(28% + 25px);
+  margin-left: calc(28% + 15px);
 }
 
 .slider-container {

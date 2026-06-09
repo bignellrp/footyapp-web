@@ -864,7 +864,21 @@ div[style*="border: 2px solid #dc3545"] {
   }
 
   .main-container {
-    margin-left: calc(28% + 15px) !important;
+    margin-left: calc(28% + 5px) !important;
+  }
+
+  .new-player-input {
+    font-size: 16px !important;
+  }
+
+  #mainTable td {
+    font-size: 16px !important;
+  }
+
+  #mainTable + input,
+  #mainTable ~ input,
+  .table-wrapper input {
+    font-size: 16px !important;
   }
 
   input[type="text"],
