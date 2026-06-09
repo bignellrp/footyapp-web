@@ -863,6 +863,10 @@ div[style*="border: 2px solid #dc3545"] {
     border-radius: 12px !important;
   }
 
+  .main-container {
+    margin-left: calc(28% + 15px) !important;
+  }
+
   h1, .h1 { font-size: 1.6rem !important; }
   h3, .h3 { font-size: 1.2rem !important; }
 
