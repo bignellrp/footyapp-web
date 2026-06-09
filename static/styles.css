@@ -10696,16 +10696,17 @@ img.center {
 
 .main-container {
   display: flex;
+  margin-left: calc(28% + 25px);
 }
 
 .slider-container {
-  flex: 1;
+  flex: none;
   display: flex;
   align-items: center;
 }
 
 .name-container {
-  flex: 1;
+  flex: none;
   display: flex;
   align-items: center;
 }

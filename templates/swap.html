@@ -68,18 +68,26 @@
                                 {% elif date is not none %}
                                 <h3 class="manual-team-heading">Swap for {{ date|format_custom_date }}:</h3>
                                 {% if coloura is not none %}
-                                <p id="rcorners" style="margin: 0 auto 1rem;">
-                                    <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" class="center">
-                                    <b>Team A ({{ totala }}):</b><br>
-                                    {% for player in teama %}{{ player }}<br>{% endfor %}
-                                </p>
+                                <div id="rcorners" style="margin: 0 auto 1rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div style="flex: 1; min-width: 0; text-align: left;">
+                                        <span class="section-label" style="margin: 0 0 0.5rem;">Team A ({{ totala }})</span><br>
+                                        {% for player in teama %}{{ player }}<br>{% endfor %}
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
+                                        <img id="imageA" src="/static/{{coloura}}.png" width="90" height="100" style="border-radius: 15px; object-fit: contain; margin-top: 52px;">
+                                    </div>
+                                </div>
                                 {% endif %}
                                 {% if colourb is not none %}
-                                <p id="rcorners" style="margin: 0 auto 1.25rem;">
-                                    <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" class="center">
-                                    <b>Team B ({{ totalb }}):</b><br>
-                                    {% for player in teamb %}{{ player }}<br>{% endfor %}
-                                </p>
+                                <div id="rcorners" style="margin: 0 auto 1.25rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div style="flex: 1; min-width: 0; text-align: left;">
+                                        <span class="section-label" style="margin: 0 0 0.5rem;">Team B ({{ totalb }})</span><br>
+                                        {% for player in teamb %}{{ player }}<br>{% endfor %}
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 15px; flex-shrink: 0;">
+                                        <img id="imageB" src="/static/{{colourb}}.png" width="90" height="100" style="border-radius: 15px; object-fit: contain; margin-top: 52px;">
+                                    </div>
+                                </div>
                                 {% endif %}
 
                                 <div class="section-label"><i class="fas fa-user-minus"></i> Current Player</div>
@@ -106,7 +114,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Swap Player">
+                                <input class="btn-ghost-danger" type="submit" name="submit_button" value="Swap">
                                 {% else %}
                                 <div class="alert text-center" role="alert">
                                     <h4>⚠️ No games found!</h4>
@@ -120,7 +128,7 @@
                                 <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Completely Reshuffle Teams?</p>
                                 <form class="mx-auto mt-2 mb-5" method="POST" onsubmit="return confirmShuffle();" action="/swap">
                                     <input type="hidden" id="confirm_shuffle_input" name="confirm_shuffle" value="off">
-                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle Teams">
+                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Shuffle">
                                 </form>
                             </div>
                             {% endif %}

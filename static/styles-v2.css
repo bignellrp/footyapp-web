@@ -863,6 +863,34 @@ div[style*="border: 2px solid #dc3545"] {
     border-radius: 12px !important;
   }
 
+  .main-container {
+    margin-left: calc(28% - 5px) !important;
+  }
+
+  .new-player-input {
+    font-size: 16px !important;
+  }
+
+  #mainTable td {
+    font-size: 16px !important;
+  }
+
+  #mainTable + input,
+  #mainTable ~ input,
+  .table-wrapper input {
+    font-size: 16px !important;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
   h1, .h1 { font-size: 1.6rem !important; }
   h3, .h3 { font-size: 1.2rem !important; }
 

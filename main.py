@@ -30,12 +30,21 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=30)
 
+def format_build_timestamp(iso_timestamp):
+    """Convert an ISO timestamp to D-DD-MM-YYYY-T-HH:MM:SS format"""
+    try:
+        # Parse ISO format timestamp (e.g. 2026-06-09T15:12:12+00:00)
+        dt = datetime.fromisoformat(iso_timestamp.replace('Z', '+00:00'))
+        return dt.strftime('D-%d-%m-%Y-T-%H:%M:%S')
+    except (ValueError, TypeError):
+        return iso_timestamp
+
 def get_build_info():
     """Get git commit hash and timestamp for the current build"""
     env_hash = os.getenv('APP_BUILD_SHA')
     env_timestamp = os.getenv('APP_BUILD_TIMESTAMP')
     if env_hash and env_timestamp and env_hash != 'unknown' and env_timestamp != 'unknown':
-        return env_hash[:7], env_timestamp
+        return env_hash[:7], format_build_timestamp(env_timestamp)
 
     try:
         # Try to get the short commit hash
@@ -54,14 +63,11 @@ def get_build_info():
             text=True
         ).strip()
         
-        # Convert +00:00 timezone to Z for UTC
-        if commit_timestamp.endswith('+00:00'):
-            commit_timestamp = commit_timestamp[:-6] + 'Z'
-        
-        return commit_hash, commit_timestamp
+        return commit_hash, format_build_timestamp(commit_timestamp)
     except (subprocess.CalledProcessError, FileNotFoundError):
         # Fallback if git is not available
-        return "unknown", datetime.utcnow().isoformat() + "Z"
+        now = datetime.utcnow()
+        return "unknown", now.strftime('D-%d-%m-%Y-T-%H:%M:%S')
 
 @app.context_processor
 def inject_env_indicator():
