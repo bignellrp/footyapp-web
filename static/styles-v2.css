@@ -864,7 +864,7 @@ div[style*="border: 2px solid #dc3545"] {
   }
 
   .main-container {
-    margin-left: calc(28% + 5px) !important;
+    margin-left: calc(28% - 5px) !important;
   }
 
   .new-player-input {
