@@ -47,7 +47,8 @@ def stats():
         return render_template('stats.html', 
                                game_stats = get_game_stats, 
                                player_game_stats = filtered_player_stats,
-                               database_error = False)
+                               database_error = False,
+                               current_year = datetime.now().year)
     except Exception as e:
         # Database is unreachable
         logger.error(f"Database error in stats route: {str(e)}")
@@ -55,7 +56,8 @@ def stats():
                                game_stats = None, 
                                player_game_stats = None,
                                database_error = True,
-                               error_message = "Unable to connect to database. Please try again later.")
+                               error_message = "Unable to connect to database. Please try again later.",
+                               current_year = datetime.now().year)
 
 @stats_blueprint.route('/stats/reset_season', methods=['POST'])
 @login_required
