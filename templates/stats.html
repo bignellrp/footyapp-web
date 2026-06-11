@@ -52,7 +52,7 @@
                             <div class="page-icon">📊</div>
                             <div>
                                 <h1>Game Stats</h1>
-                                <p>Last 10 matches &amp; player records</p>
+                                <p>{{ current_year }} Game stats and player records</p>
                             </div>
                         </div>
                         <div class="featured-text-plain text-center">
@@ -63,7 +63,7 @@
                             </div>
                             {% else %}
 
-                            <div class="section-label"><i class="fas fa-calendar-alt"></i> Last 10 Matches</div>
+                            <div class="section-label"><i class="fas fa-calendar-alt"></i> Game Stats</div>
                             <div style="margin-top: 0; margin-bottom: 2rem;">
                                 {% if game_stats %}
                                 <table class="data-table">
@@ -77,7 +77,7 @@
                                     <tbody>
                                         {% for k, v, p in game_stats %}
                                         <tr>
-                                            <td style="color: var(--text-secondary); font-size: 0.82rem;">{{ k }}</td>
+                                            <td style="color: var(--text-secondary); font-size: 0.82rem;">{{ k.split('-') | reverse | join('-') }}</td>
                                             <td style="font-weight: 500;">{{ v }}</td>
                                             <td style="font-weight: 500;">{{ p }}</td>
                                         </tr>
