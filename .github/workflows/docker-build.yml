@@ -25,7 +25,10 @@ jobs:
 
       - name: Build Docker image
         run: |
+          docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} || true
           docker build \
+            --cache-from ghcr.io/${{ github.repository }}:${{ github.ref_name }} \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
             --build-arg BUILD_SHA=${{ github.sha }} \
             --build-arg BUILD_TIMESTAMP=${{ github.event.head_commit.timestamp }} \
             --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} \
