@@ -1,5 +1,5 @@
 # Build stage - install dependencies that need compilation
-FROM python:3.9-slim AS builder
+FROM public.ecr.aws/docker/library/python:3.9-slim AS builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --prefix=/install -r /app/requirements.txt
 
 # Final stage - slim runtime image
-FROM python:3.9-slim
+FROM public.ecr.aws/docker/library/python:3.9-slim
 
 ARG BUILD_SHA=unknown
 ARG BUILD_TIMESTAMP=unknown
