@@ -103,16 +103,18 @@
                                             <th title="Draws">D</th>
                                             <th title="Losses">L</th>
                                             <th title="Total">T</th>
+                                            <th title="Goals">G</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for a, b, c, d, e, f in player_game_stats %}
+                                        {% for a, b, c, d, e, f, g in player_game_stats %}
                                         <tr>
                                             <td style="font-weight: 500;">{{ a }}</td>
                                             <td style="color: #4ade80; font-weight: 600;">{{ b }}</td>
                                             <td style="color: var(--text-secondary);">{{ c }}</td>
                                             <td style="color: #f87171; font-weight: 600;">{{ d }}</td>
                                             <td style="color: var(--purple-300); font-weight: 700;">{{ e }}</td>
+                                            <td style="color: var(--text-secondary);">{{ g }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

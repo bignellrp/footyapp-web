@@ -89,7 +89,8 @@ def player_stats():
                  player["draws"], 
                  player["losses"], 
                  player["score"], 
-                 player["winpercent"]) for player in data]
+                 player["winpercent"],
+                 player.get("goals", 0)) for player in data]
         return data
     else:
         print(f"Failed to fetch data. Status code: {response.status_code}")

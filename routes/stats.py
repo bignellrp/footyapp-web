@@ -41,7 +41,7 @@ def stats():
         # Hide players whose W/D/L/T stats are all zero.
         filtered_player_stats = [
             player for player in get_player_stats
-            if any(to_int(stat) != 0 for stat in player[1:5])
+            if any(to_int(stat) != 0 for stat in player[1:5]) or to_int(player[6]) != 0
         ]
         
         return render_template('stats.html', 
