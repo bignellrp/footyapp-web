@@ -4,7 +4,7 @@ from services.get_games_data import *
 from services.get_date import can_change_colours
 from urllib.parse import urlencode
 import re
-from flask_login import login_required
+# from flask_login import login_required
 
 score_blueprint = Blueprint('score', 
                             __name__, 
@@ -12,7 +12,7 @@ score_blueprint = Blueprint('score',
                             static_folder='static')
 
 @score_blueprint.route('/score', methods=['GET', 'POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def score():
     '''A function for building the score page.
     Takes in this weeks score as form input from flask form

@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, send_file, jsonify
 from services.get_games_data import game_stats
 from services.get_player_data import player_stats
 from services.backup_stats import create_backup_zip
-from flask_login import login_required
+# from flask_login import login_required
 import os
 import requests
 from datetime import datetime
@@ -21,7 +21,7 @@ stats_blueprint = Blueprint('stats',
                             static_folder='static')
 
 @stats_blueprint.route('/stats', methods=['GET'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def stats():
     '''A function for building the stats page.
     Takes in game stats from google sheets 
@@ -60,7 +60,7 @@ def stats():
                                current_year = datetime.now().year)
 
 @stats_blueprint.route('/stats/reset_season', methods=['POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def reset_season_route():
     '''Reset the season and return a ZIP file with current stats as backup'''
     try:

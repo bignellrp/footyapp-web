@@ -10,7 +10,7 @@ import discord
 from dotenv import load_dotenv
 import os
 import re
-from flask_login import login_required
+# from flask_login import login_required
 
 ##Load the .env file
 load_dotenv()
@@ -21,7 +21,7 @@ swap_blueprint = Blueprint('swap',
                             static_folder='static')
 
 @swap_blueprint.route('/swap', methods=['GET', 'POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def swap():
     '''A function for adding a new player'''
     try:

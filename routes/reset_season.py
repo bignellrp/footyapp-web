@@ -1,5 +1,5 @@
 from flask import Blueprint, send_file, jsonify
-from flask_login import login_required
+# from flask_login import login_required
 from services.backup_stats import create_backup_zip, reset_season_data
 from datetime import datetime
 import os
@@ -10,7 +10,7 @@ reset_season_blueprint = Blueprint('reset_season',
                                     static_folder='static')
 
 @reset_season_blueprint.route('/reset_season', methods=['POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def reset_season():
     """
     Handle the Reset Season button press.
@@ -44,7 +44,7 @@ def reset_season():
     )
 
 @reset_season_blueprint.route('/reset_season_confirm', methods=['POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def reset_season_confirm():
     """
     Confirm and execute the database reset after backup download.
