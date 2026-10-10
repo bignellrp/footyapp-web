@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint
 from services.get_player_data import get_leaderboard
-from flask_login import login_required
+# from flask_login import login_required
 
 leaderboard_blueprint = Blueprint('leaderboard', 
                                   __name__, 
@@ -8,7 +8,7 @@ leaderboard_blueprint = Blueprint('leaderboard',
                                   static_folder='static')
 
 @leaderboard_blueprint.route('/leaderboard', methods=['GET'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def leaderboard():
     '''A function for building the leaderboard page.
     Takes in leaderboard from players table 

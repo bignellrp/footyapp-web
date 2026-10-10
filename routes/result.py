@@ -6,7 +6,7 @@ from services.get_games_data import *
 import discord
 from dotenv import load_dotenv
 import os
-from flask_login import login_required
+# from flask_login import login_required
 
 ##Load the .env file
 load_dotenv()
@@ -17,7 +17,7 @@ result_blueprint = Blueprint('result',
                              static_folder='static')
 
 @result_blueprint.route('/result', methods=['GET', 'POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def result():
     '''A function for building the results page.
     Takes in teama and teamb from flask 

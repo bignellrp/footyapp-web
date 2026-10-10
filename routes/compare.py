@@ -2,7 +2,7 @@ from flask import render_template, request, Blueprint, session, redirect, url_fo
 from services.get_player_data import *
 from services.get_post_tenant_data import *
 from urllib.parse import urlencode
-from flask_login import login_required
+# from flask_login import login_required
 from services.get_date import gameday
 from dotenv import load_dotenv
 import os
@@ -16,7 +16,7 @@ compare_blueprint = Blueprint('compare',
                               static_folder='static')
 
 @compare_blueprint.route('/compare', methods=['GET', 'POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def compare():
     '''A function for building the compare page.
     Takes in available players from a flask form 

@@ -3,7 +3,7 @@ from services.post_player_data import *
 from services.get_player_data import *
 from urllib.parse import urlencode
 import re
-from flask_login import login_required
+# from flask_login import login_required
 
 player_blueprint = Blueprint('player', 
                             __name__, 
@@ -11,7 +11,7 @@ player_blueprint = Blueprint('player',
                             static_folder='static')
 
 @player_blueprint.route('/player', methods=['GET', 'POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def player():
     '''A function for adding a new player'''
 

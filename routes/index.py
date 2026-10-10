@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint, session, redirect, url_for
-from flask_login import login_required
+# from flask_login import login_required
 from services.get_player_data import *
 from services.post_player_data import *
 from services.get_games_data import *
@@ -22,7 +22,7 @@ index_blueprint = Blueprint('index',
 
 @index_blueprint.route('/', methods=['GET', 'POST'])
 #@requires_authorization
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def index():
     '''A function for building the index page.
     Takes in available players from a flask form 
@@ -182,7 +182,7 @@ def index():
                                 error_message = "Unable to connect to database. Please check your connection and try again.")
 
 @index_blueprint.route('/autosave', methods=['POST'])
-@login_required
+# @login_required  # Disabled: authentication is handled by NPM/Authentik.
 def autosave():
     """A route to auto-save checked players as they change."""
     try:

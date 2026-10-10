@@ -29,7 +29,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
+                        {# Flask login/logout disabled for NPM/Authentik.
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        #}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
@@ -37,7 +39,9 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        {# Flask login/logout disabled for NPM/Authentik.
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        #}
                     </ul>
                 </div>
             </div>
@@ -103,16 +107,18 @@
                                             <th title="Draws">D</th>
                                             <th title="Losses">L</th>
                                             <th title="Total">T</th>
+                                            <th title="Goals">G</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for a, b, c, d, e, f in player_game_stats %}
+                                        {% for a, b, c, d, e, f, g in player_game_stats %}
                                         <tr>
                                             <td style="font-weight: 500;">{{ a }}</td>
                                             <td style="color: #4ade80; font-weight: 600;">{{ b }}</td>
                                             <td style="color: var(--text-secondary);">{{ c }}</td>
                                             <td style="color: #f87171; font-weight: 600;">{{ d }}</td>
                                             <td style="color: var(--purple-300); font-weight: 700;">{{ e }}</td>
+                                            <td style="color: var(--text-secondary);">{{ g }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

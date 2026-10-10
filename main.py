@@ -2,8 +2,8 @@ from flask import Flask, session
 from routes import *
 from dotenv import load_dotenv
 import os
-from flask_login import LoginManager
-from services.get_user import User
+# from flask_login import LoginManager
+# from services.get_user import User
 from datetime import timedelta, datetime
 import subprocess
 
@@ -12,18 +12,21 @@ load_dotenv()
 
 ##Create the Flask App
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manager.init_app(app)
-##Redirect to login page if user is not logged in
-login_manager.login_view = 'login.login'
-
-# Get the values of AUTH_USERNAME and AUTH_PASSWORD from the environment variables
-auth_username = os.getenv("AUTH_USERNAME")
-auth_password = os.getenv("AUTH_PASSWORD")
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User(user_id)
+# Flask password authentication is disabled; NPM/Authentik enforces access.
+# Restore this setup, routes/login.py, routes/logout.py, the login_required
+# decorators and template links together if Flask authentication is needed again.
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# ##Redirect to login page if user is not logged in
+# login_manager.login_view = 'login.login'
+#
+# # Get the values of AUTH_USERNAME and AUTH_PASSWORD from the environment variables
+# auth_username = os.getenv("AUTH_USERNAME")
+# auth_password = os.getenv("AUTH_PASSWORD")
+#
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User(user_id)
 
 @app.before_request
 def make_session_permanent():
@@ -124,7 +127,7 @@ app.secret_key = os.getenv("SESSION")
 app.config["DISCORD_CLIENT_ID"] = os.getenv("DISCORD_CLIENT_ID")
 app.config["DISCORD_CLIENT_SECRET"] = os.getenv("DISCORD_CLIENT_SECRET")
 app.config["DISCORD_REDIRECT_URI"] = os.getenv("DISCORD_REDIRECT_URI")
-app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
+# app.config['REMEMBER_COOKIE_DURATION'] = timedelta(days=30)
 
 ##Set the Discord OAuth2 Client ID and Secret
 #discord = DiscordOAuth2Session(app)

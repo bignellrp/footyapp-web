@@ -29,7 +29,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
+                        {# Flask login/logout disabled for NPM/Authentik.
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('login.login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        #}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('index.index') }}"><i class="fas fa-magic"></i> Auto</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('compare.compare') }}"><i class="fas fa-sliders-h"></i> Manual</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('leaderboard.leaderboard') }}"><i class="fas fa-trophy"></i> Top 10</a></li>
@@ -37,7 +39,9 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('score.score') }}"><i class="fas fa-futbol"></i> Score</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('player.player') }}"><i class="fas fa-users"></i> Players</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('swap.swap') }}"><i class="fas fa-exchange-alt"></i> Swap</a></li>
+                        {# Flask login/logout disabled for NPM/Authentik.
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ url_for('logout.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        #}
                     </ul>
                 </div>
             </div>
@@ -70,6 +74,7 @@
                                             <th style="width: 60px;">Rank</th>
                                             <th>Name</th>
                                             <th style="text-align: right;">Score</th>
+                                            <th style="text-align: right;">Goals</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,6 +93,7 @@
                                             </td>
                                             <td style="font-weight: 500;">{{ name }}</td>
                                             <td style="text-align: right; font-weight: 700; color: var(--purple-300);">{{ score }}</td>
+                                            <td style="text-align: right;">{{ goals }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
