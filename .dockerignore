@@ -1,0 +1,7 @@
+.git
+.env
+.env.*
+env
+__pycache__
+watch-data
+*.sqlite3
