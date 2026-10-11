@@ -55,8 +55,8 @@ def validate(payload):
 
 def submit(payload, subject):
     payload = validate(payload)
-    if os.getenv('GIT_BRANCH') != 'dev' or os.getenv('WATCH_PUSH_ENABLED', '').lower() != 'true':
-        raise PushError('push_disabled', 'Watch Push has not been enabled on dev.', 503)
+    if os.getenv('GIT_BRANCH') not in ('dev', 'main') or os.getenv('WATCH_PUSH_ENABLED', '').lower() != 'true':
+        raise PushError('push_disabled', 'Watch Push has not been enabled for this deployment.', 503)
     journal_path = os.getenv('WATCH_PUSH_JOURNAL', '')
     if not journal_path or not Path(journal_path).is_absolute():
         raise PushError('push_unavailable', 'The persistent submission journal is not configured.', 503)

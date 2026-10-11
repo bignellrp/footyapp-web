@@ -45,21 +45,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-      - name: Load public dev Watch configuration
+      - name: Load public Watch configuration
         id: watch
         run: |
           python3 - <<'PY'
           import json, os
           config = {}
-          is_dev = os.environ['GITHUB_REF_NAME'] == 'dev'
-          if is_dev:
-              with open('docs/watch-authentik-dev.json') as source:
-                  config = json.load(source)
+          environment = {'dev': 'dev', 'main': 'prod'}[os.environ['GITHUB_REF_NAME']]
+          with open(f'docs/watch-authentik-{environment}.json') as source:
+              config = json.load(source)
           values = {
               'issuer': config.get('WATCH_OIDC_ISSUER', ''),
               'client_id': config.get('WATCH_OIDC_CLIENT_ID', ''),
               'jwks': config.get('WATCH_OIDC_JWKS_URL', ''),
-              'push_enabled': 'true' if is_dev else 'false',
+              'push_enabled': 'true',
           }
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
               for key, value in values.items():

@@ -25,7 +25,8 @@ Deploy the web `dev` revision. The dev GitHub deployment action automatically su
 
 The compose file mounts `/mnt/docker/footyapp-web-dev/watch-data` and stores the
 upload journal there. Preserve that folder across upgrades and backups. Push
-also requires the existing `GIT_BRANCH=dev` setting. Missing configuration or an
+also requires `GIT_BRANCH=dev` for this deployment. For production, see
+`watch-production.md`; `main` uses its separate provider and journal. Missing configuration or an
 unwritable journal fails closed. Do not mount this folder on multiple web hosts;
 this journal supports one web deployment with local persistent storage.
 

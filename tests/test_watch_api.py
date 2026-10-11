@@ -91,6 +91,14 @@ class TokenTests(unittest.TestCase):
         other = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         self.assertEqual(self.pull(self.token(key=other)).status_code, 401)
 
+    def test_dev_token_is_rejected_by_production_configuration(self):
+        token = self.token()
+        with patch.dict(os.environ, {
+            'WATCH_OIDC_ISSUER': 'https://auth.example/application/o/watch-prod/',
+            'WATCH_OIDC_CLIENT_ID': 'production-watch-client',
+        }):
+            self.assertEqual(self.pull(token).status_code, 401)
+
     def test_wrong_algorithm_and_malformed_bearer(self):
         token = jwt.encode({'sub': 'user'}, 'shared-secret', algorithm='HS256', headers={'kid': 'known-key'})
         self.assertEqual(self.pull(token).status_code, 401)
@@ -180,13 +188,25 @@ class PushTests(unittest.TestCase):
         self.assert_error('teams_changed')
         self.write.assert_not_called()
 
-    def test_validation_and_dev_only_switch(self):
+    def test_validation_and_deployment_switch(self):
         self.body['goals']['Alice'] = True
         self.assert_error('invalid_submission')
         self.body['goals']['Alice'] = 2
-        with patch.dict(os.environ, {'GIT_BRANCH': 'main'}):
+        with patch.dict(os.environ, {'GIT_BRANCH': 'unexpected'}):
             self.assert_error('push_disabled')
         self.read.assert_not_called(); self.write.assert_not_called()
+
+    def test_main_enabled_uses_same_duplicate_guards(self):
+        with patch.dict(os.environ, {'GIT_BRANCH': 'main'}):
+            self.assertFalse(watch_push.submit(self.body, 'user')['replayed'])
+            self.assertTrue(watch_push.submit(self.body, 'user')['replayed'])
+        self.assertEqual(self.write.call_count, 5)
+
+    def test_main_disabled_makes_no_backend_calls(self):
+        with patch.dict(os.environ, {'GIT_BRANCH': 'main', 'WATCH_PUSH_ENABLED': 'false'}):
+            self.assert_error('push_disabled')
+        self.read.assert_not_called()
+        self.write.assert_not_called()
 
 
 if __name__ == '__main__':

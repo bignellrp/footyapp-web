@@ -1,0 +1,11 @@
+{
+  "WATCH_OIDC_ISSUER": "https://authentik.richardbignell.co.uk/application/o/footyapp-watch-prod/",
+  "WATCH_OIDC_CLIENT_ID": "8i1YAbbc7-ygF8GZ_O6FLAxBZVPa1FvV",
+  "WATCH_OIDC_JWKS_URL": "https://authentik.richardbignell.co.uk/application/o/footyapp-watch-prod/jwks/",
+  "WATCH_PULL_URL": "https://footyapp.richardbignell.co.uk/watch/score-json",
+  "provider_id": 4,
+  "application_id": "ae7b7005-1d4b-4c93-80b1-4bf833e266d6",
+  "allowed_user_id": 6,
+  "device_flow_id": "ab5ef614-7545-4a71-bcc0-54b56dab98c2",
+  "previous_brand_device_flow": "503c779e-b812-489e-8665-d9e98e43f182"
+}
