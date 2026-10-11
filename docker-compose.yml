@@ -13,6 +13,13 @@ services:
       - /mnt/docker/footyapp-web-${BRANCH}/.env
     environment:
       - TZ=Europe/London
+      - WATCH_PUSH_JOURNAL=/app/watch-data/submissions.sqlite3
+      - WATCH_OIDC_ISSUER=${WATCH_OIDC_ISSUER:-}
+      - WATCH_OIDC_CLIENT_ID=${WATCH_OIDC_CLIENT_ID:-}
+      - WATCH_OIDC_JWKS_URL=${WATCH_OIDC_JWKS_URL:-}
+      - WATCH_PUSH_ENABLED=${WATCH_PUSH_ENABLED:-false}
+    volumes:
+      - /mnt/docker/footyapp-web-${BRANCH}/watch-data:/app/watch-data
 
 networks:
   br1:

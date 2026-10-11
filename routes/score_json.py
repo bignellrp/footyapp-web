@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from services.get_games_data import most_recent_game
+from services.watch_auth import watch_token_required
 
 score_json_blueprint = Blueprint('score_json', __name__)
 
@@ -28,3 +29,10 @@ def score_json():
         'colourTeamA': game.get('colourTeamA'),
         'colourTeamB': game.get('colourTeamB'),
     })
+
+
+@score_json_blueprint.route('/watch/score-json', methods=['GET'])
+@watch_token_required('footyapp:pull')
+def watch_score_json():
+    """Token-authenticated Watch pull, with the same payload as the browser view."""
+    return score_json()

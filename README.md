@@ -2,6 +2,9 @@
 
 A web app for managing a 5 a side footy team.
 
+For dev Watch token authentication and the staged Authentik setup, see
+[Watch authentication](docs/watch-authentik.md).
+
 Select the players using the checkboxes and it should output a balanced team for each side.
 
 Coded using Python, HTML and Flask using
@@ -61,7 +64,6 @@ GAMEDAY=WEDNESDAY
 API_TOKEN={apitoken}
 API_URL=http://{api_ipv4}
 ```
-
 
 
 

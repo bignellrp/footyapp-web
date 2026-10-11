@@ -45,6 +45,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
+      - name: Load public dev Watch configuration
+        id: watch
+        run: |
+          python3 - <<'PY'
+          import json, os
+          config = {}
+          is_dev = os.environ['GITHUB_REF_NAME'] == 'dev'
+          if is_dev:
+              with open('docs/watch-authentik-dev.json') as source:
+                  config = json.load(source)
+          values = {
+              'issuer': config.get('WATCH_OIDC_ISSUER', ''),
+              'client_id': config.get('WATCH_OIDC_CLIENT_ID', ''),
+              'jwks': config.get('WATCH_OIDC_JWKS_URL', ''),
+              'push_enabled': 'true' if is_dev else 'false',
+          }
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              for key, value in values.items():
+                  assert '\n' not in value and '\r' not in value
+                  print(f'{key}={value}', file=output)
+          PY
+
       - name: Deploy to Portainer
         uses: bignellrp/portainer-api-action@main
         with:
@@ -56,4 +78,4 @@ jobs:
           action: redeploy
           prune: true
           env_vars: |
-            {"BRANCH":"${{ github.ref_name }}","PORT":"${{ github.ref_name == 'main' && vars.PORTAINER_PORT_MAIN || vars.PORTAINER_PORT_DEV }}","IMAGE_TAG":"${{ github.sha }}"}
+            {"BRANCH":"${{ github.ref_name }}","PORT":"${{ github.ref_name == 'main' && vars.PORTAINER_PORT_MAIN || vars.PORTAINER_PORT_DEV }}","IMAGE_TAG":"${{ github.sha }}","WATCH_OIDC_ISSUER":"${{ steps.watch.outputs.issuer }}","WATCH_OIDC_CLIENT_ID":"${{ steps.watch.outputs.client_id }}","WATCH_OIDC_JWKS_URL":"${{ steps.watch.outputs.jwks }}","WATCH_PUSH_ENABLED":"${{ steps.watch.outputs.push_enabled }}"}
