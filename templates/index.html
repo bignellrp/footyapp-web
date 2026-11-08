@@ -85,29 +85,35 @@
                                 your connection and try again." }}</p>
                         </div>
                         {% else %}
-                        <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/">
+                        <form class="text-white-50 mx-auto mt-2 mb-5" method="POST" action="/" id="squad-form">
+                            <input type="hidden" name="squad_order" id="squad-order" value="{{ squad_order }}">
                             <div class="section-label">
                                 <i class="fas fa-users"></i> Select Players
                             </div>
                             <h3 class="manual-team-heading"><span class="indextotalchecked">{{ player_count
                                     }}</span> more for {{ date|format_custom_date }}:</h3>
+                            <p class="reserve-summary" style="font-size: 0.85rem; margin-bottom: 8px;">
+                                Reserves (optional): <span id="reserve-count">0</span> of {{ max_reserves }}
+                            </p>
+                            <p id="squad-message" role="alert" style="display: none; color: #f472b6; font-size: 0.85rem;"></p>
                             <span id="players" style="display: none;">{{ players }}</span>
+                            <span id="max-reserves" style="display: none;">{{ max_reserves }}</span>
                             <table class="mx-auto text-lg-left" style="width: 100%; max-width: 360px;">
                                 <colgroup>
                                     <col span="1" style="width: 20%;">
                                     <col span="1" style="width: 30%;">
                                 </colgroup>
 
-                                {% for name, playing in player_names %}
+                                {% for name, playing, reserve in player_names %}
                                 <tr>
                                     <td style="background:transparent; border:none; padding: 4px 0;">
                                         <div class="main-container">
-                                            <div class="slider-container slider-playing-benched">
-                                                <input type="checkbox" {% if playing %} checked="true" {% else %} {%
-                                                    endif %} name="available_players" class="slider-checkbox"
+                                            <div class="slider-container slider-playing-benched{% if reserve and not playing %} is-reserve{% endif %}">
+                                                <input type="checkbox" {% if playing or reserve %} checked="true" {% else %} {%
+                                                    endif %} name="available_players" class="slider-checkbox squad-checkbox"
                                                     id="sliderSwitch{{ loop.index }}" value="{{ name }}">
                                                 <label class="slider-label" for="sliderSwitch{{ loop.index }}">
-                                                    <span class="slider-inner"></span>
+                                                    <span class="slider-inner"{% if reserve and not playing %} data-reserve="{{ reserve }}"{% endif %}></span>
                                                     <span class="slider-circle"></span>
                                                 </label>
                                             </div>

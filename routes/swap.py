@@ -28,6 +28,11 @@ def swap():
         get_all_players = all_players()
         names = [player["name"] for player in get_all_players]
 
+        # Offer reserves first (reserve 1 at the top), then everyone else A-Z
+        reserves = [name for name in reserve_queue() if name in names]
+        swap_options = [(name, f"{name} (Reserve {place})") for place, name in enumerate(reserves, start=1)]
+        swap_options += [(name, name) for name in names if name not in reserves]
+
         get_teama = teama()
         get_teamb = teamb()
         get_date = date()
@@ -174,6 +179,7 @@ def swap():
                                teama = get_teama, 
                                teamb = get_teamb,
                                all_player_names = names,
+                               swap_options = swap_options,
                                scorea = get_scorea,
                                scoreb = get_scoreb,
                                totala = get_totala,
@@ -189,6 +195,7 @@ def swap():
                                teama = None, 
                                teamb = None,
                                all_player_names = [],
+                               swap_options = [],
                                scorea = None,
                                scoreb = None,
                                totala = None,

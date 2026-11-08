@@ -61,6 +61,30 @@ def player_names():
         print(f"Failed to fetch data. Status code: {response.status_code}")
         return []
 
+def squad_names():
+    '''All players as (name, playing, reserve) for the Auto screen.
+    Order: playing (A-Z), then reserves by place, then everyone else (A-Z).
+    reserve is 0 for players who are not on the reserve list.'''
+    response = requests.get(player_api_url + "/" + "player_names", headers=access_headers)
+    if response.status_code == 200:
+        players = response.json()
+        def sort_key(p):
+            reserve = p.get("reserve", 0) or 0
+            if p["playing"]:
+                return (0, 0, p["name"])
+            if reserve:
+                return (1, reserve, p["name"])
+            return (2, 0, p["name"])
+        return [(p["name"], bool(p["playing"]), p.get("reserve", 0) or 0)
+                for p in sorted(players, key=sort_key)]
+    print(f"Failed to fetch data. Status code: {response.status_code}")
+    return []
+
+def reserve_queue():
+    '''Reserve names in queue order (reserve 1 first).'''
+    return [name for name, _, reserve in sorted(
+        ((n, p, r) for n, p, r in squad_names() if r), key=lambda x: x[2])]
+
 def all_players():
     response = requests.get(player_api_url + "/" + "all_players", headers=access_headers)
     if response.status_code == 200:

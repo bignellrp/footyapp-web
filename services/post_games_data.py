@@ -63,7 +63,7 @@ def update_result(game_data):
 
     if response.status_code == 200:
         print("Game updated successfully")
-        wipe_tally()
+        wipe_tally(keep_reserves=True)
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
@@ -74,6 +74,8 @@ def update_result_keep_tally(game_data):
 
     if response.status_code == 200:
         print("Game updated successfully")
+        # A result has been entered, so the game is played and reserves are no longer needed
+        clear_reserves()
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 
@@ -108,7 +110,7 @@ def append_result(game_data):
 
     if response.status_code == 200:
         print("Game added successfully")
-        wipe_tally()
+        wipe_tally(keep_reserves=True)
     else:
         print(f"Failed to add record. Status code: {response.status_code}")
 
@@ -125,7 +127,7 @@ def update_score_result(date, score):
 
     if response.status_code == 200:
         print("Game updated successfully")
-        wipe_tally()
+        wipe_tally(keep_reserves=True)
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
 

@@ -93,6 +93,7 @@ def reset_season_route():
             "losses": 0,
             "score": 0,
             "playing": False,
+            "reserve": 0,
             "played": 0,
             "percent": 0,
             "winpercent": 0,

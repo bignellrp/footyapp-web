@@ -533,6 +533,17 @@ a:hover {
   color: var(--text-muted) !important;
 }
 
+/* Reserve places: label by text ("RESERVE n"), not colour alone */
+.slider-playing-benched.is-reserve .slider-inner:before {
+  background: #8347f3 !important; /* solid violet, matches the SaaS reserve pill */
+  color: #fff !important;
+  content: "RESERVE" !important;
+}
+
+.slider-playing-benched.is-reserve .slider-inner[data-reserve]:before {
+  content: "RESERVE " attr(data-reserve) !important;
+}
+
 .slider-circle {
   display: none !important;
 }

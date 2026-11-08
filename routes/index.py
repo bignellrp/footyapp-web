@@ -20,6 +20,40 @@ index_blueprint = Blueprint('index',
                             template_folder='templates', 
                             static_folder='static')
 
+import json
+
+def parse_squad(raw, fallback_playing=None):
+    '''Return (playing, reserves) name lists from the Auto screen.
+    raw is JSON from the hidden squad input / autosave: {"playing": [...], "reserves": [...]}.
+    Falls back to a plain list of ticked names, where the first ones play.'''
+    playing, reserves = None, []
+    if isinstance(raw, str) and raw:
+        try:
+            raw = json.loads(raw)
+        except ValueError:
+            raw = None
+    if isinstance(raw, dict):
+        playing = raw.get('playing', [])
+        reserves = raw.get('reserves', [])
+    elif isinstance(raw, list):
+        fallback_playing = raw
+    if playing is None:
+        playing = fallback_playing or []
+    def clean(names, seen):
+        out = []
+        for name in names:
+            if isinstance(name, str) and name not in seen and name not in out:
+                out.append(name)
+        return out
+    playing = clean(playing, [])
+    reserves = clean(reserves, playing)
+    return playing, reserves
+
+def split_squad(playing, reserves, playing_count):
+    '''Cap playing at playing_count (overflow joins the front of the reserves) and reserves at MAX_RESERVES.'''
+    overflow = playing[playing_count:]
+    return playing[:playing_count], (overflow + reserves)[:MAX_RESERVES]
+
 @index_blueprint.route('/', methods=['GET', 'POST'])
 #@requires_authorization
 # @login_required  # Disabled: authentication is handled by NPM/Authentik.
@@ -33,7 +67,7 @@ def index():
         # get_player_names = player_names_by_channel()
         get_date = gameday()
         get_all_players = all_players()
-        get_player_names = player_names()
+        get_player_names = squad_names()
         get_player_count = player_count()
 
         try:
@@ -52,9 +86,11 @@ def index():
             if request.form['submit_button'] == 'Post':
                 ##Use GetList to put the data 
                 ##from the index template into the array
-                available_players = request.form.getlist('available_players')
+                ordered_playing, ordered_reserves = parse_squad(request.form.get('squad_order'),
+                                                                request.form.getlist('available_players'))
+                available_players, reserve_players = split_squad(ordered_playing, ordered_reserves, players)
                 if len(available_players) < players:
-                    '''If available players less than total'''
+                    '''If playing players less than total (reserves are optional)'''
                     print("Not enough players!")
                     params = urlencode({'error': f'Please select {players} players!'})
                     return redirect(url_for('index.index') + '?' + params)
@@ -81,8 +117,8 @@ def index():
                         if player['name'] in available_players:
                             game_players.append((player['name'], player['total']))
 
-                    ##Save the tally of available players
-                    update_tally(available_players)
+                    ##Save the tally of playing players and the ordered reserves
+                    save_squad(available_players, reserve_players)
                     print("Running tally function")   
 
                     ##Takes in game_players and returns teams and totals
@@ -133,10 +169,10 @@ def index():
             elif request.form['submit_button'] == 'Save':
                 ##Use GetList to put the data 
                 ##from the index template into the array
-                available_players = request.form.getlist('available_players')
-                wipe_tally()
-                # Update the tally of available players
-                update_tally(available_players)
+                ordered_playing, ordered_reserves = parse_squad(request.form.get('squad_order'),
+                                                                request.form.getlist('available_players'))
+                available_players, reserve_players = split_squad(ordered_playing, ordered_reserves, players)
+                save_squad(available_players, reserve_players)
                 print("Running tally function")    
                 return redirect(url_for('index.index'))
             elif request.form['submit_button'] == 'Wipe':
@@ -164,11 +200,18 @@ def index():
                 print("No button pressed")
                 return redirect(url_for('index.index'))
         elif request.method == 'GET':
+            squad_order = json.dumps({
+                'playing': [name for name, is_playing, reserve in get_player_names if is_playing],
+                'reserves': [name for name, is_playing, reserve in
+                             sorted(get_player_names, key=lambda p: p[2]) if reserve and not is_playing],
+            })
             return render_template('index.html', 
                                     date = get_date,
                                     player_names = get_player_names, 
                                     player_count = get_player_count,
                                     players = players,
+                                    max_reserves = MAX_RESERVES,
+                                    squad_order = squad_order,
                                     database_error = False)
     except Exception as e:
         # Database is unreachable
@@ -178,6 +221,8 @@ def index():
                                 player_names = None, 
                                 player_count = 0,
                                 players = 10,
+                                max_reserves = MAX_RESERVES,
+                                squad_order = '{"playing": [], "reserves": []}',
                                 database_error = True,
                                 error_message = "Unable to connect to database. Please check your connection and try again.")
 
@@ -190,11 +235,15 @@ def autosave():
         if not data:
             return {'status': 'error', 'message': 'No data provided'}, 400
         
-        available_players = data.get('available_players', [])
-        
-        # Save the tally of available players
-        wipe_tally()
-        update_tally(available_players)
+        playernum_value = int(session.get('playernum', playernum))
+        ordered_playing, ordered_reserves = parse_squad(data.get('squad'), data.get('available_players', []))
+        if len(ordered_playing) > playernum_value or len(ordered_reserves) > MAX_RESERVES:
+            return {'status': 'error',
+                    'message': f'Squad is full ({playernum_value} playing + {MAX_RESERVES} reserves)'}, 400
+
+        # Save the playing tally and the ordered reserves
+        available_players, reserve_players = split_squad(ordered_playing, ordered_reserves, playernum_value)
+        save_squad(available_players, reserve_players)
         print("Autosaved playing tally via API route")
         return {'status': 'success', 'message': 'Tally autosaved successfully'}
     except Exception as e:

@@ -106,12 +106,12 @@
                                 </div>
 
                                 <div class="section-label"><i class="fas fa-user-plus"></i> New Player</div>
-                                <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 8px;">Select any player from the full player list.</p>
+                                <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 8px;">Select any player from the full player list. Reserves are listed first, in order.</p>
                                 <div style="margin-bottom: 1.5rem;">
                                     <select class="form-control" id="new_player_input" name="new_player_input" required>
                                         <option value="" selected disabled>Select new player</option>
-                                        {% for player in all_player_names %}
-                                        <option value="{{ player }}">{{ player }}</option>
+                                        {% for value, label in swap_options %}
+                                        <option value="{{ value }}">{{ label }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
