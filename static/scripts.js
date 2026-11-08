@@ -60,6 +60,8 @@
     let indlimit = $('#players').text();
     indlimit = parseInt(indlimit);
     $('input.slider-checkbox').on('change', function() {
+        // The Auto screen squad (playing + reserves) has its own handler below.
+        if ($(this).hasClass('squad-checkbox')) { return; }
         // Check how many inputs of class 'slider-checkbox' are checked and do not have the [data-limit="exclude"] attribute.
         if( $('input.slider-checkbox:checked:not([data-limit="exclude"])').length > indlimit) {
             this.checked = false;
@@ -89,6 +91,70 @@
             }
         });
     });
+
+    // Auto screen: first N ticks play, the next 5 are reserves (tick order), further ticks are blocked.
+    var $squadForm = $('#squad-form');
+    if ($squadForm.length) {
+        var squadLimit = parseInt($('#players').text(), 10);
+        var maxReserves = parseInt($('#max-reserves').text(), 10);
+        var squad = { playing: [], reserves: [] };
+        try {
+            var saved = JSON.parse($('#squad-order').val() || '{}');
+            squad.playing = saved.playing || [];
+            squad.reserves = saved.reserves || [];
+        } catch (e) { /* start empty */ }
+
+        var renderSquad = function() {
+            $('input.squad-checkbox').each(function() {
+                var name = $(this).val();
+                var reserveIndex = squad.reserves.indexOf(name);
+                var $container = $(this).closest('.slider-container');
+                var $inner = $container.find('.slider-inner');
+                $container.toggleClass('is-reserve', reserveIndex >= 0);
+                if (reserveIndex >= 0) { $inner.attr('data-reserve', reserveIndex + 1); }
+                else { $inner.removeAttr('data-reserve'); }
+                this.checked = reserveIndex >= 0 || squad.playing.indexOf(name) >= 0;
+            });
+            $('.indextotalchecked').text(Math.max(0, squadLimit - squad.playing.length));
+            $('#reserve-count').text(squad.reserves.length);
+            $('#squad-order').val(JSON.stringify(squad));
+        };
+
+        $('input.squad-checkbox').on('change', function() {
+            var name = $(this).val();
+            var $message = $('#squad-message').hide();
+            if (this.checked) {
+                if (squad.playing.length < squadLimit) {
+                    squad.playing.push(name);
+                } else if (squad.reserves.length < maxReserves) {
+                    squad.reserves.push(name);
+                } else {
+                    this.checked = false;
+                    $message.text('Squad is full (' + squadLimit + ' playing + ' + maxReserves + ' reserves).').show();
+                    return;
+                }
+            } else if (squad.playing.indexOf(name) >= 0) {
+                // A playing player dropped out: reserve 1 is promoted and the rest move up.
+                squad.playing = squad.playing.filter(function(n) { return n !== name; });
+                if (squad.reserves.length) { squad.playing.push(squad.reserves.shift()); }
+            } else {
+                squad.reserves = squad.reserves.filter(function(n) { return n !== name; });
+            }
+            renderSquad();
+            $.ajax({
+                url: '/autosave',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ squad: squad }),
+                success: function(response) { console.log('Autosaved successfully:', response); },
+                error: function(xhr) {
+                    console.error('Autosave failed:', xhr.status);
+                    if (xhr.status === 400 && xhr.responseJSON) { $message.text(xhr.responseJSON.message).show(); }
+                }
+            });
+        });
+        renderSquad();
+    }
 
     // Compare Team A Checkbox Limit
 

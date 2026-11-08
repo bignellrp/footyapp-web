@@ -32,9 +32,14 @@ api_url = os.getenv("API_URL")
 # Url used for games data
 player_api_url = f"{api_url}/players"
 
-def wipe_tally():
-    # Prepare the updated data
+MAX_RESERVES = 5
+
+def wipe_tally(keep_reserves=False):
+    # Prepare the updated data. Reserves are kept after a game is saved so the
+    # first reserve can still be offered on the Swap page.
     updated_data = {"playing": False}
+    if not keep_reserves:
+        updated_data["reserve"] = 0
 
     # Send a PUT request to update all records
     response = requests.put(player_api_url, json=updated_data, headers=access_headers)
@@ -53,6 +58,27 @@ def update_tally(available_players):
         print("Tally updated successfully")
     else:
         print(f"Failed to update records. Status code: {response.status_code}")
+
+def update_reserves(reserve_players):
+    """Save an ordered list of reserves (first item is reserve 1)."""
+    response = requests.put(player_api_url + '/update_reserves', json=reserve_players, headers=access_headers)
+
+    if response.status_code == 200:
+        print("Reserves updated successfully")
+    else:
+        print(f"Failed to update reserves. Status code: {response.status_code}")
+
+def clear_reserves():
+    """Clear every player's reserve place."""
+    response = requests.put(player_api_url, json={"reserve": 0}, headers=access_headers)
+    if response.status_code != 200:
+        print(f"Failed to clear reserves. Status code: {response.status_code}")
+
+def save_squad(playing_players, reserve_players):
+    """Replace the saved squad: playing players plus ordered reserves."""
+    wipe_tally()
+    update_tally(playing_players)
+    update_reserves(reserve_players)
 
 def modify_tally(available_players):
 
