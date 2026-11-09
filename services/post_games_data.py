@@ -114,9 +114,11 @@ def append_result(game_data):
     else:
         print(f"Failed to add record. Status code: {response.status_code}")
 
-def update_score_result(date, score):
+def update_score_result(date, score, wipe=True):
     '''Update the result of a game that already exists in the database
-    based on the score the stats are also updated by the API'''
+    based on the score the stats are also updated by the API.
+    wipe=False leaves this week's Auto selections alone (used when
+    re-entering the score of an older game).'''
     # Send a PUT request to update all records
     # Example json score =
     # {
@@ -127,9 +129,21 @@ def update_score_result(date, score):
 
     if response.status_code == 200:
         print("Game updated successfully")
-        wipe_tally(keep_reserves=True)
+        if wipe:
+            wipe_tally(keep_reserves=True)
     else:
         print(f"Failed to update record. Status code: {response.status_code}")
+
+
+def void_score_result(date):
+    '''Void a game's stored result. The API takes the points/wins/draws/losses/played
+    back off the players and clears the score. Goals are left alone.
+    Returns the API's JSON on success, otherwise None.'''
+    response = requests.put(games_api_url + "/voidscore/" + date, headers=access_headers, timeout=10)
+    if response.status_code == 200:
+        return response.json()
+    print(f"Failed to void score. Status code: {response.status_code} {response.text}")
+    return None
 
 def swap_players(current_player, new_player):
     '''Swap players in the most recent game and update totals'''

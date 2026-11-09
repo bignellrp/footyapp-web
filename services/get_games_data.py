@@ -47,6 +47,19 @@ def most_recent_game():
         raise DatabaseError(f"Database unreachable: {str(e)}")
 
 
+def all_games():
+    '''Every stored game, newest first (the API sorts by date descending).'''
+    try:
+        response = requests.get(games_api_url + "/" + "most_recent_game", headers=access_headers, timeout=10)
+        if response.status_code == 200:
+            return response.json()
+        print(f"Failed to fetch data. Status code: {response.status_code}")
+        return []
+    except (ConnectionError, Timeout, RequestException) as e:
+        print(f"Database connection error in all_games: {str(e)}")
+        raise DatabaseError(f"Database unreachable: {str(e)}")
+
+
 def date():
     game = most_recent_game()
     if game is None:

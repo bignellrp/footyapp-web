@@ -73,6 +73,7 @@
                                 </div>
                                 {% else %}
                                 <h3 class="manual-team-heading">Score for {{ date|format_custom_date }}:</h3>
+                                <input type="hidden" name="game" value="{{ date }}">
 
                                 <div id="rcorners" style="margin: 1rem auto; display: flex; justify-content: space-between; align-items: flex-start;">
                                     <div style="flex: 1; min-width: 0; text-align: left;">
@@ -144,6 +145,33 @@
                                 {% endif %}
                                 {% endif %}
                             </form>
+
+                            {% if games and games|length > 0 %}
+                            <div class="mx-auto mb-5">
+                                <div class="section-label"><i class="fas fa-history"></i> Previous Games</div>
+                                <form method="GET" action="/score" style="margin-bottom: 1rem;">
+                                    <select class="form-control" name="game" onchange="this.form.submit()">
+                                        {% for g in games %}
+                                        <option value="{{ g.date }}" {% if g.date == date %}selected{% endif %}>
+                                            {{ g.date|format_custom_date }} &mdash;
+                                            {% if g.scoreTeamA is none or g.scoreTeamB is none %}no score{% else %}{{ g.scoreTeamA }} - {{ g.scoreTeamB }}{% endif %}
+                                            {% if loop.first %}(latest){% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                                {% if date is not none and scorea is not none %}
+                                <p style="color: var(--text-secondary); font-size: 0.82rem;">
+                                    Wrong score? Resetting the match takes this result's points, wins/draws/losses and games played back off these players.
+                                    Goals are not changed. The score is then open to be entered again.
+                                </p>
+                                <form method="POST" action="/score" onsubmit="return confirmReset();">
+                                    <input type="hidden" name="game" value="{{ date }}">
+                                    <input class="btn-ghost-danger" type="submit" name="submit_button" value="Reset Match">
+                                </form>
+                                {% endif %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -173,6 +201,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="/static/scripts.js"></script>
         <script>
+            function confirmReset() {
+                return confirm("Reset this match? The result will be removed and every player's points, wins/draws/losses and games played from it will be taken off. Goals are not changed. You can then enter the corrected score.");
+            }
+
             function removeNoneValue(input) {
                 if (input.value === "None") { input.value = ""; }
             }
