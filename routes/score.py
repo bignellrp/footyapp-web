@@ -19,15 +19,29 @@ def score():
     and return update function to add score to database'''
 
     try:
-        get_teama = teama()
-        get_teamb = teamb()
-        get_date = date()
-        get_scorea = scorea()
-        get_scoreb = scoreb()
-        get_totala = totala()
-        get_totalb = totalb()
-        get_coloura = coloura()
-        get_colourb = colourb()
+        # Work on the selected game (?game=YYYY-MM-DD / hidden form field),
+        # falling back to the most recent game
+        games = all_games()
+        latest_date = games[0]['date'] if games else None
+        selected_date = request.values.get('game')
+        game = next((g for g in games if g['date'] == selected_date), None) or (games[0] if games else None)
+        is_latest = game is not None and game['date'] == latest_date
+
+        def back(params):
+            '''Redirect to the score page, staying on the selected game.'''
+            if not is_latest:
+                params = {'game': game['date'], **params}
+            return redirect(url_for('score.score') + '?' + urlencode(params))
+
+        get_teama = game['teamA'] if game else []
+        get_teamb = game['teamB'] if game else []
+        get_date = game['date'] if game else None
+        get_scorea = game['scoreTeamA'] if game else None
+        get_scoreb = game['scoreTeamB'] if game else None
+        get_totala = game['totalTeamA'] if game else None
+        get_totalb = game['totalTeamB'] if game else None
+        get_coloura = game['colourTeamA'] if game else None
+        get_colourb = game['colourTeamB'] if game else None
         allow_colour_change = can_change_colours(get_date)
         
         # Handle empty games DB
@@ -43,6 +57,8 @@ def score():
                                    coloura = None,
                                    colourb = None,
                                    allow_colour_change = False,
+                                   games = [],
+                                   latest_date = None,
                                    database_error = False,
                                    error = 'No games found in the database. Please create a game first.')
         
@@ -52,18 +68,23 @@ def score():
         if request.method == 'POST':
             submit_button = request.form.get('submit_button', 'Save Scores')
 
+            if submit_button == 'Reset Match':
+                if get_scorea is None:
+                    return back({'error': 'This game has no score to reset'})
+                if void_score_result(get_date) is None:
+                    return back({'error': 'Could not reset the match. Nothing was changed.'})
+                return back({'success': 'Match reset: points removed. Enter the corrected score.'})
+
             if submit_button == 'Change Colours':
                 new_coloura = request.form.get('ImageA')
                 new_colourb = request.form.get('ImageB')
 
                 invalid_colour_values = {None, '', 'None', 'teama', 'teamb'}
                 if new_coloura in invalid_colour_values or new_colourb in invalid_colour_values:
-                    params = urlencode({'error': 'Please select a valid colour for both teams'})
-                    return redirect(url_for('score.score') + '?' + params)
+                    return back({'error': 'Please select a valid colour for both teams'})
 
                 if not allow_colour_change:
-                    params = urlencode({'error': 'Colour changes are locked after 8pm on game day'})
-                    return redirect(url_for('score.score') + '?' + params)
+                    return back({'error': 'Colour changes are locked after 8pm on game day'})
 
                 game_json = {
                     'date': get_date,
@@ -78,8 +99,7 @@ def score():
                 }
 
                 update_result_keep_tally(game_json)
-                params = urlencode({'success': 'Team colours updated successfully'})
-                return redirect(url_for('score.score') + '?' + params)
+                return back({'success': 'Team colours updated successfully'})
 
             ##Get score from form user input
             score_input_a = request.form.get('score_input_a')
@@ -98,18 +118,16 @@ def score():
                 isn't a dash in scorea so don't 
                 update score and display error'''
                 print("Score exists already")
-                params = urlencode({'error': 'Score exists already'})
-                return redirect(url_for('score.score') + '?' + params)
+                return back({'error': 'Score exists already'})
             elif match_a == None or match_b == None:
                 '''If score is not numeric then error'''
                 print("Score is not a valid input")
-                params = urlencode({'error': 'Score is not a valid input'})
-                return redirect(url_for('score.score') + '?' + params)
+                return back({'error': 'Score is not a valid input'})
             else:
                 print("Updating score")
-                update_score_result(get_date,score_output)
-                params = urlencode({'success': 'Updated successfully'})
-                return redirect(url_for('score.score') + '?' + params)
+                # Only the latest game clears this week's Auto selections
+                update_score_result(get_date, score_output, wipe=is_latest)
+                return back({'success': 'Updated successfully'})
         ##If request method is not POST then it must be GET
         return render_template('score.html', 
                                teama = get_teama, 
@@ -122,6 +140,9 @@ def score():
                                coloura = get_coloura,
                                colourb = get_colourb,
                                allow_colour_change = allow_colour_change,
+                               games = games,
+                               latest_date = latest_date,
+                               is_latest = is_latest,
                                database_error = False)
     except Exception as e:
         # Database is unreachable
@@ -137,5 +158,7 @@ def score():
                                coloura = None,
                                colourb = None,
                                allow_colour_change = False,
+                               games = [],
+                               latest_date = None,
                                database_error = True,
                                error_message = "Unable to connect to database. Please try again later.")
