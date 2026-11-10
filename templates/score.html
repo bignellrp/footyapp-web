@@ -72,15 +72,15 @@
                                     <p>Please create a game first.</p>
                                 </div>
                                 {% else %}
-                                <h3 class="manual-team-heading">Score for
+                                <h3 class="manual-team-heading">
                                     <select class="form-control" aria-label="Choose game" onchange="window.location.href='/score?game=' + encodeURIComponent(this.value)"
-                                            style="display: inline-block; width: auto; max-width: 100%; vertical-align: middle; font-size: 1rem; margin-left: 4px;">
+                                            style="display: inline-block; width: auto; max-width: 100%; vertical-align: middle; font-size: 1rem;">
                                         {% for g in games %}
                                         <option value="{{ g.date }}" {% if g.date == date %}selected{% endif %}>
                                             {{ g.date|format_custom_date }}{% if g.scoreTeamA is none or g.scoreTeamB is none %} (no score){% endif %}{% if loop.first %} (latest){% endif %}
                                         </option>
                                         {% endfor %}
-                                    </select>:
+                                    </select>
                                 </h3>
                                 <input type="hidden" name="game" value="{{ date }}">
 
